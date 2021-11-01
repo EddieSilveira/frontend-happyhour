@@ -42,11 +42,11 @@ export const ButtonCard = styled.button`
   display: flex;
   align-items: center;
   transition-duration: 0.5s;
+  border: 3px solid #eba200;
+  border-radius: 12px;
   cursor: pointer;
   &:hover {
-    color: #00389e;
-    border: 3px solid #eba200;
-    background-color: #eba200;
-    border-radius: 12px;
+    color: #00389e; 
+    background-color: #eba200;   
   }
 `;

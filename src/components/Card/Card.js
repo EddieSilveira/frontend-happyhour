@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import brahmaImage from '../../assets/brahma_600ml.jpg';
-import { IoCartSharp } from 'react-icons/io5';
+import ModalDetalhesProduto from '../ModalDetalhesProduto/ModalDetalhesProduto';
 import {
   ContainerCard,
   ImageCard,
@@ -9,21 +9,30 @@ import {
   ButtonCard,
 } from './styles.js';
 
-const Card = () => {
+const Card = ({produto}) => {
+  const [isOpenDetalhes, setIsOpenDetalhes] = useState(false);
+
   return (
+    <>
     <ContainerCard>
       <ImageCard src={brahmaImage} />
       <ContainerDescriptionCard>
-        <span>BRAHMA</span>
-        <span>R$ 7,00</span>
+        <span>{produto && produto.nome}</span>
+        <span>R$ {produto && produto.valor}</span>
       </ContainerDescriptionCard>
       <ContainerButtonCard>
-        <ButtonCard>
-          <IoCartSharp size={20} />
-          &nbsp; COMPRAR
+        <ButtonCard onClick={() => setIsOpenDetalhes(true)}>
+          
+          &nbsp; DETALHES
         </ButtonCard>
       </ContainerButtonCard>
     </ContainerCard>
+       <ModalDetalhesProduto
+       produto={produto}
+       isOpenDetalhes={isOpenDetalhes}
+       setIsOpenDetalhes={setIsOpenDetalhes}
+/>
+</>
   );
 };
 

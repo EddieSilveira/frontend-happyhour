@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import imgLogo from '../../assets/image-logo-happyhour.png';
 import {ContainerApp, ContainerPage, WrapperNavbar, WrapperLinksNav, SectionOfertas, WrapperItensOferta, SectionProdutos, WrapperNavCategorias} from './styles'
 import { IoLogIn, IoCartSharp, IoBeer, IoWine, IoBeerOutline, IoBasketSharp } from 'react-icons/io5';
@@ -13,6 +13,10 @@ const Products = () => {
   const [viewCategoriaVinhos, setViewCategoriaVinhos] = useState(false)
   const [viewCategoriaNoAlcool, setViewCategoriaNoAlcool] = useState(false)
   const [viewCategoriaDiversos, setViewCategoriaDiversos] = useState(false)
+
+  useEffect(() => {
+    document.title = 'HappyHour - Produtos'
+  }, [])
 
   return (
     <ContainerApp>

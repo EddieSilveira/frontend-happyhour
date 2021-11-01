@@ -5,16 +5,15 @@ import { BACKEND } from '../../constants';
 
 const WrapperProdutos = ({categoria}) => {
     const [listaProdutos, setListaProdutos] = useState([])
+    let listaFiltradaCategoria = []
     const url = `${BACKEND}/produtos`;
 
     function filtrarCategoria(){
         listaProdutos.forEach((item) => {
-
-            //CONTINUAR A PARTIR DAQUI FILTRAR CATEGORIA DE PRODUTO
-            const filtered = 
-                Object.entries(item).filter((item) => console.log(item))
-                
-            console.log(filtered)
+            if(item.categoria === categoria){
+                listaFiltradaCategoria.push(item)
+                return listaFiltradaCategoria
+            }
         })
     }
     filtrarCategoria()
@@ -22,20 +21,23 @@ const WrapperProdutos = ({categoria}) => {
     async function carregarProdutos(){
         const response = await fetch(url)
         const data = await response.json()
-        setListaProdutos(data)
-        
+        setListaProdutos(data)  
     }
 
     useEffect(() => {
         carregarProdutos()
+        filtrarCategoria()
     }, [])
+
+
 
     return (
         <WrapperProdutosCategoria>
-            <Card/>
-            <Card/>
-            <Card/> 
-            <Card/>
+            <h2>{categoria}</h2>
+            {listaFiltradaCategoria.map((item) =>  (
+                <Card key={item._id} produto={item}/>
+            ))}
+
         </WrapperProdutosCategoria>
     )
 }
