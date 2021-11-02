@@ -12,6 +12,7 @@ export const WrapperHeadModal = styled.div`
     border: none;
     background-color: transparent;
     color: inherit;
+    cursor: pointer;
     &:hover {
       color: #eba200;
     }

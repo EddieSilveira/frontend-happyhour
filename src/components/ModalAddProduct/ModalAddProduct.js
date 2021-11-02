@@ -3,7 +3,7 @@ import { BACKEND } from '../../constants';
 import { AuthContext } from '../../contexts/auth';
 import Modal from 'react-modal';
 import { IoClose, IoSave } from 'react-icons/io5';
-import { WrapperHeadModal, Form, WrapperButton } from './styles.js';
+import { WrapperHeadModal, Form, WrapperButton, Column } from './styles.js';
 Modal.setAppElement('#root');
 
 const ModalAddProduct = ({
@@ -16,11 +16,14 @@ const ModalAddProduct = ({
 }) => {
   const { token, loading, setLoading } = useContext(AuthContext);
   const [dataForm, setDataForm] = useState({
-    status: '',
     nome: '',
+    descricao: '',
+    volume: '',
+    teor: '',
     categoria: '',
     quantidade: '',
     valor: '',
+    status: ''
   });
   useEffect(() => {
     document.title = 'HappyHour - Admin';
@@ -48,6 +51,7 @@ const ModalAddProduct = ({
   }
 
   async function addProduct() {
+    console.log(dataForm)
     setLoading(true);
     let url = `${BACKEND}/produtos`;
     await fetch(url, {
@@ -64,6 +68,7 @@ const ModalAddProduct = ({
         loadData(`${BACKEND}/produtos`);
         handleCloseModal();
         setLoading(false);
+        console.log(data)
       })
       .catch(function (error) {
         console.error(
@@ -71,6 +76,20 @@ const ModalAddProduct = ({
         );
       });
     setLoading(false);
+  }
+
+  function toggleisActive(){
+    if(dataForm.status === '' || dataForm.status === "inativo"){
+      setDataForm({
+        ...dataForm,
+        status: 'ativo'
+      });
+    }else{
+      setDataForm({
+        ...dataForm,
+        status: 'inativo'
+      });
+    }
   }
 
   return (
@@ -88,48 +107,91 @@ const ModalAddProduct = ({
         </WrapperHeadModal>
 
         <Form onSubmit={addProduct}>
-          <label htmlFor="inputEditStatus">Status: </label>
+          <label htmlFor="inputAddNome">Nome: </label>
           <input
             type="text"
-            id="inputEditStatus"
-            name="status"
-            value={dataForm.status}
-            onChange={handleChange}
-          />
-          <label htmlFor="inputEditNome">Nome: </label>
-          <input
-            type="text"
-            id="inputEditNome"
+            id="inputAddNome"
             name="nome"
             value={dataForm.nome}
             onChange={handleChange}
           />
-          <label htmlFor="inputEditCategoria">Categoria:</label>
+             <label htmlFor="inputAddDescricao">Descrição: </label>
+          <textarea
+            type="text"
+            id="inputAddDescricao"
+            name="descricao"
+            value={dataForm.descricao}
+            onChange={handleChange}
+            
+          />
+          <label htmlFor="inputAddCategoria">Categoria:</label>
           <input
             type="text"
-            id="inputEditCategoria"
+            id="inputAddCategoria"
             name="categoria"
             value={dataForm.categoria}
             onChange={handleChange}
           />
-          <label htmlFor="inputEditQuantidade">Quantidade: </label>
-          <input
-            type="number"
-            id="inputEditQuantidade"
-            name="quantidade"
-            value={dataForm.quantidade}
-            onChange={handleChange}
-          />
-          <label htmlFor="inputEditValor">Valor: </label>
-          <input
-            type="number"
-            id="inputEditValor"
-            value={dataForm.valor}
-            name="valor"
-            onChange={handleChange}
-          />
+          <div style={{display: 'flex', width: '100%', justifyContent: 'space-between'}}>
+          <Column>
+            <label htmlFor="inputAddVolume">Volume:</label>
+            <input
+              type="text"
+              id="inputAddVolume"
+              name="volume"
+              value={dataForm.volume}
+              onChange={handleChange}
+            />
+            <label htmlFor="inputAddTeor">Teor Alcoólico(%): </label>
+            <input
+              type="number"
+              id="inputAddTeor"
+              name="teor"
+              value={dataForm.teor}
+              onChange={handleChange}
+            />
+             </Column>
+             <Column>
+            <label htmlFor="inputAddQuantidade">Quantidade: </label>
+            <input
+              type="number"
+              id="inputAddQuantidade"
+              name="quantidade"
+              value={dataForm.quantidade}
+              onChange={handleChange}
+            />
+            <label htmlFor="inputAddValor">Valor: </label>
+            <input
+              type="number"
+              id="inputAddValor"
+              value={dataForm.valor}
+              name="valor"
+              onChange={handleChange}
+            />
+             </Column>
+             </div>
+             <Column>
+              <label htmlFor="file">Foto do Produto (com fundo branco ou transparente)</label>
+                <input
+                  type="file"
+                  id="file"
+                  name="file"
+                  accept="image/*, .pdf"
+                  onChange={handleChange}
+                />
+                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                  <label htmlFor="inputAddStatus">Status (Marque se estiver ativo): </label>
+                  <input
+                    type="checkbox"
+                    id="inputAddStatus"
+                    name="status"
+                    value={dataForm.status}
+                    onChange={toggleisActive}
+                  />
+                  </div>
+            </Column>
           <WrapperButton>
-            <button>
+            <button type="submit">
               <IoSave />
               &nbsp;Salvar
             </button>

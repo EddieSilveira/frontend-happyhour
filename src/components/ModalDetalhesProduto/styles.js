@@ -28,9 +28,21 @@ export const WrapperCoreDetalhes = styled.div`
   flex-direction: column;
   width: 100%;
   height: 200px;
-  h1 {
-    color: #00389e;
+  h1 { 
     font-size: 32px;
+    color: #00389e;
+    &:before {
+      border-right: solid 5px #eba200;
+      border-left: solid 5px #eba200;
+      border-top: solid 5px #eba200;
+      transform: translateX(-50%);
+      z-index: -1;
+      content: "";
+      top: 100%;
+      left: 50%;
+      height: 0;
+      width: 0;
+    }
   }
   h2 {
     margin-top: 24px;

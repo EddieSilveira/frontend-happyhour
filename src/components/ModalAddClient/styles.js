@@ -14,6 +14,7 @@ export const WrapperHeadModal = styled.div`
     color: inherit;
     &:hover {
       color: #eba200;
+      cursor: pointer;
     }
   }
 `;
