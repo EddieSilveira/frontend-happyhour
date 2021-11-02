@@ -23,7 +23,13 @@ const ModalAddProduct = ({
     categoria: '',
     quantidade: '',
     valor: '',
-    status: ''
+    status: '',
+    foto: {
+      originalName: '',
+      path: '',
+      size: '',
+      mimetype: '',
+    },
   });
   useEffect(() => {
     document.title = 'HappyHour - Admin';
@@ -42,8 +48,33 @@ const ModalAddProduct = ({
     },
   };
 
-  function handleChange(e) {
+  async function imageUpload(file) {
+    let url = `${BACKEND}/upload`;
+    const data = new FormData();
+    data.append('file', file, file.name);
+
+    const imageResponse = await fetch(url, {
+      method: 'POST',
+      body: data,
+    }).then((response) => response.json());
+    const picture = {
+      path: imageResponse.file.path,
+      originalName: imageResponse.file.originalname,
+      size: imageResponse.file.size,
+      mimetype: imageResponse.file.mimetype,
+    };
+    return picture;
+  }
+  
+  async function handleChange(e) {
     const { name, value } = e.target;
+    if (e.target.files) {
+      const picture = await imageUpload(e.target.files[0]);
+      await setDataForm((prevState) => ({
+        ...prevState,
+        foto: picture,
+      }));
+    }
     setDataForm((prevState) => ({
       ...prevState,
       [name]: value,
@@ -142,7 +173,7 @@ const ModalAddProduct = ({
               value={dataForm.volume}
               onChange={handleChange}
             />
-            <label htmlFor="inputAddTeor">Teor Alcoólico(%): </label>
+            <label htmlFor="inputAddTeor">Teor Alcoólico: </label>
             <input
               type="number"
               id="inputAddTeor"

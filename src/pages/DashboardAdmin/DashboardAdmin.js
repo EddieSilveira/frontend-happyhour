@@ -57,14 +57,8 @@ const DashboardAdmin = () => {
       setTitleTable('Vendas');
       loadData();
     }
-  }
+  }   
 
-   
-  
-   const urlFoto = objUsuarioAtivo.foto.path
-    
-
-  console.log(urlFoto)
   const loadData = async (url) => {
     setLoading(true);
     const response = await fetch(url, {

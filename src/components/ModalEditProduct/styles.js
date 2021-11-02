@@ -20,6 +20,7 @@ export const WrapperHeadModal = styled.div`
 `;
 
 export const Form = styled.form`
+  max-width: 800px;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -42,6 +43,16 @@ export const Form = styled.form`
       box-shadow: 0px 0px 6px #eba200;
     }
   }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
 `;
 
 export const WrapperButton = styled.div`
@@ -63,5 +74,38 @@ export const WrapperButton = styled.div`
       width: 85px;
       cursor: pointer;
     }
+  }
+`;
+
+export const WrapperDescription = styled.div`
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    input, textarea {
+      width: 100%;
+    }
+    textarea {
+      max-height: 80px;
+      min-width: 800px;
+      max-width: 800px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+`;
+
+export const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  input {
+    width: 100%;
+  }
+
+  input[type=checkbox]{
+    background-color: #000;
+    height: 16px;
+    width: 16px;
+    margin-top: 16px;
+    min-height: 10px;
+    min-width: 10px;
   }
 `;

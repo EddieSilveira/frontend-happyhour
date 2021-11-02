@@ -9,7 +9,6 @@ import { StyledTable } from './styles';
 
 const Head = ({ keys, head }) => {
   const tableHead = head || {};
-
   function filterColumnsHead(value) {
     return (
       value !== '_id' &&
@@ -42,6 +41,7 @@ const Row = ({ record, loadData, title }) => {
   const [isOpenEditClient, setIsOpenEditClient] = useState(false);
   const keys = Object.keys(record);
   const values = Object.values(record);
+
   function filterColumnsBody(value) {
     return (
       value !== '_id' &&
@@ -54,6 +54,7 @@ const Row = ({ record, loadData, title }) => {
       value !== '__v'
     );
   }
+  console.log(values[keys.indexOf('teor')])
 
   function isValue(element, index, array) {
     if (index === 5) {
@@ -61,14 +62,13 @@ const Row = ({ record, loadData, title }) => {
         style: 'currency',
         currency: 'BRL',
       });
-
       return formated;
     }
   }
-
+  
   //TERMINAR
   const filtered = keys.filter(filterColumnsBody);
-  // console.log(values.findIndex(isValue));
+  //console.log(values.findIndex(isValue));
 
   function handleOpenModal() {
     if (title === 'Produtos') setIsOpenEditProduct(true);
@@ -148,9 +148,12 @@ const Table = ({ data, head, loadData, title }) => {
   const { loading } = useContext(AuthContext);
   const dataTable = data.map((item) => {
     delete item['foto'];
+    // delete item['teor'];
+    // delete item['descricao'];
+    // delete item['volume'];
     return item;
   });
-
+  
   function isEmpty(obj) {
     for (var prop in obj) {
       if (obj.hasOwnProperty(prop)) return false;

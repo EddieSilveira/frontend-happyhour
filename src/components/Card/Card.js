@@ -11,7 +11,6 @@ import {
 
 const Card = ({produto}) => {
   const [isOpenDetalhes, setIsOpenDetalhes] = useState(false);
-
   return (
     <>
     <ContainerCard>

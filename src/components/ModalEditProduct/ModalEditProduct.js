@@ -3,7 +3,7 @@ import { BACKEND } from '../../constants';
 import { AuthContext } from '../../contexts/auth';
 import Modal from 'react-modal';
 import { IoClose, IoSave } from 'react-icons/io5';
-import { WrapperHeadModal, Form, WrapperButton } from './styles.js';
+import { WrapperHeadModal, Form, WrapperButton, WrapperDescription, Column } from './styles.js';
 Modal.setAppElement('#root');
 
 const ModalProduct = ({
@@ -17,8 +17,10 @@ const ModalProduct = ({
   const { token, loading, setLoading } = useContext(AuthContext);
 
   const [initialValues, setInitialValues] = useState(record);
+  const [statusCheck, setStatusCheck] = useState(false)
   useEffect(() => {
     document.title = 'HappyHour - Admin';
+    if(record.status === "ativo") setStatusCheck(true)
   }, []);
 
   const customStyles = {
@@ -60,6 +62,15 @@ const ModalProduct = ({
     data && loadData(`${BACKEND}/produtos`);
     data && setLoading(false);
   };
+
+  function toggleStatus(){
+    setStatusCheck(!statusCheck)
+    setInitialValues((prevState) => ({
+      ...prevState,
+      status: initialValues.status === "ativo" ? "inativo" : "ativo" ,
+    }));
+  }
+
   return (
     <>
       <Modal
@@ -76,14 +87,7 @@ const ModalProduct = ({
 
         {initialValues && (
           <Form onSubmit={editProduct}>
-            <label htmlFor="inputEditStatus">Status: </label>
-            <input
-              type="text"
-              id="inputEditStatus"
-              name="status"
-              value={initialValues.status}
-              onChange={handleChange}
-            />
+            <WrapperDescription>
             <label htmlFor="inputEditNome">Nome: </label>
             <input
               type="text"
@@ -91,6 +95,15 @@ const ModalProduct = ({
               name="nome"
               value={initialValues.nome}
               onChange={handleChange}
+            />
+             <label htmlFor="inputEditDescricao">Descrição: </label>
+            <textarea
+              type="text"
+              id="inputEditDescricao"
+              name="descricao"
+              value={initialValues.descricao}
+              onChange={handleChange}
+              
             />
             <label htmlFor="inputEditCategoria">Categoria:</label>
             <input
@@ -100,22 +113,67 @@ const ModalProduct = ({
               value={initialValues.categoria}
               onChange={handleChange}
             />
-            <label htmlFor="inputEditQuantidade">Quantidade: </label>
-            <input
-              type="number"
-              id="inputEditQuantidade"
-              name="quantidade"
-              value={initialValues.quantidade}
-              onChange={handleChange}
-            />
-            <label htmlFor="inputEditValor">Valor: </label>
-            <input
-              type="number"
-              id="inputEditValor"
-              value={initialValues.valor}
-              name="valor"
-              onChange={handleChange}
-            />
+            </WrapperDescription>
+            <div style={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
+              <Column>
+              <label htmlFor="inputEditVolume">Volume:</label>
+              <input
+                type="text"
+                id="inputEditVolume"
+                name="volume"
+                value={initialValues.volume}
+                onChange={handleChange}
+              />
+              <label htmlFor="inputEditTeor">Teor Alcoólico: </label>
+              <input
+                type="number"
+                id="inputEditTeor"
+                name="teor"
+                value={initialValues.teor}
+                onChange={handleChange}
+              />
+              </Column>
+              <Column>
+              <label htmlFor="inputEditQuantidade">Quantidade: </label>
+              <input
+                type="number"
+                id="inputEditQuantidade"
+                name="quantidade"
+                value={initialValues.quantidade}
+                onChange={handleChange}
+              />
+              <label htmlFor="inputEditValor">Valor: </label>
+              <input
+                type="number"
+                id="inputEditValor"
+                value={initialValues.valor}
+                name="valor"
+                onChange={handleChange}
+              />
+              </Column>
+              <Column>
+              <label htmlFor="file">Foto do Produto (com fundo branco ou transparente)</label>
+                  <input
+                    type="file"
+                    id="file"
+                    name="file"
+                    accept="image/*, .pdf"
+                    onChange={handleChange}
+                  />
+              <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
+                <label htmlFor="inputEditStatus">Status: </label>
+                <input
+                  style={{marginLeft: '8px'}}
+                  type="checkbox"
+                  checked={statusCheck}
+                  id="inputEditStatus"
+                  name="status"
+                  value={initialValues.status}
+                  onChange={toggleStatus}
+                />
+              </div>
+              </Column>
+            </div>
             <WrapperButton>
               <button>
                 <IoSave />

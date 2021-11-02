@@ -21,6 +21,11 @@ export const WrapperHeadModal = styled.div`
 export const ContainerPrincipal = styled.div`
   display: flex;
   width: 100%;
+  img {
+    max-width: 150px;
+    max-height: 150px;
+
+  }
 `;
 
 export const WrapperCoreDetalhes = styled.div`
@@ -92,6 +97,9 @@ export const WrapperDescricaoDetalhes = styled.div`
     }
   }
   span{
+    margin-top: 16px;
+  }
+  p {
     margin-top: 16px;
   }
 `;

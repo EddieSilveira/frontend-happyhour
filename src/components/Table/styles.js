@@ -5,7 +5,7 @@ export const StyledTable = styled.table`
   border-spacing: 0;
   border-radius: 12px;
   box-shadow: 0 5px 15px rgb(0 0 0 / 0.2);
-  width: 90%;
+  width: 100%;
   border: 2px solid #ccc;
 
   th {
