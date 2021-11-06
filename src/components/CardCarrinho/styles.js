@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 export const ContainerCard = styled.div`
-  width: 250px;
-  height: 380px;
+  width: 100%;
+  height: 120px;
   border: 2px solid #ffeec8;
   background-color: #fff;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
@@ -10,47 +10,62 @@ export const ContainerCard = styled.div`
   padding: 20px;
   margin: 10px auto;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  .btnRemoverProduto{
+    height: 60%;
+    border: none;
+    padding: 4px;
+    background-color: transparent;
+    color: #00389e;
+    &:hover{
+      color: #eba200;
+      cursor: pointer;
+    }
+  }
 `;
 
 export const ImageCard = styled.img`
   display: flex;
   background-color: #000;
   justify-content: center;
-  max-width: 70%;
-  max-height: 70%;
-
+  background-color: #000;
+  height: 100%;
+  max-height: 100%;
 `;
 
 export const ContainerDescriptionCard = styled.div`
   display: flex;
-  height: 40%;
+  height: 100%;
   justify-content: space-evenly;
-  align-items: flex-end;
-
+  align-items: center;
   margin: 8px 0;
   flex-wrap: wrap;
   span {
-    color: #3E4033;
     font-weight: bold;
+    margin: 8px;
   }
-  .valorProduto {
+  .descricaoProduto {
+    margin-right: 16px;
+    color: #3E4033;
+  }  
+  .valorProduto{
     color:  #00389e;
-    font-size: 15px;
   }
 `;
 
 export const ContainerButtonCard = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   margin-bottom: 10px;
 `;
 
 export const ButtonCard = styled.button`
   border: none;
-  height: 50px;
+  height: 40px;
+  width: 40px;
   padding: 10px;
   margin-top: 5px;
   background-color: transparent;
@@ -58,10 +73,12 @@ export const ButtonCard = styled.button`
   font-weight: bold;
   display: flex;
   align-items: center;
+  justify-content: center;
   transition-duration: 0.5s;
   border: 3px solid #eba200;
   border-radius: 12px;
   cursor: pointer;
+  font-size: 18px;
   &:hover {
     color: #00389e; 
     background-color: #eba200;   

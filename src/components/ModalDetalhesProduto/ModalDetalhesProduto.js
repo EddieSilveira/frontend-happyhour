@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import brahmaImage from '../../assets/brahma_600ml.jpg';
+import beerDefault from '../../assets/beer-default.png';
 import { AuthContext } from '../../contexts/auth';
 import Modal from 'react-modal';
 import { IoClose, IoSave } from 'react-icons/io5';
@@ -16,7 +16,6 @@ const ModalDetalhesProduto = ({
   loadData,
   produto
 }) => {
-  const { token, loading, setLoading } = useContext(AuthContext);
   const [contadorQuantidade, setContadorQuantidade] = useState(0)
   useEffect(() => {
     document.title = 'HappyHour - Admin';
@@ -36,7 +35,6 @@ const ModalDetalhesProduto = ({
       transform: 'translate(-50%, -50%)',
     },
   };
-  console.log(produto && produto.foto)
   
   return (
     <>
@@ -84,7 +82,7 @@ const ModalDetalhesProduto = ({
           </WrapperButtonDetalhes>
       </WrapperDetalhes>
         </WrapperCoreDetalhes> 
-        {produto.foto &&  <img src={produto ? `${BACKEND}/${produto.foto.path}`.replace('public\\', 'files/').replace('uploads\\', '') : brahmaImage} alt="imagem-detalhes-produtos"/> }
+        {produto.foto &&  <img src={produto ? `${BACKEND}/${produto.foto.path}`.replace('public\\', 'files/').replace('uploads\\', '') : beerDefault} alt="imagem-detalhes-produtos"/> }
       </ContainerPrincipal>
 
       }

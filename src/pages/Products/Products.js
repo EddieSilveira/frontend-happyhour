@@ -6,6 +6,7 @@ import { BiDrink } from "react-icons/bi";
 import Card from '../../components/Card/Card';
 import WrapperProdutos from '../../components/WrapperProdutos/WrapperProdutos.js'
 import Footer from '../../components/Footer/Footer';
+import ModalCarrinho from '../../components/ModalCarrinho/ModalCarrinho';
 
 const Products = () => {
   const [viewCategoriaCerveja, setViewCategoriaCerveja] = useState(true)
@@ -13,7 +14,8 @@ const Products = () => {
   const [viewCategoriaVinhos, setViewCategoriaVinhos] = useState(false)
   const [viewCategoriaNoAlcool, setViewCategoriaNoAlcool] = useState(false)
   const [viewCategoriaDiversos, setViewCategoriaDiversos] = useState(false)
-
+  const [isOpenCarrinho, setIsOpenCarrinho] = useState(false)
+  console.log(isOpenCarrinho)
   useEffect(() => {
     document.title = 'HappyHour - Produtos'
   }, [])
@@ -26,7 +28,7 @@ const Products = () => {
               <img src={imgLogo} type="image/png" href="/" alt="logo-happyhour"/>
             </a>
             <WrapperLinksNav>
-              <button><IoCartSharp size={24}/></button>
+            <button onClick={() => setIsOpenCarrinho(true)}><IoCartSharp size={24} /></button>
               &nbsp;
               <a href="/signin"><button ><IoLogIn size={24} /></button></a>
             </WrapperLinksNav>
@@ -85,6 +87,10 @@ const Products = () => {
           </SectionProdutos>
           <Footer/>
       </ContainerPage> 
+      <ModalCarrinho
+        isOpenCarrinho={isOpenCarrinho}
+        setIsOpenCarrinho={setIsOpenCarrinho}
+/> 
     </ContainerApp>
   );
 };

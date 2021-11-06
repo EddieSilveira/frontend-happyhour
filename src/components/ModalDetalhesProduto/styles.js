@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const WrapperHeadModal = styled.div`
   display: flex;
   justify-content: space-between;
-  color: #000;
+  color: #3E4033;
   margin: 8px auto 16px auto;
   h2 {
     font-size: 18px;
@@ -14,6 +14,7 @@ export const WrapperHeadModal = styled.div`
     color: inherit;
     &:hover {
       color: #eba200;
+      cursor: pointer
     }
   }
 `;
