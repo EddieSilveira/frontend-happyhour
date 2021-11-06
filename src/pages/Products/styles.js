@@ -94,7 +94,7 @@ export const WrapperNavCategorias = styled.div`
     border-radius: 12px;
     border: 3px solid #00389e;
     background-color: transparent;
-    color: #00389e; 
+    /* color: #00389e;  */
     display: flex;
     justify-content: center;
     align-items: center;

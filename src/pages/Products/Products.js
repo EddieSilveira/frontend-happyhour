@@ -15,7 +15,7 @@ const Products = () => {
   const [viewCategoriaNoAlcool, setViewCategoriaNoAlcool] = useState(false)
   const [viewCategoriaDiversos, setViewCategoriaDiversos] = useState(false)
   const [isOpenCarrinho, setIsOpenCarrinho] = useState(false)
-  console.log(isOpenCarrinho)
+  
   useEffect(() => {
     document.title = 'HappyHour - Produtos'
   }, [])
@@ -43,35 +43,35 @@ const Products = () => {
           </SectionOfertas>
           <SectionProdutos>
             <WrapperNavCategorias>
-              <button onClick={() => {
+              <button style={viewCategoriaCerveja ? {color: '#eba200', border: '3px solid #eba200'} : {color: '#00389e'}}onClick={() => {
                 setViewCategoriaCerveja(true)
                 setViewCategoriaDestilados(false)
                 setViewCategoriaVinhos(false)
                 setViewCategoriaNoAlcool(false)
                 setViewCategoriaDiversos(false)
               }}><IoBeer size={24}/>&nbsp;Cerveja</button>
-              <button onClick={() => {
+              <button style={viewCategoriaDestilados ? {color: '#eba200', border: '3px solid #eba200'} : {color: '#00389e'}} onClick={() => {
                 setViewCategoriaCerveja(false)
                 setViewCategoriaDestilados(true)
                 setViewCategoriaVinhos(false)
                 setViewCategoriaNoAlcool(false)
                 setViewCategoriaDiversos(false)
               }}><BiDrink size={24}/>&nbsp;Destilados</button>
-              <button onClick={() => {
+              <button style={viewCategoriaVinhos ? {color: '#eba200', border: '3px solid #eba200'} : {color: '#00389e'}} onClick={() => {
                 setViewCategoriaCerveja(false)
                 setViewCategoriaDestilados(false)
                 setViewCategoriaVinhos(true)
                 setViewCategoriaNoAlcool(false)
                 setViewCategoriaDiversos(false)
               }}><IoWine size={24}/>&nbsp;Vinhos</button>
-              <button onClick={() => {
+              <button style={viewCategoriaNoAlcool ? {color: '#eba200', border: '3px solid #eba200'} : {color: '#00389e'}} onClick={() => {
                 setViewCategoriaCerveja(false)
                 setViewCategoriaDestilados(false)
                 setViewCategoriaVinhos(false)
                 setViewCategoriaNoAlcool(true)
                 setViewCategoriaDiversos(false)
               }}><IoBeerOutline size={24}/>&nbsp;Sem Alcool</button>
-              <button onClick={() => {
+              <button style={viewCategoriaDiversos ? {color: '#eba200', border: '3px solid #eba200'} : {color: '#00389e'}} onClick={() => {
                 setViewCategoriaCerveja(false)
                 setViewCategoriaDestilados(false)
                 setViewCategoriaVinhos(false)
