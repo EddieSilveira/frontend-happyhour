@@ -16,11 +16,8 @@ const ModalDetalhesProduto = ({
   loadData,
   produto
 }) => {
-  const [contadorQuantidade, setContadorQuantidade] = useState(0)
-  useEffect(() => {
-    document.title = 'HappyHour - Admin';
-  }, []);
-
+  const [contadorQuantidade, setContadorQuantidade] = useState(1)
+  
   const customStyles = {
     content: {
       width: '50%',
@@ -72,7 +69,9 @@ const ModalDetalhesProduto = ({
             <p>{produto && produto.descricao}</p>
             <WrapperQuantidade>
               <h2>Quantidade</h2>
-              <button onClick={() => setContadorQuantidade(contadorQuantidade - 1)}>-</button>
+              <button onClick={() => {
+               if(contadorQuantidade >= 1) setContadorQuantidade(contadorQuantidade - 1)
+              }}>-</button>
               <span>{contadorQuantidade}</span>
               <button onClick={() => setContadorQuantidade(contadorQuantidade + 1)}>+</button>
             </WrapperQuantidade>

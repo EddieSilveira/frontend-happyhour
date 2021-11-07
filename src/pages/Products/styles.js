@@ -100,7 +100,7 @@ export const WrapperNavCategorias = styled.div`
     align-items: center;
     font-weight: bold;
     &:hover {
-      color: #eba200;
+      color: #eba200!important;
       border-color: #eba200;
       cursor: pointer;
     }

@@ -27,7 +27,7 @@ const CardCarrinho = ({produto}) => {
       <ContainerButtonCard>
         <ButtonCard onClick={() => {
           setIsOpenDetalhes(true)
-          setContadorQuantidade(contadorQuantidade - 1)
+          if(contadorQuantidade >= 1) setContadorQuantidade(contadorQuantidade - 1)
         }}>
         -
         </ButtonCard>

@@ -7,6 +7,7 @@ import Card from '../../components/Card/Card';
 import WrapperProdutos from '../../components/WrapperProdutos/WrapperProdutos.js'
 import Footer from '../../components/Footer/Footer';
 import ModalCarrinho from '../../components/ModalCarrinho/ModalCarrinho';
+import { useOutsideModal } from '../../hooks/outsideModal';
 
 const Products = () => {
   const [viewCategoriaCerveja, setViewCategoriaCerveja] = useState(true)
@@ -14,8 +15,9 @@ const Products = () => {
   const [viewCategoriaVinhos, setViewCategoriaVinhos] = useState(false)
   const [viewCategoriaNoAlcool, setViewCategoriaNoAlcool] = useState(false)
   const [viewCategoriaDiversos, setViewCategoriaDiversos] = useState(false)
+  const {visible, setVisible, ref } = useOutsideModal
   const [isOpenCarrinho, setIsOpenCarrinho] = useState(false)
-  
+
   useEffect(() => {
     document.title = 'HappyHour - Produtos'
   }, [])
@@ -87,10 +89,10 @@ const Products = () => {
           </SectionProdutos>
           <Footer/>
       </ContainerPage> 
-      <ModalCarrinho
-        isOpenCarrinho={isOpenCarrinho}
-        setIsOpenCarrinho={setIsOpenCarrinho}
-/> 
+        <ModalCarrinho
+          isOpenCarrinho={isOpenCarrinho}
+          setIsOpenCarrinho={setIsOpenCarrinho}
+  />  
     </ContainerApp>
   );
 };
