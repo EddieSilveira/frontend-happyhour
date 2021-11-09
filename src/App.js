@@ -1,6 +1,7 @@
 import React from 'react';
 import Routes from './routes/Routes';
 import { AuthProvider } from './contexts/auth';
+import { CartProvider } from './contexts/cart';
 import { createGlobalStyle } from 'styled-components';
 
 function App() {
@@ -18,8 +19,10 @@ function App() {
 
   return (
     <AuthProvider>
-      <GlobalStyle />
-      <Routes />
+      <CartProvider>
+        <GlobalStyle />
+          <Routes />
+        </CartProvider>
     </AuthProvider>
   );
 }

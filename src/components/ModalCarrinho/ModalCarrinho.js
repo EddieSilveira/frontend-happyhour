@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import beerDefault from '../../assets/beer-default.png';
 import { AuthContext } from '../../contexts/auth';
+import { CartContext } from '../../contexts/cart';
 import Modal from 'react-modal';
 import { IoClose, IoAddSharp, IoCardSharp, IoCashSharp } from 'react-icons/io5';
 import { WrapperHeadModal, ContainerPrincipal, ContainerProdutos, ContainerInfoPagamento, ContainerInfoEndereco, Row, WrapperFormaPagamento, WrapperButtonPagamento} from './styles.js';
@@ -13,15 +14,12 @@ Modal.setAppElement('#root');
 const ModalCarrinho = ({
   isOpenCarrinho,
   setIsOpenCarrinho,
-  handleOpenModal,
-  handleCloseModal,
-  record,
-  loadData,
-  produto
 }) => {
   const [contadorQuantidade, setContadorQuantidade] = useState(0)
   const [stateTroco, setStateTroco] = useState(false)
-  const {ref} = useOutsideModal
+  const {cart} = useContext(CartContext)
+
+
   const customStyles = {
     content: {
       width: '50%',
@@ -37,6 +35,10 @@ const ModalCarrinho = ({
     },
   };
 
+  function handleCloseModal(){
+    setIsOpenCarrinho(false)
+  }
+
   return (
     <>
     {isOpenCarrinho && 
@@ -46,7 +48,7 @@ const ModalCarrinho = ({
       style={customStyles}
     >
       <WrapperHeadModal>
-        <h2>Carrinho</h2>
+        <h2>Carrinho </h2>
         <button onClick={() => setIsOpenCarrinho(false)}>
           <IoClose size={18} />
         </button>
@@ -90,9 +92,9 @@ const ModalCarrinho = ({
               
               <input type="text" placeholder="Troco para quanto?" disabled={stateTroco}></input>
               <div style={{display: 'flex', alignItems: 'center', justifyContent: 'flex-start', marginTop: '8px'}}>
-                <span>Não precisa de troco? </span>
+                <input id="inputTroco" type="checkbox" onChange={() => setStateTroco(!stateTroco)}></input>
                 &nbsp;
-                <input type="checkbox" onChange={() => setStateTroco(!stateTroco)}></input>
+                <label htmlFor="inputTroco">Não precisa de troco? </label>
               </div>
             </WrapperFormaPagamento>
             <Row>

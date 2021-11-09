@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import beerDefault from '../../assets/beer-default.png';
 import { AuthContext } from '../../contexts/auth';
+import { CartContext } from '../../contexts/cart';
 import Modal from 'react-modal';
 import { IoClose, IoSave } from 'react-icons/io5';
 import { WrapperHeadModal, ContainerPrincipal, WrapperCoreDetalhes, Column, WrapperQuantidade, WrapperDetalhes, WrapperButtonDetalhes, WrapperDescricaoDetalhes } from './styles.js';
@@ -16,8 +17,9 @@ const ModalDetalhesProduto = ({
   loadData,
   produto
 }) => {
-  const [contadorQuantidade, setContadorQuantidade] = useState(1)
-  
+  const [contadorQuantidade, setContadorQuantidade] = useState(0)
+  const {cart, addToCart} = useContext(CartContext)
+
   const customStyles = {
     content: {
       width: '50%',
@@ -33,6 +35,15 @@ const ModalDetalhesProduto = ({
     },
   };
   
+  function addProduct(){
+    const product = {
+        quantidade: contadorQuantidade - 1 ,
+        produto
+    }
+    addToCart(product)
+    setIsOpenDetalhes(false)
+  }
+  console.log(contadorQuantidade)
   return (
     <>
     {produto && 
@@ -70,14 +81,14 @@ const ModalDetalhesProduto = ({
             <WrapperQuantidade>
               <h2>Quantidade</h2>
               <button onClick={() => {
-               if(contadorQuantidade >= 1) setContadorQuantidade(contadorQuantidade - 1)
+               if(contadorQuantidade >= 0) setContadorQuantidade(contadorQuantidade - 1)
               }}>-</button>
               <span>{contadorQuantidade}</span>
               <button onClick={() => setContadorQuantidade(contadorQuantidade + 1)}>+</button>
             </WrapperQuantidade>
           </WrapperDescricaoDetalhes> 
           <WrapperButtonDetalhes>
-          <button>Adicionar ao carrinho</button>
+            <button onClick={addProduct}>Adicionar ao carrinho</button>
           </WrapperButtonDetalhes>
       </WrapperDetalhes>
         </WrapperCoreDetalhes> 
