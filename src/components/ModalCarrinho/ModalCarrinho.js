@@ -21,12 +21,8 @@ import { useOutsideModal } from "../../hooks/outsideModal";
 Modal.setAppElement("#root");
 
 const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
-  const [contadorQuantidade, setContadorQuantidade] = useState(0);
   const [stateTroco, setStateTroco] = useState(false);
   const { cart } = useContext(CartContext);
-
-  console.log(cart);
-
   const customStyles = {
     content: {
       width: "50%",
@@ -41,6 +37,20 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
       transform: "translate(-50%, -50%)",
     },
   };
+
+  function objectToArray(object) {
+    let result = [];
+    let lengthObject = Object.keys(object).length;
+    let keysObject = Object.keys(object);
+    let valuesObject = Object.values(object);
+
+    for (let i = 0; i < lengthObject; i++) {
+      result.push([keysObject[i], valuesObject[i]]);
+    }
+    return result;
+  }
+
+  const arrayCart = objectToArray(cart);
 
   function handleCloseModal() {
     setIsOpenCarrinho(false);
@@ -79,9 +89,9 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
                   &nbsp;Adicionar Produtos
                 </button>
               </div>
-              <CardCarrinho />
-              <CardCarrinho />
-              <CardCarrinho />
+              {arrayCart.map((item, index) => {
+                return <CardCarrinho key={index} produto={item} />;
+              })}
             </ContainerProdutos>
             <ContainerInfoEndereco>
               <h2>Endereço para entrega</h2>
