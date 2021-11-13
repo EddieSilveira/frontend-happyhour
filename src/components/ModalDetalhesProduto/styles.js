@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const WrapperHeadModal = styled.div`
   display: flex;
   justify-content: space-between;
-  color: #3E4033;
+  color: #3e4033;
   margin: 8px auto 16px auto;
   h2 {
     font-size: 18px;
@@ -14,7 +14,7 @@ export const WrapperHeadModal = styled.div`
     color: inherit;
     &:hover {
       color: #eba200;
-      cursor: pointer
+      cursor: pointer;
     }
   }
 `;
@@ -25,7 +25,6 @@ export const ContainerPrincipal = styled.div`
   img {
     max-width: 150px;
     max-height: 150px;
-
   }
 `;
 
@@ -34,7 +33,7 @@ export const WrapperCoreDetalhes = styled.div`
   flex-direction: column;
   width: 100%;
   height: 200px;
-  h1 { 
+  h1 {
     font-size: 32px;
     color: #00389e;
     &:before {
@@ -61,17 +60,15 @@ export const Column = styled.div`
   flex-direction: column;
   width: 30%;
   justify-content: center;
-
 `;
 
 export const WrapperDetalhes = styled.div`
   display: flex;
-  flex-wrap:wrap;
+  flex-wrap: wrap;
   margin-top: 24px;
-  h2{
+  h2 {
     margin-bottom: 8px;
   }
-
 `;
 
 export const WrapperDescricaoDetalhes = styled.div`
@@ -79,11 +76,12 @@ export const WrapperDescricaoDetalhes = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  h2{
+  width: 100%;
+  h2 {
     margin-bottom: 8px;
     margin-right: 16px;
   }
-  button{
+  button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -92,12 +90,12 @@ export const WrapperDescricaoDetalhes = styled.div`
     border: none;
     background-color: transparent;
     margin: 16px 8px auto 8px;
-    &:hover{
+    &:hover {
       color: #eba200;
-      cursor: pointer
+      cursor: pointer;
     }
   }
-  span{
+  span {
     margin-top: 16px;
   }
   p {
@@ -106,21 +104,21 @@ export const WrapperDescricaoDetalhes = styled.div`
 `;
 
 export const WrapperButtonDetalhes = styled.div`
-  button{
-      margin-top: 24px;
-      height: 36px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 3px solid #00389e;
-      background-color: transparent;
-      border-radius: 12px;
-      padding: 8px;
-      color: #00389e; 
-      font-weight: bold;
-      &:hover {
-        background-color: #eba200;   
-        cursor: pointer;
+  button {
+    margin-top: 24px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid #00389e;
+    background-color: transparent;
+    border-radius: 12px;
+    padding: 8px;
+    color: #00389e;
+    font-weight: bold;
+    &:hover {
+      background-color: #eba200;
+      cursor: pointer;
     }
   }
 `;

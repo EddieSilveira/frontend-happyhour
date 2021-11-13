@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import beerDefault from "../../assets/beer-default.png";
 import { AuthContext } from "../../contexts/auth";
 import { CartContext } from "../../contexts/cart";
+import { useHistory } from "react-router-dom";
 import Modal from "react-modal";
 import { IoClose, IoSave } from "react-icons/io5";
 import {
@@ -28,6 +29,9 @@ const ModalDetalhesProduto = ({
 }) => {
   const [contadorQuantidade, setContadorQuantidade] = useState(0);
   const { cart, addToCart } = useContext(CartContext);
+  const { authenticated } = useContext(AuthContext);
+  const history = useHistory();
+  console.log(authenticated);
 
   const customStyles = {
     content: {
@@ -88,28 +92,41 @@ const ModalDetalhesProduto = ({
                   <WrapperDescricaoDetalhes>
                     <h2>Descrição</h2>
                     <p>{produto && produto.descricao}</p>
-                    <WrapperQuantidade>
-                      <h2>Quantidade</h2>
-                      <button
-                        onClick={() => {
-                          if (contadorQuantidade >= 0)
-                            setContadorQuantidade(contadorQuantidade - 1);
-                        }}
-                      >
-                        -
-                      </button>
-                      <span>{contadorQuantidade}</span>
-                      <button
-                        onClick={() =>
-                          setContadorQuantidade(contadorQuantidade + 1)
-                        }
-                      >
-                        +
-                      </button>
-                    </WrapperQuantidade>
+                    {authenticated && (
+                      <WrapperQuantidade>
+                        <h2>Quantidade</h2>
+                        <button
+                          onClick={() => {
+                            if (contadorQuantidade >= 0)
+                              setContadorQuantidade(contadorQuantidade - 1);
+                          }}
+                        >
+                          -
+                        </button>
+                        <span>{contadorQuantidade}</span>
+                        <button
+                          onClick={() =>
+                            setContadorQuantidade(contadorQuantidade + 1)
+                          }
+                        >
+                          +
+                        </button>
+                      </WrapperQuantidade>
+                    )}
                   </WrapperDescricaoDetalhes>
+
                   <WrapperButtonDetalhes>
-                    <button onClick={addProduct}>Adicionar ao carrinho</button>
+                    {authenticated ? (
+                      <button onClick={addProduct}>
+                        Adicionar ao carrinho
+                      </button>
+                    ) : (
+                      <div>
+                        <button onClick={() => history.push("/signin")}>
+                          Login
+                        </button>
+                      </div>
+                    )}
                   </WrapperButtonDetalhes>
                 </WrapperDetalhes>
               </WrapperCoreDetalhes>

@@ -13,10 +13,11 @@ const AuthProvider = ({ children }) => {
   const history = useHistory();
 
   const jwtDecode = (t) => {
-    let token = {};
-    token.raw = t;
-    token.header = JSON.parse(window.atob(t.split(".")[0]));
-    token.payload = JSON.parse(window.atob(t.split(".")[1]));
+    let token = jwt_decode(t);
+    // token.raw = t;
+    // token.header = JSON.parse(window.atob(t.split(".")[0]));
+    // token.payload = JSON.parse(window.atob(t.split(".")[1]));
+    console.log(token);
     return token;
   };
 
@@ -44,7 +45,7 @@ const AuthProvider = ({ children }) => {
           localStorage.setItem("token", JSON.stringify(data.token));
           setAuthenticated(true);
           setToken(data.token);
-          let user = jwtDecode(data.token).payload;
+          let user = jwtDecode(data.token);
           localStorage.setItem("userAtivo", JSON.stringify(user));
           setObjUsuarioAtivo(user);
           setLoading(false);
@@ -63,12 +64,21 @@ const AuthProvider = ({ children }) => {
   }
 
   async function signOut() {
+    const url = `${BACKEND}/logout`;
+    await fetch(url, {
+      method: "POST",
+      headers: {
+        Accepts: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
     setAuthenticated(false);
     localStorage.removeItem("token");
     localStorage.removeItem("userAtivo");
     setToken(null);
     history.push("/signin");
   }
+
   return (
     <AuthContext.Provider
       value={{
