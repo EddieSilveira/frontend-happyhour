@@ -1,7 +1,7 @@
-import React, { createContext, useState } from 'react';
-import { BACKEND } from '../constants';
-import { useHistory } from 'react-router-dom';
-import jwt_decode from 'jwt-decode';
+import React, { createContext, useState } from "react";
+import { BACKEND } from "../constants";
+import { useHistory } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 const AuthContext = createContext();
 
@@ -15,8 +15,8 @@ const AuthProvider = ({ children }) => {
   const jwtDecode = (t) => {
     let token = {};
     token.raw = t;
-    token.header = JSON.parse(window.atob(t.split('.')[0]));
-    token.payload = JSON.parse(window.atob(t.split('.')[1]));
+    token.header = JSON.parse(window.atob(t.split(".")[0]));
+    token.payload = JSON.parse(window.atob(t.split(".")[1]));
     return token;
   };
 
@@ -31,29 +31,30 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     const url = `${BACKEND}/auth`;
     await fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        Accepts: 'application/json',
-        'Content-Type': 'application/json',
+        Accepts: "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(dataForm),
     })
       .then((response) => response.json())
       .then((data) => {
         if (data.auth) {
-          localStorage.setItem('token', JSON.stringify(data.token));
+          localStorage.setItem("token", JSON.stringify(data.token));
           setAuthenticated(true);
           setToken(data.token);
           let user = jwtDecode(data.token).payload;
+          localStorage.setItem("userAtivo", JSON.stringify(user));
           setObjUsuarioAtivo(user);
           setLoading(false);
           if (user.nivelAcesso === 1) {
-            history.push('/dashboard');
+            history.push("/dashboard");
           } else {
-            history.push('/dashboardadm');
+            history.push("/dashboardadm");
           }
         } else {
-          alert('Login inválido!');
+          alert("Login inválido!");
         }
       })
       .catch(function (error) {
@@ -63,11 +64,11 @@ const AuthProvider = ({ children }) => {
 
   async function signOut() {
     setAuthenticated(false);
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
+    localStorage.removeItem("userAtivo");
     setToken(null);
-    history.push('/signin');
+    history.push("/signin");
   }
-
   return (
     <AuthContext.Provider
       value={{

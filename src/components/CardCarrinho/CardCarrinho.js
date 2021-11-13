@@ -16,7 +16,7 @@ const CardCarrinho = ({ produto }) => {
   const [contadorQuantidade, setContadorQuantidade] = useState(
     produto[1].quantity
   );
-  console.log(produto[1].produto.foto.path);
+  console.log(produto[1].quantity);
 
   return (
     <>
@@ -40,13 +40,11 @@ const CardCarrinho = ({ produto }) => {
             <span className="descricaoProduto valorProduto">
               R$ {produto[1].produto.valor}
             </span>
-            <span className="descricaoProduto"> por unidade</span>
             <ContainerButtonCard>
               <ButtonCard
                 onClick={() => {
-                  setIsOpenDetalhes(true);
-                  if (contadorQuantidade >= 1)
-                    setContadorQuantidade(contadorQuantidade - 1);
+                  if (contadorQuantidade >= 1) produto[1].quantity -= 1;
+                  setContadorQuantidade(contadorQuantidade - 1);
                 }}
               >
                 -
@@ -54,7 +52,7 @@ const CardCarrinho = ({ produto }) => {
               <span>{contadorQuantidade}</span>
               <ButtonCard
                 onClick={() => {
-                  setIsOpenDetalhes(true);
+                  produto[1].quantity += 1;
                   setContadorQuantidade(contadorQuantidade + 1);
                 }}
               >

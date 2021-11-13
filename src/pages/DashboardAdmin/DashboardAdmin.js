@@ -1,11 +1,12 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { BACKEND } from '../../constants';
-import { AuthContext } from '../../contexts/auth';
-import Table from '../../components/Table/Table';
-import ModalAddProduct from '../../components/ModalAddProduct/ModalAddProduct';
-import ModalAddClient from '../../components/ModalAddClient/ModalAddClient';
-import { Loader } from '../../components/Loader/Loader';
-import imgLogo from '../../assets/image-logo-happyhour.png';
+import React, { useState, useContext, useEffect } from "react";
+import { BACKEND } from "../../constants";
+import { AuthContext } from "../../contexts/auth";
+import Table from "../../components/Table/Table";
+import ModalAddProduct from "../../components/ModalAddProduct/ModalAddProduct";
+import ModalAddClient from "../../components/ModalAddClient/ModalAddClient";
+import { Loader } from "../../components/Loader/Loader";
+import imgLogo from "../../assets/image-logo-happyhour.png";
+import { useHistory } from "react-router-dom";
 import {
   Container,
   SideBarDashboard,
@@ -15,7 +16,7 @@ import {
   NavDashboard,
   ContentDashboard,
   WrapperButtonAdd,
-} from './styles';
+} from "./styles";
 import {
   IoPeople,
   IoNewspaper,
@@ -23,51 +24,61 @@ import {
   IoCart,
   IoLogOut,
   IoAddCircle,
-} from 'react-icons/io5';
+  IoHomeSharp,
+  IoBeerSharp,
+} from "react-icons/io5";
 
 const DashboardAdmin = () => {
-  const { token, objUsuarioAtivo, signOut, loading, setLoading } =
-    useContext(AuthContext);
+  const {
+    token,
+    objUsuarioAtivo,
+    signOut,
+    loading,
+    setLoading,
+    authenticated,
+  } = useContext(AuthContext);
+  const history = useHistory();
   const [isOpenProduct, setIsOpenProduct] = useState(false);
   const [isOpenClient, setIsOpenClient] = useState(false);
-  const [titleTable, setTitleTable] = useState('Produtos');
+  const [titleTable, setTitleTable] = useState("Produtos");
   const [data, setData] = useState([]);
   const head = {
-    id: 'Ident.',
-    name: 'Nome',
-    last: 'Sobrenome',
+    id: "Ident.",
+    name: "Nome",
+    last: "Sobrenome",
   };
   useEffect(() => {
-    document.title = 'HappyHour';
+    document.title = "HappyHour";
     loadData(`${BACKEND}/produtos`);
+    console.log(authenticated);
   }, []);
 
   function stateLoadTable(e) {
-    const textReplaced = e.target.outerText.replace(/\s/g, '');
+    const textReplaced = e.target.outerText.replace(/\s/g, "");
 
-    if (textReplaced === 'Clientes') {
-      setTitleTable('Clientes');
+    if (textReplaced === "Clientes") {
+      setTitleTable("Clientes");
       loadData(`${BACKEND}/usuarios`);
     }
-    if (textReplaced === 'Produtos') {
-      setTitleTable('Produtos');
+    if (textReplaced === "Produtos") {
+      setTitleTable("Produtos");
       loadData(`${BACKEND}/produtos`);
     }
-    if (textReplaced === 'Vendas') {
-      setTitleTable('Vendas');
+    if (textReplaced === "Vendas") {
+      setTitleTable("Vendas");
       loadData();
     }
-  }   
+  }
 
   const loadData = async (url) => {
     setLoading(true);
     const response = await fetch(url, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        Accepts: 'application/json',
-        'x-access-token': token,
+        Accepts: "application/json",
+        "x-access-token": token,
       },
-      mode: 'cors',
+      mode: "cors",
     });
     const data = await response.json();
     setData(data);
@@ -75,13 +86,13 @@ const DashboardAdmin = () => {
   };
 
   function handleOpenModal() {
-    if (titleTable === 'Produtos') setIsOpenProduct(true);
-    if (titleTable === 'Clientes') setIsOpenClient(true);
+    if (titleTable === "Produtos") setIsOpenProduct(true);
+    if (titleTable === "Clientes") setIsOpenClient(true);
   }
 
   function handleCloseModal() {
-    if (titleTable === 'Produtos') setIsOpenProduct(false);
-    if (titleTable === 'Clientes') setIsOpenClient(false);
+    if (titleTable === "Produtos") setIsOpenProduct(false);
+    if (titleTable === "Clientes") setIsOpenClient(false);
   }
 
   if (loading) return <Loader />;
@@ -90,9 +101,7 @@ const DashboardAdmin = () => {
     <Container>
       <SideBarDashboard>
         <WrapperAvatar>
-          <a href="/">
-            <img src={imgLogo} type="image/png" href="/" alt="logo-site"/>
-          </a>
+          <img src={imgLogo} type="image/png" alt="logo-site" />
         </WrapperAvatar>
         <WrapperButtonSideBar>
           <button onClick={stateLoadTable}>
@@ -125,17 +134,27 @@ const DashboardAdmin = () => {
         <NavDashboard>
           <img
             src={`${BACKEND}/${objUsuarioAtivo.foto.path
-              .replace('public/', 'files/')
-              .replace('uploads/', '')}`}
-              alt="avatar-user"
+              .replace("public/", "files/")
+              .replace("uploads/", "")}`}
+            alt="avatar-user"
           />
 
           <h4>Olá, seja bem vindo(a)! &nbsp;{objUsuarioAtivo.nome}</h4>
-          <button onClick={signOut}>
-            <IoLogOut size={24} />
-            &nbsp;
-            <h4>Logout</h4>
-          </button>
+          <div style={{ display: "flex" }}>
+            <button onClick={() => history.push("/")}>
+              <IoHomeSharp size={24} />
+              &nbsp; <h4>Home</h4>
+            </button>
+            <button onClick={() => history.push("/products")}>
+              <IoBeerSharp size={24} />
+              &nbsp; <h4>Produtos</h4>
+            </button>
+            <button onClick={signOut}>
+              <IoLogOut size={24} />
+              &nbsp;
+              <h4>Logout</h4>
+            </button>
+          </div>
         </NavDashboard>
         <ContentDashboard>
           <h1>{titleTable}</h1>

@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
-import imgLogo from '../../assets/image-logo-happyhour.png';
-import imgPresentation300 from '../../assets/presentation-image-300.png';
+import React, { useEffect, useContext } from "react";
+import imgLogo from "../../assets/image-logo-happyhour.png";
+import { AuthContext } from "../../contexts/auth";
+import imgPresentation300 from "../../assets/presentation-image-300.png";
+import { useHistory } from "react-router-dom";
 import {
   Nav,
   Logo,
@@ -15,27 +17,31 @@ import {
   ContainerSectionPedidos,
   ContainerItemsPedidos,
   ContainerQuemSomos,
-} from './styles';
+} from "./styles";
 import {
   IoArrowDownCircle,
   IoDownload,
   IoPersonCircle,
   IoCheckbox,
   IoArrowForwardCircleSharp,
-} from 'react-icons/io5';
-import { MdDeliveryDining, MdLocalBar } from 'react-icons/md';
+} from "react-icons/io5";
+import { MdDeliveryDining, MdLocalBar } from "react-icons/md";
 
-import Card from '../../components/Card/Card';
-import Footer from '../../components/Footer/Footer';
+import Card from "../../components/Card/Card";
+import Footer from "../../components/Footer/Footer";
 
 const Home = () => {
+  const user = localStorage.getItem("userAtivo");
+  const { authenticated } = useContext(AuthContext);
+  const history = useHistory();
   useEffect(() => {
-    document.title = 'HappyHour - Início';
+    document.title = "HappyHour - Início";
+    if (user) console.log(user);
   }, []);
-
+  console.log(authenticated);
   return (
     <div
-      style={{ backgroundImage: 'linear-gradient(-50deg, #125D98, #F5A962)' }}
+      style={{ backgroundImage: "linear-gradient(-50deg, #125D98, #F5A962)" }}
     >
       <Nav>
         <Logo href="/">
@@ -43,14 +49,25 @@ const Home = () => {
         </Logo>
         <LinksList>
           <ItemList>
-            <a href="/">INICIO</a>
+            <button onClick={() => history.push("/")}>&nbsp;INICIO</button>
           </ItemList>
           <ItemList>
-            <a href="/products">PRODUTOS</a>
+            <button onClick={() => history.push("/products")}>
+              &nbsp;PRODUTOS
+            </button>
           </ItemList>
           <ItemList>
-            <a href="/signin">LOGIN</a>
+            {!user && (
+              <button onClick={() => history.push("/signin")}>LOGIN</button>
+            )}
           </ItemList>
+          {user && (
+            <ItemList>
+              <button onClick={() => history.push("/dashboardadm")}>
+                DASHBOARD
+              </button>
+            </ItemList>
+          )}
         </LinksList>
       </Nav>
       <Container>
@@ -59,7 +76,7 @@ const Home = () => {
             <h1>FAÇA SEU PEDIDO PELO APP!</h1>
             <h4>Confira as ofertas disponíveis!</h4>
             <a href="#ofertas">
-              <IoArrowDownCircle size={32} color={'#00389e'} />
+              <IoArrowDownCircle size={32} color={"#00389e"} />
             </a>
           </DescriptionPresentation>
           <ImagePresentation>
@@ -88,35 +105,35 @@ const Home = () => {
             <span>
               <IoDownload
                 size={30}
-                style={{ margin: '15px auto', color: '#00389e' }}
+                style={{ margin: "15px auto", color: "#00389e" }}
               />
               Baixe já nosso aplicativo na PlayStore!
             </span>
             <span>
               <IoPersonCircle
                 size={30}
-                style={{ margin: '15px auto', color: '#00389e' }}
+                style={{ margin: "15px auto", color: "#00389e" }}
               />
               Cadastre sua conta para fazer seus pedidos.
             </span>
             <span>
               <IoCheckbox
                 size={30}
-                style={{ margin: '15px auto', color: '#00389e' }}
+                style={{ margin: "15px auto", color: "#00389e" }}
               />
               Escolha o produto que deseja comprar!
             </span>
             <span>
               <MdDeliveryDining
                 size={30}
-                style={{ margin: '15px auto', color: '#00389e' }}
+                style={{ margin: "15px auto", color: "#00389e" }}
               />
               Informe seu endereço e receba seu pedido em casa!
             </span>
             <span>
               <MdLocalBar
                 size={30}
-                style={{ margin: '15px auto', color: '#00389e' }}
+                style={{ margin: "15px auto", color: "#00389e" }}
               />
               Aproveite seu pedido com conforto e sem precisar dirigir.
             </span>

@@ -1,5 +1,4 @@
-import styled from 'styled-components';
-
+import styled from "styled-components";
 
 export const ContainerApp = styled.div`
   height: 100%;
@@ -18,7 +17,7 @@ export const ContainerPage = styled.div`
   flex-wrap: wrap;
 `;
 
-export const WrapperNavbar = styled.div ` 
+export const WrapperNavbar = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-around;
@@ -27,7 +26,7 @@ export const WrapperNavbar = styled.div `
 
 export const WrapperLinksNav = styled.div`
   display: flex;
-  width: 10%;
+  width: 15%;
   button {
     display: flex;
     justify-content: center;
@@ -35,7 +34,7 @@ export const WrapperLinksNav = styled.div`
     width: 50px;
     height: 50px;
     margin-top: 20px;
-    color: #00389e; 
+    color: #00389e;
     background-color: transparent;
     border: 3px solid #00389e;
     font-weight: bold;
@@ -53,7 +52,7 @@ export const SectionOfertas = styled.section`
   width: 100%;
   margin-top: 60px;
   padding: 8px;
-  h2 { 
+  h2 {
     font-size: 24px;
     color: #00389e;
     &:before {
@@ -88,7 +87,7 @@ export const WrapperNavCategorias = styled.div`
   display: flex;
   justify-content: space-evenly;
   height: 100%;
-  button{
+  button {
     width: 10%;
     height: 50px;
     border-radius: 12px;
@@ -100,11 +99,9 @@ export const WrapperNavCategorias = styled.div`
     align-items: center;
     font-weight: bold;
     &:hover {
-      color: #eba200!important;
+      color: #eba200 !important;
       border-color: #eba200;
       cursor: pointer;
     }
   }
 `;
-
-

@@ -23,6 +23,8 @@ Modal.setAppElement("#root");
 const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
   const [stateTroco, setStateTroco] = useState(false);
   const { cart } = useContext(CartContext);
+  const { objUsuarioAtivo } = useContext(AuthContext);
+  let valorProdutos = 0;
   const customStyles = {
     content: {
       width: "50%",
@@ -54,6 +56,14 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
 
   function handleCloseModal() {
     setIsOpenCarrinho(false);
+  }
+
+  async function handleSubmit() {
+    let objRequest = {
+      produtos: arrayCart,
+    };
+    console.log(objUsuarioAtivo);
+    console.log(objRequest);
   }
 
   return (
@@ -89,9 +99,16 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
                   &nbsp;Adicionar Produtos
                 </button>
               </div>
-              {arrayCart.map((item, index) => {
-                return <CardCarrinho key={index} produto={item} />;
-              })}
+              {arrayCart.length > 0 ? (
+                arrayCart.map((item, index) => {
+                  valorProdutos += item[1].produto.valor * item[1].quantity;
+                  return <CardCarrinho key={index} produto={item} />;
+                })
+              ) : (
+                <span>
+                  <strong>Carrinho Vazio...</strong>
+                </span>
+              )}
             </ContainerProdutos>
             <ContainerInfoEndereco>
               <h2>Endereço para entrega</h2>
@@ -104,7 +121,7 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
               <h2>Pagamento</h2>
               <Row>
                 <span>Produtos: </span>
-                <span>R$ 5,00</span>
+                <span>R$ {valorProdutos.toLocaleString()}</span>
               </Row>
               <Row>
                 <span>Taxa de entrega: </span>
@@ -114,7 +131,7 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
                 <span>
                   <strong>Total a pagar: </strong>
                 </span>
-                <span>R$ 9,99</span>
+                <span>R$ {(valorProdutos + 4.99).toLocaleString(2)}</span>
               </Row>
               <Row>
                 <h2 style={{ marginTop: "16px" }}>Forma de Pagamento</h2>
@@ -154,7 +171,7 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
                 </span>
               </Row>
               <WrapperButtonPagamento>
-                <button>Confirmar pedido</button>
+                <button onClick={handleSubmit}>Confirmar pedido</button>
               </WrapperButtonPagamento>
             </ContainerInfoPagamento>
           </ContainerPrincipal>

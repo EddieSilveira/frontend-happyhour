@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   max-width: 960px;
@@ -32,12 +32,15 @@ export const LinksList = styled.ul`
 
 export const ItemList = styled.li`
   margin-right: 16px;
-  a {
-    color: #00389e;
+  button {
+    border: none;
+    background-color: transparent;
     font-weight: bold;
+    color: #00389e;
     &:hover {
       color: #eba200;
       font-size: 20px;
+      cursor: pointer;
     }
   }
 `;
