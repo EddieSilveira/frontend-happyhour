@@ -37,14 +37,13 @@ const Products = () => {
   const [viewCategoriaDiversos, setViewCategoriaDiversos] = useState(false);
   const { visible, setVisible, ref } = useOutsideModal;
   const [isOpenCarrinho, setIsOpenCarrinho] = useState(false);
-  const user = localStorage.getItem("userAtivo");
   const history = useHistory();
-  const { signOut, authenticated } = useContext(AuthContext);
+  const { signOut, authenticated, objUsuarioAtivo } = useContext(AuthContext);
 
   useEffect(() => {
     document.title = "HappyHour - Produtos";
   }, []);
-  console.log(authenticated);
+
   return (
     <ContainerApp>
       <ContainerPage>
@@ -52,19 +51,29 @@ const Products = () => {
           <img src={imgLogo} type="image/png" href="/" alt="logo-happyhour" />
 
           <WrapperLinksNav>
-            {user && (
+            {objUsuarioAtivo && (
               <button onClick={() => setIsOpenCarrinho(true)}>
                 <IoCartSharp size={24} />
               </button>
             )}
             &nbsp;
-            {user && (
-              <button onClick={() => history.push("/dashboardadm")}>
+            {objUsuarioAtivo && (
+              <button
+                onClick={() =>
+                  history.push(
+                    `${
+                      objUsuarioAtivo.nivelAcesso > 1
+                        ? "/dashboardadm"
+                        : "/dashboard"
+                    }`
+                  )
+                }
+              >
                 <MdDashboard size={24} />
               </button>
             )}
             &nbsp;
-            {!user ? (
+            {!objUsuarioAtivo ? (
               <a href="/signin">
                 <button>
                   <IoLogIn size={24} />

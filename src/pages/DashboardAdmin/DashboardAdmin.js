@@ -138,7 +138,6 @@ const DashboardAdmin = () => {
               .replace("uploads/", "")}`}
             alt="avatar-user"
           />
-
           <h4>Olá, seja bem vindo(a)! &nbsp;{objUsuarioAtivo.nome}</h4>
           <div style={{ display: "flex" }}>
             <button onClick={() => history.push("/")}>

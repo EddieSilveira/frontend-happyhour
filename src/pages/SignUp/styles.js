@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   height: 100vh;
@@ -21,6 +21,7 @@ export const ContainerForm = styled.div`
   border-radius: 12px;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 `;
+
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -34,8 +35,12 @@ export const Form = styled.form`
     border: none;
     border-radius: 5px;
   }
+  #senha {
+    width: 70%;
+    margin-right: 8px;
+  }
 
-  button {
+  #btnCadastrar {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -68,8 +73,15 @@ export const WrapperEndereco = styled.div`
     width: 18%;
     margin: 5px 0px 5px 5px;
   }
-  #bairro {
-    width: 100%;
+  #bairro,
+  #cep {
+    width: 55%;
+    margin: 5px 0px 5px 0;
+  }
+  #cidade,
+  #telefone {
+    width: 43%;
+    margin: 5px 0 0 10px;
   }
 `;
 

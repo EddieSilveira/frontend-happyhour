@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import beerDefault from "../../assets/beer-default.png";
 import { BACKEND } from "../../constants";
 import ModalDetalhesProduto from "../ModalDetalhesProduto/ModalDetalhesProduto";
@@ -10,19 +10,30 @@ import {
   ButtonCard,
 } from "./styles.js";
 import { IoBagRemove } from "react-icons/io5";
+import { CartContext } from "../../contexts/cart";
 
 const CardCarrinho = ({ produto }) => {
   const [isOpenDetalhes, setIsOpenDetalhes] = useState(false);
+  const { removeToCart } = useContext(CartContext);
   const [contadorQuantidade, setContadorQuantidade] = useState(
     produto[1].quantity
   );
-  console.log(produto[1].quantity);
+  let formatoMoeda = {
+    minimumFractionDigits: 2,
+    style: "currency",
+    currency: "BRL",
+  };
 
   return (
     <>
       {produto && (
         <ContainerCard>
-          <button className="btnRemoverProduto">
+          <button
+            className="btnRemoverProduto"
+            onClick={() => {
+              removeToCart(produto);
+            }}
+          >
             <IoBagRemove size={28} />
           </button>
           <ImageCard
@@ -38,13 +49,15 @@ const CardCarrinho = ({ produto }) => {
           <ContainerDescriptionCard>
             <span className="descricaoProduto">{produto[1].produto.nome} </span>
             <span className="descricaoProduto valorProduto">
-              R$ {produto[1].produto.valor}
+              {produto[1].produto.valor.toLocaleString("pt-BR", formatoMoeda)}
             </span>
             <ContainerButtonCard>
               <ButtonCard
                 onClick={() => {
-                  if (contadorQuantidade >= 1) produto[1].quantity -= 1;
-                  setContadorQuantidade(contadorQuantidade - 1);
+                  if (contadorQuantidade > 0) {
+                    produto[1].quantity -= 1;
+                    setContadorQuantidade(contadorQuantidade - 1);
+                  }
                 }}
               >
                 -

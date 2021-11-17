@@ -3,7 +3,13 @@ import beerDefault from "../../assets/beer-default.png";
 import { AuthContext } from "../../contexts/auth";
 import { CartContext } from "../../contexts/cart";
 import Modal from "react-modal";
-import { IoClose, IoAddSharp, IoCardSharp, IoCashSharp } from "react-icons/io5";
+import {
+  IoClose,
+  IoAddSharp,
+  IoCardSharp,
+  IoCashSharp,
+  IoCheckmarkSharp,
+} from "react-icons/io5";
 import {
   WrapperHeadModal,
   ContainerPrincipal,
@@ -13,6 +19,7 @@ import {
   Row,
   WrapperFormaPagamento,
   WrapperButtonPagamento,
+  WrapperFormEndereco,
 } from "./styles.js";
 import { BACKEND } from "../../constants";
 import CardCarrinho from "../CardCarrinho/CardCarrinho";
@@ -21,10 +28,19 @@ import { useOutsideModal } from "../../hooks/outsideModal";
 Modal.setAppElement("#root");
 
 const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
-  const [stateTroco, setStateTroco] = useState(false);
   const { cart } = useContext(CartContext);
   const { objUsuarioAtivo } = useContext(AuthContext);
+  const [formPedido, setFormPedido] = useState(objUsuarioAtivo);
+  const [formaPagamento, setFormaPagamento] = useState("");
+  const [stateTroco, setStateTroco] = useState(false);
+  const [valueTroco, setValueTroco] = useState(0);
   let valorProdutos = 0;
+  let formatoMoeda = {
+    minimumFractionDigits: 2,
+    style: "currency",
+    currency: "BRL",
+  };
+  let taxaEntrega = 4.99;
   const customStyles = {
     content: {
       width: "50%",
@@ -59,11 +75,27 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
   }
 
   async function handleSubmit() {
-    let objRequest = {
+    setFormPedido((prevState) => ({
+      ...prevState,
+      valorPedido: valorProdutos + taxaEntrega,
+      formaPagamento: formaPagamento,
+      stateTroco: stateTroco,
+      valueTroco: valueTroco,
+    }));
+
+    let objPedido = {
       produtos: arrayCart,
+      infoPedido: formPedido,
     };
-    console.log(objUsuarioAtivo);
-    console.log(objRequest);
+    console.log(objPedido);
+  }
+
+  function handleChange(e) {
+    let { name, value } = e.target;
+    setFormPedido((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   }
 
   return (
@@ -113,15 +145,63 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
             <ContainerInfoEndereco>
               <h2>Endereço para entrega</h2>
               <Row>
-                <span>Endereço para entrega: </span>
-                <span>Rua Portugal, 225. Vila Roma, Itu</span>
+                <WrapperFormEndereco>
+                  <div>
+                    <span htmlFor="rua">Rua:</span>
+                    <input
+                      value={formPedido.rua}
+                      id="rua"
+                      name="rua"
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div>
+                    <span htmlFor="numero">Número:</span>
+                    <input
+                      value={formPedido.numero}
+                      id="numero"
+                      name="numero"
+                      type="number"
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div>
+                    <span htmlFor="bairro">Bairro:</span>
+                    <input
+                      value={formPedido.bairro}
+                      id="bairro"
+                      name="bairro"
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div>
+                    <span htmlFor="cidade">Cidade:</span>
+                    <input
+                      value={formPedido.cidade}
+                      id="cidade"
+                      name="cidade"
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div>
+                    <span htmlFor="cep">CEP:</span>
+                    <input
+                      value={formPedido.cep}
+                      id="cep"
+                      name="cep"
+                      onChange={handleChange}
+                    />
+                  </div>
+                </WrapperFormEndereco>
               </Row>
             </ContainerInfoEndereco>
             <ContainerInfoPagamento>
               <h2>Pagamento</h2>
               <Row>
                 <span>Produtos: </span>
-                <span>R$ {valorProdutos.toLocaleString()}</span>
+                <span>
+                  {valorProdutos.toLocaleString("pt-BR", formatoMoeda)}
+                </span>
               </Row>
               <Row>
                 <span>Taxa de entrega: </span>
@@ -131,45 +211,71 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
                 <span>
                   <strong>Total a pagar: </strong>
                 </span>
-                <span>R$ {(valorProdutos + 4.99).toLocaleString(2)}</span>
+                <span>
+                  {(valorProdutos + 4.99).toLocaleString("pt-BR", formatoMoeda)}
+                </span>
               </Row>
               <Row>
                 <h2 style={{ marginTop: "16px" }}>Forma de Pagamento</h2>
               </Row>
               <WrapperFormaPagamento>
-                <span style={{ display: "flex", alignItems: "center" }}>
-                  <IoCardSharp size={24} color="00389e" />
-                  &nbsp;Dinheiro{" "}
-                </span>
-
-                <input
-                  type="text"
-                  placeholder="Troco para quanto?"
-                  disabled={stateTroco}
-                ></input>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "flex-start",
-                    marginTop: "8px",
+                <button
+                  onClick={() => {
+                    setFormaPagamento("cartao");
+                    setStateTroco(false);
+                    setValueTroco(0);
                   }}
                 >
-                  <input
-                    id="inputTroco"
-                    type="checkbox"
-                    onChange={() => setStateTroco(!stateTroco)}
-                  ></input>
-                  &nbsp;
-                  <label htmlFor="inputTroco">Não precisa de troco? </label>
-                </div>
-              </WrapperFormaPagamento>
-              <Row>
-                <span style={{ display: "flex", alignItems: "center" }}>
                   <IoCashSharp size={24} color="00389e" />
                   &nbsp; Cartão de Débito ou Crédito{" "}
-                </span>
-              </Row>
+                  {formaPagamento === "cartao" ? (
+                    <IoCheckmarkSharp color="#eba200" size={24} />
+                  ) : (
+                    ""
+                  )}
+                </button>
+                <button onClick={() => setFormaPagamento("dinheiro")}>
+                  <IoCardSharp size={24} color="00389e" />
+                  &nbsp;Dinheiro{" "}
+                  {formaPagamento === "dinheiro" ? (
+                    <IoCheckmarkSharp color="#eba200" size={24} />
+                  ) : (
+                    ""
+                  )}
+                </button>
+                {formaPagamento === "dinheiro" && (
+                  <input
+                    value={valueTroco}
+                    type="text"
+                    placeholder="Troco para quanto?"
+                    onChange={(e) => setValueTroco(e.target.value)}
+                    disabled={stateTroco}
+                  ></input>
+                )}
+                {formaPagamento === "dinheiro" && (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "flex-start",
+                      marginTop: "8px",
+                    }}
+                  >
+                    <input
+                      id="inputTroco"
+                      type="checkbox"
+                      onChange={() => setStateTroco(!stateTroco)}
+                    ></input>
+                    &nbsp;
+                    <label
+                      htmlFor="inputTroco"
+                      onClick={() => setValueTroco(0)}
+                    >
+                      Não precisa de troco?{" "}
+                    </label>
+                  </div>
+                )}
+              </WrapperFormaPagamento>
               <WrapperButtonPagamento>
                 <button onClick={handleSubmit}>Confirmar pedido</button>
               </WrapperButtonPagamento>

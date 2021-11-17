@@ -31,12 +31,10 @@ import Card from "../../components/Card/Card";
 import Footer from "../../components/Footer/Footer";
 
 const Home = () => {
-  const user = localStorage.getItem("userAtivo");
-  const { authenticated } = useContext(AuthContext);
+  const { authenticated, objUsuarioAtivo } = useContext(AuthContext);
   const history = useHistory();
   useEffect(() => {
     document.title = "HappyHour - Início";
-    if (user) console.log(user);
   }, []);
   console.log(authenticated);
   return (
@@ -57,15 +55,21 @@ const Home = () => {
             </button>
           </ItemList>
           <ItemList>
-            {!user && (
+            {!authenticated && (
               <button onClick={() => history.push("/signin")}>LOGIN</button>
             )}
           </ItemList>
-          {user && (
+          {authenticated && (
             <ItemList>
-              <button onClick={() => history.push("/dashboardadm")}>
-                DASHBOARD
-              </button>
+              {objUsuarioAtivo.nivelAcesso > 1 ? (
+                <button onClick={() => history.push("/dashboardadm")}>
+                  DASHBOARD
+                </button>
+              ) : (
+                <button onClick={() => history.push("/dashboard")}>
+                  DASHBOARD
+                </button>
+              )}
             </ItemList>
           )}
         </LinksList>

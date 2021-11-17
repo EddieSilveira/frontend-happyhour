@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const WrapperHeadModal = styled.div`
   display: flex;
   justify-content: space-between;
-  color: #3E4033;
+  color: #3e4033;
   margin: 8px auto 16px auto;
   h2 {
     font-size: 18px;
@@ -14,7 +14,7 @@ export const WrapperHeadModal = styled.div`
     color: inherit;
     &:hover {
       color: #eba200;
-      cursor: pointer
+      cursor: pointer;
     }
   }
 `;
@@ -37,7 +37,7 @@ export const ContainerProdutos = styled.div`
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
   border-radius: 5px;
   padding: 16px;
-  h2 { 
+  h2 {
     font-size: 18px;
     color: #00389e;
     &:before {
@@ -61,9 +61,9 @@ export const ContainerProdutos = styled.div`
     display: flex;
     align-items: center;
     font-weight: bold;
-    color: #3E4033;
-    &:hover{
-      cursor:pointer;
+    color: #3e4033;
+    &:hover {
+      cursor: pointer;
       color: #eba200;
     }
   }
@@ -76,7 +76,7 @@ export const ContainerInfoPagamento = styled.div`
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
   border-radius: 5px;
   padding: 16px;
-  h2 { 
+  h2 {
     font-size: 18px;
     color: #00389e;
     &:before {
@@ -100,9 +100,9 @@ export const ContainerInfoPagamento = styled.div`
     display: flex;
     align-items: center;
     font-weight: bold;
-    color: #3E4033;
-    &:hover{
-      cursor:pointer;
+    color: #3e4033;
+    &:hover {
+      cursor: pointer;
       color: #eba200;
     }
   }
@@ -114,7 +114,7 @@ export const ContainerInfoEndereco = styled.div`
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
   border-radius: 5px;
   padding: 16px;
-  h2 { 
+  h2 {
     font-size: 18px;
     color: #00389e;
     &:before {
@@ -138,9 +138,9 @@ export const ContainerInfoEndereco = styled.div`
     display: flex;
     align-items: center;
     font-weight: bold;
-    color: #3E4033;
-    &:hover{
-      cursor:pointer;
+    color: #3e4033;
+    &:hover {
+      cursor: pointer;
       color: #eba200;
     }
   }
@@ -152,8 +152,41 @@ export const Row = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 16px auto 16px auto;
+  .dadosEntrega {
+    width: 45%;
+    display: flex;
+    justify-content: flex-end;
+  }
 `;
 
+export const WrapperFormEndereco = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  width: 45%;
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+  span {
+    font-weight: bold;
+    display: inline;
+  }
+  input {
+    border: none;
+    padding: 4px;
+    &:focus {
+      outline: none;
+    }
+  }
+`;
 export const WrapperButtonPagamento = styled.div`
   width: 100%;
   display: flex;
@@ -174,9 +207,9 @@ export const WrapperButtonPagamento = styled.div`
     justify-content: center;
     align-items: center;
     transition: 0.2s;
-    &:hover{
-      cursor:pointer;
-      border: 3px solid #00389e
+    &:hover {
+      cursor: pointer;
+      border: 3px solid #00389e;
     }
   }
 `;
@@ -186,16 +219,28 @@ export const WrapperFormaPagamento = styled.div`
   width: 100%;
   flex-direction: column;
   justify-content: flex-start;
-  input[type=text]{
+  input[type="text"] {
     width: 25%;
     height: 30px;
     padding: 8px;
     margin: 8px 0 8px 0;
     border-radius: 5px;
     border: 2px solid #00389e;
-    &:focus{
+    &:focus {
       outline: none;
       border-color: #eba200;
+    }
+  }
+  button {
+    width: 40%;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    &:hover {
+      cursor: pointer;
+      background-color: #ccc;
     }
   }
 `;

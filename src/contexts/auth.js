@@ -17,7 +17,6 @@ const AuthProvider = ({ children }) => {
     // token.raw = t;
     // token.header = JSON.parse(window.atob(t.split(".")[0]));
     // token.payload = JSON.parse(window.atob(t.split(".")[1]));
-    console.log(token);
     return token;
   };
 

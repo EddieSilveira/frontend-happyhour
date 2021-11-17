@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const StyledTable = styled.table`
   border-collapse: collapse;
@@ -13,6 +13,7 @@ export const StyledTable = styled.table`
     text-transform: uppercase;
     background-color: #00389e;
     color: #ccc;
+    padding: 8px;
   }
   tbody {
     tr {

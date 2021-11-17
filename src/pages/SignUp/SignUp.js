@@ -1,7 +1,11 @@
-import React, { useState, useContext, useRef } from 'react';
-import { AuthContext } from '../../contexts/auth';
-import { BACKEND } from '../../constants';
-import imgLogo from '../../assets/image-logo-happyhour.png';
+import React, { useState, useContext } from "react";
+import { AuthContext } from "../../contexts/auth";
+import { BACKEND } from "../../constants";
+import imgLogo from "../../assets/image-logo-happyhour.png";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { registerLocale, setDefaultLocale } from "react-datepicker";
+import ptBR from "date-fns/locale/pt-BR";
 import {
   Container,
   ContainerForm,
@@ -9,82 +13,63 @@ import {
   Form,
   WrapperEndereco,
   WrapperFile,
-} from './styles.js';
-import { IoSave } from 'react-icons/io5';
+} from "./styles.js";
+import { IoSave } from "react-icons/io5";
 
 const SignUp = () => {
   //Validation
   const [dataForm, setDataForm] = useState({
-    nome: '',
-    cpf: '',
-    email: '',
-    senha: '',
-    rua: '',
-    numero: '',
-    bairro: '',
+    nome: "",
+    cpf: "",
+    email: "",
+    senha: "",
+    rua: "",
+    numero: "",
+    bairro: "",
+    cidade: "",
+    telefone: "",
+    cep: "",
+    dataNascimento: "",
     nivelAcesso: 1,
     foto: {
-      originalName: '',
-      path: '',
-      size: '',
-      mimetype: '',
+      originalName: "",
+      path: "",
+      size: "",
+      mimetype: "",
     },
   });
 
   const { authenticated, signIn } = useContext(AuthContext);
-  const inputname = useRef(null);
-  const inputcpf = useRef(null);
-  const inputemail = useRef(null);
-  const inputpassword = useRef(null);
-  const inputrua = useRef(null);
-  const inputnumero = useRef(null);
-  const inputbairro = useRef(null);
+  const [dataNascimento, setDataNascimento] = useState(new Date());
+  registerLocale("ptBR", ptBR);
+  let dataLocalizada = dataNascimento.toLocaleDateString("pt-BR");
+  console.log(dataLocalizada);
 
-  async function handleClick(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    let valueData = Object.values(dataForm);
-    let keysData = Object.keys(dataForm);
-    let validateForm = true;
+    dataForm.dataNascimento = dataLocalizada;
 
-    valueData.forEach((item, index, array) => {
-      if (item === '') {
-        alert(`Campo ${keysData[index]} deve ser preenchido`);
-        validateForm = false;
-      }
+    let url = `${BACKEND}/cadastro`;
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(dataForm),
     });
-
-    if (validateForm) {
-      let url = `${BACKEND}/cadastro`;
-
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(dataForm),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          inputname.current.value = '';
-          inputcpf.current.value = '';
-          inputemail.current.value = '';
-          inputpassword.current.value = '';
-          inputrua.current.value = '';
-          inputnumero.current.value = '';
-          inputbairro.current.value = '';
-        });
-    }
+    const data = await response.json();
+    console.log(data);
   }
 
   async function imageUpload(file) {
     let url = `${BACKEND}/upload`;
     const data = new FormData();
-    data.append('file', file, file.name);
+    data.append("file", file, file.name);
 
     const imageResponse = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       body: data,
     }).then((response) => response.json());
     const picture = {
@@ -100,38 +85,15 @@ const SignUp = () => {
     const { name, value } = e.target;
     if (e.target.files) {
       const picture = await imageUpload(e.target.files[0]);
-      await setDataForm((prevState) => ({
+      setDataForm((prevState) => ({
         ...prevState,
         foto: picture,
       }));
     }
-    await setDataForm((prevState) => ({
+    setDataForm((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-    switch (name) {
-      case 'nome':
-        inputname.current.focus();
-        break;
-      case 'cpf':
-        inputcpf.current.focus();
-        break;
-      case 'email':
-        inputemail.current.focus();
-        break;
-      case 'senha':
-        inputpassword.current.focus();
-        break;
-      case 'rua':
-        inputrua.current.focus();
-        break;
-      case 'numero':
-        inputnumero.current.focus();
-        break;
-      case 'bairro':
-        inputbairro.current.focus();
-        break;
-    }
   }
 
   return (
@@ -139,17 +101,16 @@ const SignUp = () => {
       <ContainerForm>
         <WrapperLogo>
           <a href="/">
-            <img src={imgLogo} type="image/png" />
+            <img src={imgLogo} type="image/png" alt="logo-happyhour" />
           </a>
         </WrapperLogo>
-        <Form onSubmit={handleClick}>
+        <Form onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Nome..."
             value={dataForm.nome}
             onChange={handleChange}
             name="nome"
-            ref={inputname}
           />
           <input
             type="text"
@@ -157,7 +118,6 @@ const SignUp = () => {
             value={dataForm.cpf}
             onChange={handleChange}
             name="cpf"
-            ref={inputcpf}
           />
           <input
             type="text"
@@ -165,16 +125,45 @@ const SignUp = () => {
             value={dataForm.email}
             onChange={handleChange}
             name="email"
-            ref={inputemail}
           />
-          <input
-            type="password"
-            placeholder="Senha..."
-            value={dataForm.senha}
+          <div
+            style={{
+              width: "70%",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+              alignItems: "flex-end",
+            }}
+          >
+            <input
+              type="password"
+              placeholder="Senha..."
+              value={dataForm.senha}
+              onChange={handleChange}
+              name="senha"
+              id="senha"
+            />
+
+            <DatePicker
+              id="date"
+              locale="ptBR"
+              dateFormat="P"
+              maxDate={new Date()}
+              //dateFormat="dd/MM/yy"
+              selected={dataNascimento}
+              placeholderText="Data de Nascimento..."
+              onChange={(date) => setDataNascimento(date)}
+            />
+          </div>
+
+          {/* <input
+            type="text"
+            placeholder="Data de nascimento..."
+            value={dataForm.dataNascimento}
             onChange={handleChange}
-            name="senha"
-            ref={inputpassword}
-          />
+            name="dataNascimento"
+            id="dataNascimento"
+          /> */}
           <WrapperEndereco>
             <input
               type="text"
@@ -182,7 +171,6 @@ const SignUp = () => {
               value={dataForm.rua}
               onChange={handleChange}
               name="rua"
-              ref={inputrua}
               id="rua"
             />
             <input
@@ -191,7 +179,6 @@ const SignUp = () => {
               value={dataForm.numero}
               onChange={handleChange}
               name="numero"
-              ref={inputnumero}
               id="numero"
             />
             <input
@@ -200,8 +187,31 @@ const SignUp = () => {
               value={dataForm.bairro}
               onChange={handleChange}
               name="bairro"
-              ref={inputbairro}
               id="bairro"
+            />
+            <input
+              type="text"
+              placeholder="Cidade..."
+              value={dataForm.cidade}
+              onChange={handleChange}
+              name="cidade"
+              id="cidade"
+            />
+            <input
+              type="text"
+              placeholder="Cep..."
+              value={dataForm.cep}
+              onChange={handleChange}
+              name="cep"
+              id="cep"
+            />
+            <input
+              type="text"
+              placeholder="Telefone..."
+              value={dataForm.telefone}
+              onChange={handleChange}
+              name="telefone"
+              id="telefone"
             />
           </WrapperEndereco>
           <WrapperFile>
@@ -214,7 +224,7 @@ const SignUp = () => {
               onChange={handleChange}
             />
           </WrapperFile>
-          <button>
+          <button id="btnCadastrar">
             <IoSave size={24} />
             &nbsp; CADASTRAR
           </button>

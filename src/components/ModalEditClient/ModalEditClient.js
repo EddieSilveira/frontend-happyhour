@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { BACKEND } from '../../constants';
-import { AuthContext } from '../../contexts/auth';
-import Modal from 'react-modal';
-import { IoClose, IoSave } from 'react-icons/io5';
+import React, { useState, useEffect, useContext } from "react";
+import { BACKEND } from "../../constants";
+import { AuthContext } from "../../contexts/auth";
+import Modal from "react-modal";
+import { IoClose, IoSave } from "react-icons/io5";
 import {
   WrapperHeadModal,
   Form,
   WrapperInput,
   WrapperButton,
-} from './styles.js';
-Modal.setAppElement('#root');
+} from "./styles.js";
+Modal.setAppElement("#root");
 
 const ModalEditClient = ({
   isOpen,
@@ -22,19 +22,19 @@ const ModalEditClient = ({
   const { token, loading, setLoading } = useContext(AuthContext);
   const [initialValues, setInitialValues] = useState(record);
   useEffect(() => {
-    document.title = 'HappyHour - Admin';
+    document.title = "HappyHour - Admin";
   }, []);
 
   const customStyles = {
     content: {
-      minWidth: '40%',
-      minHeight: '40%',
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
+      minWidth: "40%",
+      minHeight: "40%",
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
     },
   };
 
@@ -51,12 +51,12 @@ const ModalEditClient = ({
     e.preventDefault();
     const url = `${BACKEND}/produtos`;
     const response = await fetch(url, {
-      mode: 'cors',
-      method: 'PUT',
+      mode: "cors",
+      method: "PUT",
       headers: {
-        Accepts: 'application/json',
-        'Content-Type': 'application/json',
-        'x-access-token': token,
+        Accepts: "application/json",
+        "Content-Type": "application/json",
+        "x-access-token": token,
       },
       body: JSON.stringify(initialValues),
     });
@@ -119,7 +119,7 @@ const ModalEditClient = ({
                 id="inputAddRua"
                 value={initialValues.rua}
                 name="rua"
-                style={{ width: '70%' }}
+                style={{ width: "70%" }}
                 onChange={handleChange}
               />
               <label htmlFor="inputAddNumero">Numero: </label>
@@ -128,7 +128,7 @@ const ModalEditClient = ({
                 id="inputAddNumero"
                 value={initialValues.numero}
                 name="numero"
-                style={{ width: '20%' }}
+                style={{ width: "20%" }}
                 onChange={handleChange}
               />
             </WrapperInput>
@@ -138,15 +138,24 @@ const ModalEditClient = ({
                 type="text"
                 id="inputAddBairro"
                 value={initialValues.bairro}
-                style={{ width: '70%' }}
+                style={{ width: "70%" }}
                 name="bairro"
+                onChange={handleChange}
+              />
+              <label htmlFor="inputAddCidade">Cidade: </label>
+              <input
+                type="text"
+                id="inputAddCidade"
+                value={initialValues.cidade}
+                style={{ width: "70%" }}
+                name="cidade"
                 onChange={handleChange}
               />
               <label htmlFor="inputAddNivelAcesso">Nível de Acesso: </label>
               <input
                 type="number"
                 id="inputAddNivelAcesso"
-                style={{ width: '20%' }}
+                style={{ width: "20%" }}
                 value={initialValues.nivelAcesso}
                 name="nivelAcesso"
                 onChange={handleChange}

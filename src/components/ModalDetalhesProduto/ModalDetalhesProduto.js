@@ -31,7 +31,6 @@ const ModalDetalhesProduto = ({
   const { cart, addToCart } = useContext(CartContext);
   const { authenticated } = useContext(AuthContext);
   const history = useHistory();
-  console.log(authenticated);
 
   const customStyles = {
     content: {
