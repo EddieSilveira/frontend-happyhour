@@ -27,15 +27,16 @@ const CartProvider = ({ children }) => {
     });
   };
 
-  const removeToCart = (product) => {
-    const { quantity, produto } = product;
-    console.log(produto);
-    for (let produto of Object.keys(cart)) {
-      if (produto === product[0]) {
-        console.log(product);
-      }
-    }
-    console.log(cart);
+  const removeFromCart = (product) => {
+    setCart((old) => {
+      const newCart = {};
+      Object.keys(old).forEach((id) => {
+        if (id !== product[0]) {
+          newCart[id] = old[id];
+        }
+      });
+      return newCart;
+    });
     // const { produto, quantidade } = product;
     // setCart((old) => {
     //   let quantity = 0;
@@ -55,7 +56,7 @@ const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeToCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
       {children}
     </CartContext.Provider>
   );

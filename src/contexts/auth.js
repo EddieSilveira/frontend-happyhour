@@ -46,6 +46,12 @@ const AuthProvider = ({ children }) => {
           setToken(data.token);
           let user = jwtDecode(data.token);
           localStorage.setItem("userAtivo", JSON.stringify(user));
+          if (dataForm.isRemember) {
+            let futureDate = new Date();
+            futureDate.setDate(futureDate.getDate() + 30);
+            document.cookie = `token=${data.token}; expires=${data}`;
+            document.cookie = `user=${JSON.stringify(user)}; expires=${data}`;
+          }
           setObjUsuarioAtivo(user);
           setLoading(false);
           if (user.nivelAcesso === 1) {
@@ -82,7 +88,9 @@ const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         objUsuarioAtivo,
+        setObjUsuarioAtivo,
         authenticated,
+        setAuthenticated,
         signIn,
         signOut,
         token,

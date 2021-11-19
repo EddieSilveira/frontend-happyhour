@@ -24,16 +24,18 @@ import {
 import { BACKEND } from "../../constants";
 import CardCarrinho from "../CardCarrinho/CardCarrinho";
 import { useOutsideModal } from "../../hooks/outsideModal";
+import Loader from "react-loader-spinner";
 
 Modal.setAppElement("#root");
 
 const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
   const { cart } = useContext(CartContext);
-  const { objUsuarioAtivo } = useContext(AuthContext);
+  const { token, objUsuarioAtivo } = useContext(AuthContext);
   const [formPedido, setFormPedido] = useState(objUsuarioAtivo);
   const [formaPagamento, setFormaPagamento] = useState("");
   const [stateTroco, setStateTroco] = useState(false);
   const [valueTroco, setValueTroco] = useState(0);
+  const [loadingPedido, setLoadingPedido] = useState(false);
   let valorProdutos = 0;
   let formatoMoeda = {
     minimumFractionDigits: 2,
@@ -74,10 +76,28 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
     setIsOpenCarrinho(false);
   }
 
+  async function requestPedido(objPedido) {
+    const url = `${BACKEND}/pedidos`;
+    console.log(objPedido);
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        Accepts: "application/json",
+        "Content-Type": "application/json",
+        "x-access-token": token,
+      },
+      body: JSON.stringify(objPedido),
+    });
+    const data = await response.json();
+    console.log(data);
+  }
+
   async function handleSubmit() {
+    setLoadingPedido(true);
+
     setFormPedido((prevState) => ({
       ...prevState,
-      valorPedido: valorProdutos + taxaEntrega,
+      valorPedido: (valorProdutos + taxaEntrega).toFixed(2),
       formaPagamento: formaPagamento,
       stateTroco: stateTroco,
       valueTroco: valueTroco,
@@ -87,7 +107,9 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
       produtos: arrayCart,
       infoPedido: formPedido,
     };
-    console.log(objPedido);
+
+    requestPedido(objPedido);
+    setLoadingPedido(false);
   }
 
   function handleChange(e) {
@@ -277,7 +299,17 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
                 )}
               </WrapperFormaPagamento>
               <WrapperButtonPagamento>
-                <button onClick={handleSubmit}>Confirmar pedido</button>
+                <button onClick={handleSubmit}>
+                  Confirmar pedido &nbsp;
+                  {loadingPedido && (
+                    <Loader
+                      type="TailSpin"
+                      color="#00389e"
+                      height={25}
+                      width={25}
+                    />
+                  )}
+                </button>
               </WrapperButtonPagamento>
             </ContainerInfoPagamento>
           </ContainerPrincipal>

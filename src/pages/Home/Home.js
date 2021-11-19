@@ -36,7 +36,7 @@ const Home = () => {
   useEffect(() => {
     document.title = "HappyHour - Início";
   }, []);
-  console.log(authenticated);
+
   return (
     <div
       style={{ backgroundImage: "linear-gradient(-50deg, #125D98, #F5A962)" }}

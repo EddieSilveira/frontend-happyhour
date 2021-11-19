@@ -1,8 +1,9 @@
-import React, { useState, useContext, useRef } from 'react';
-import { AuthContext } from '../../contexts/auth';
-import imgLogo from '../../assets/image-logo-happyhour.png';
-import { Loader } from '../../components/Loader/Loader';
-import { IoLogIn } from 'react-icons/io5';
+import React, { useState, useEffect, useContext, useRef } from "react";
+import { AuthContext } from "../../contexts/auth";
+import imgLogo from "../../assets/image-logo-happyhour.png";
+import { Loader } from "../../components/Loader/Loader";
+import { IoLogIn } from "react-icons/io5";
+import { useHistory } from "react-router-dom";
 import {
   Container,
   ContainerForm,
@@ -11,37 +12,78 @@ import {
   ContainerNavigation,
   Row,
   WrapperCheckbox,
-} from './styles.js';
+} from "./styles.js";
 
 const SignIn = () => {
-  //Validation
+  const history = useHistory();
   const [dataForm, setDataForm] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
+    isRemember: "",
   });
-  const { authenticated, signIn, loading, setLoading } =
-    useContext(AuthContext);
+  const {
+    authenticated,
+    setAuthenticated,
+    signIn,
+    loading,
+    setLoading,
+    objUsuarioAtivo,
+    setObjUsuarioAtivo,
+  } = useContext(AuthContext);
   const inputemail = useRef(null);
   const inputpassword = useRef(null);
+  const [isRemember, setIsRemember] = useState(false);
+
+  function getCookie(cookie) {
+    let cookieName = " " + cookie + "=";
+
+    let cookies = document.cookie;
+
+    if (cookies.indexOf(cookieName) === -1) {
+      return false;
+    }
+
+    cookies = cookies.substr(cookies.indexOf(cookieName), cookies.length);
+
+    if (cookies.indexOf(";") !== -1) {
+      cookies = cookies.substr(0, cookies.indexOf(";"));
+    }
+
+    cookies = cookies.split("=")[1];
+
+    return decodeURI(cookies);
+  }
+
+  useEffect(() => {
+    let token = document.cookie.substring(6);
+    if (token) {
+      history.push("/");
+      setAuthenticated(true);
+      let stringUser = getCookie("user");
+      setObjUsuarioAtivo(JSON.parse(stringUser));
+    }
+  }, []);
 
   async function handleClick(e) {
     setLoading(true);
     e.preventDefault();
+    dataForm.isRemember = isRemember;
     signIn(dataForm);
     setLoading(false);
   }
 
   async function handleChange(e) {
-    const { name, value } = e.target;
-    await setDataForm((prevState) => ({
+    const { name, value, checked } = e.target;
+
+    setDataForm((prevState) => ({
       ...prevState,
       [name]: value,
     }));
 
-    if (name === 'email') {
+    if (name === "email") {
       inputemail.current.focus();
     }
-    if (name === 'password') {
+    if (name === "password") {
       inputpassword.current.focus();
     }
   }
@@ -74,7 +116,12 @@ const SignIn = () => {
           <ContainerNavigation>
             <Row>
               <WrapperCheckbox>
-                <input type="checkbox" id="inputLembrar" />
+                <input
+                  type="checkbox"
+                  id="inputLembrar"
+                  name="remember"
+                  onChange={() => setIsRemember(!isRemember)}
+                />
                 <label htmlFor="inputLembrar">Lembrar</label>
               </WrapperCheckbox>
               <a href="/">Esqueceu a senha?</a>
@@ -87,7 +134,7 @@ const SignIn = () => {
           <button>
             {loading ? <Loader /> : <IoLogIn size={24} />}
             &nbsp; LOGIN
-          </button>  
+          </button>
         </FormLogin>
       </ContainerForm>
     </Container>

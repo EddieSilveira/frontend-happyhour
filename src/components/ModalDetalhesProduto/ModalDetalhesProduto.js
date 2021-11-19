@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import beerDefault from "../../assets/beer-default.png";
 import { AuthContext } from "../../contexts/auth";
 import { CartContext } from "../../contexts/cart";
@@ -54,6 +54,7 @@ const ModalDetalhesProduto = ({
     };
     addToCart(product);
     setIsOpenDetalhes(false);
+    setContadorQuantidade(0);
   }
 
   return (

@@ -14,7 +14,7 @@ import { CartContext } from "../../contexts/cart";
 
 const CardCarrinho = ({ produto }) => {
   const [isOpenDetalhes, setIsOpenDetalhes] = useState(false);
-  const { removeToCart } = useContext(CartContext);
+  const { removeFromCart } = useContext(CartContext);
   const [contadorQuantidade, setContadorQuantidade] = useState(
     produto[1].quantity
   );
@@ -31,7 +31,7 @@ const CardCarrinho = ({ produto }) => {
           <button
             className="btnRemoverProduto"
             onClick={() => {
-              removeToCart(produto);
+              removeFromCart(produto);
             }}
           >
             <IoBagRemove size={28} />
@@ -57,6 +57,9 @@ const CardCarrinho = ({ produto }) => {
                   if (contadorQuantidade > 0) {
                     produto[1].quantity -= 1;
                     setContadorQuantidade(contadorQuantidade - 1);
+                  }
+                  if (contadorQuantidade <= 0) {
+                    removeFromCart(produto);
                   }
                 }}
               >
