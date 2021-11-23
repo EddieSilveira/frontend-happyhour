@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const WrapperHeadModal = styled.div`
   display: flex;
@@ -13,6 +13,7 @@ export const WrapperHeadModal = styled.div`
     background-color: transparent;
     color: inherit;
     &:hover {
+      cursor: pointer;
       color: #eba200;
     }
   }

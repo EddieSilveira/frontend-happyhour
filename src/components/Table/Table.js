@@ -44,6 +44,11 @@ const Row = ({ record, loadData, title }) => {
   const [isOpenEditClient, setIsOpenEditClient] = useState(false);
   const keys = Object.keys(record);
   const values = Object.values(record);
+  var formato = {
+    minimumFractionDigits: 2,
+    style: "currency",
+    currency: "BRL",
+  };
 
   function filterColumnsBody(value) {
     return (
@@ -109,11 +114,39 @@ const Row = ({ record, loadData, title }) => {
       });
   }
 
+  function formataTelefone(key, tel) {
+    const { telefone } = tel;
+    const parte1 = telefone.slice(0, 5);
+    const parte2 = telefone.slice(5, 9);
+    const telAjustado = `${parte1}-${parte2}`;
+    return <td key={key}>{telAjustado}</td>;
+  }
   return (
     <tr key={record.id}>
-      {filtered.map((key) => (
-        <td key={key}>{record[key]}</td>
-      ))}
+      {filtered.map((key, index) => {
+        if (filtered[index] === "teor") {
+          return <td key={key}>{record[key]}%</td>;
+        }
+        if (filtered[index] === "valor") {
+          return (
+            <td key={key}> {record[key].toLocaleString("pt-BR", formato)}</td>
+          );
+        }
+        if (filtered[index] === "cpf") {
+          return (
+            <td key={key}>
+              {record[key].replace(
+                /(\d{3})(\d{3})(\d{3})(\d{2})/g,
+                "$1.$2.$3-$4"
+              )}
+            </td>
+          );
+        }
+        if (filtered[index] === "telefone") {
+          return formataTelefone(key, record);
+        }
+        return <td key={key}>{record[key]}</td>;
+      })}
       <div
         style={{
           height: "100%",

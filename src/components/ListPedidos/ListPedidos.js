@@ -13,7 +13,6 @@ const ListPedidos = () => {
     const url = `${BACKEND}/pedidos`;
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     if (objUsuarioAtivo.nivelAcesso < 999) {
       const pedidosFiltrados = data.filter(
         (item, index) => item.infoPedido.id === objUsuarioAtivo.id && item
@@ -31,7 +30,7 @@ const ListPedidos = () => {
 
   return (
     <ContainerListPedidos>
-      {titleList ? <h1>"Pedidos do Cliente"</h1> : ""}
+      {titleList ? <h1>Pedidos do Cliente</h1> : ""}
       {listaPedidos.length > 0 &&
         listaPedidos.map((item, index) => {
           return <CardPedidos key={index} item={item} />;

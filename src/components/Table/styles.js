@@ -17,6 +17,8 @@ export const StyledTable = styled.table`
   }
   tbody {
     tr {
+      width: 100%;
+
       &:hover {
         background-color: #ccc;
       }
@@ -33,7 +35,7 @@ export const StyledTable = styled.table`
       }
     }
     td {
-      font-size: 18px;
+      font-size: 14px;
       line-height: 1.6;
       text-align: center;
     }

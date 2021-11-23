@@ -123,7 +123,7 @@ const DashboardAdmin = () => {
           >
             <div>
               <IoNewspaper size={16} />
-              &nbsp;Vendas
+              &nbsp;Pedidos
             </div>
           </button>
           <button onClick={stateLoadTable}>

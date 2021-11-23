@@ -92,10 +92,10 @@ export const ContentDashboard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px 10px;
+  padding: 10px 10px;
   h1 {
     font-size: 32px;
-    margin-bottom: 30px;
+
     &:after {
       content: " ";
       width: 100%;
