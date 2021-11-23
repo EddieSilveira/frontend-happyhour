@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 100vh;
 `;
 export const SideBarDashboard = styled.aside`
   display: flex;
@@ -43,7 +43,7 @@ export const WrapperButtonSideBar = styled.div`
     cursor: pointer;
     padding: 8px;
     &:after {
-      content: ' >';
+      content: " >";
     }
     &:hover {
       background-color: #00389e;
@@ -97,7 +97,7 @@ export const ContentDashboard = styled.div`
     font-size: 32px;
     margin-bottom: 30px;
     &:after {
-      content: ' ';
+      content: " ";
       width: 100%;
       height: 15%;
       background-color: #eba200;

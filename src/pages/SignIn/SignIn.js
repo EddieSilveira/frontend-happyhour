@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { AuthContext } from "../../contexts/auth";
 import imgLogo from "../../assets/image-logo-happyhour.png";
-import { Loader } from "../../components/Loader/Loader";
+import Loader from "react-loader-spinner";
 import { IoLogIn } from "react-icons/io5";
 import { useHistory } from "react-router-dom";
 import {

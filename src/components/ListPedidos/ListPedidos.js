@@ -6,17 +6,23 @@ import { AuthContext } from "../../contexts/auth";
 
 const ListPedidos = () => {
   const [listaPedidos, setListaPedidos] = useState([]);
+  const [titleList, setTitleList] = useState(true);
   const { objUsuarioAtivo } = useContext(AuthContext);
 
   async function loadPedidos() {
     const url = `${BACKEND}/pedidos`;
     const response = await fetch(url);
     const data = await response.json();
-    const pedidosFiltrados = data.filter(
-      (item, index) => item.infoPedido.id === objUsuarioAtivo.id && item
-    );
-
-    setListaPedidos(pedidosFiltrados);
+    console.log(data);
+    if (objUsuarioAtivo.nivelAcesso < 999) {
+      const pedidosFiltrados = data.filter(
+        (item, index) => item.infoPedido.id === objUsuarioAtivo.id && item
+      );
+      setListaPedidos(pedidosFiltrados);
+    } else {
+      setTitleList(false);
+      setListaPedidos(data);
+    }
   }
 
   useEffect(() => {
@@ -25,7 +31,7 @@ const ListPedidos = () => {
 
   return (
     <ContainerListPedidos>
-      <h1>Pedidos do Cliente</h1>
+      {titleList ? <h1>"Pedidos do Cliente"</h1> : ""}
       {listaPedidos.length > 0 &&
         listaPedidos.map((item, index) => {
           return <CardPedidos key={index} item={item} />;

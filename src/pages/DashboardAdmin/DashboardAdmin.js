@@ -4,7 +4,7 @@ import { AuthContext } from "../../contexts/auth";
 import Table from "../../components/Table/Table";
 import ModalAddProduct from "../../components/ModalAddProduct/ModalAddProduct";
 import ModalAddClient from "../../components/ModalAddClient/ModalAddClient";
-import { Loader } from "../../components/Loader/Loader";
+import Loader from "react-loader-spinner";
 import imgLogo from "../../assets/image-logo-happyhour.png";
 import { useHistory } from "react-router-dom";
 import {
@@ -27,6 +27,7 @@ import {
   IoHomeSharp,
   IoBeerSharp,
 } from "react-icons/io5";
+import ListPedidos from "../../components/ListPedidos/ListPedidos";
 
 const DashboardAdmin = () => {
   const {
@@ -40,8 +41,10 @@ const DashboardAdmin = () => {
   const history = useHistory();
   const [isOpenProduct, setIsOpenProduct] = useState(false);
   const [isOpenClient, setIsOpenClient] = useState(false);
+  const [viewPedidos, setViewPedidos] = useState(false);
   const [titleTable, setTitleTable] = useState("Produtos");
   const [data, setData] = useState([]);
+
   const head = {
     id: "Ident.",
     name: "Nome",
@@ -50,7 +53,6 @@ const DashboardAdmin = () => {
   useEffect(() => {
     document.title = "HappyHour";
     loadData(`${BACKEND}/produtos`);
-    console.log(authenticated);
   }, []);
 
   function stateLoadTable(e) {
@@ -58,20 +60,19 @@ const DashboardAdmin = () => {
 
     if (textReplaced === "Clientes") {
       setTitleTable("Clientes");
+      setViewPedidos(false);
       loadData(`${BACKEND}/usuarios`);
     }
     if (textReplaced === "Produtos") {
       setTitleTable("Produtos");
+      setViewPedidos(false);
       loadData(`${BACKEND}/produtos`);
-    }
-    if (textReplaced === "Vendas") {
-      setTitleTable("Vendas");
-      loadData();
     }
   }
 
   const loadData = async (url) => {
     setLoading(true);
+
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -95,8 +96,6 @@ const DashboardAdmin = () => {
     if (titleTable === "Clientes") setIsOpenClient(false);
   }
 
-  if (loading) return <Loader />;
-
   return (
     <Container>
       <SideBarDashboard>
@@ -116,7 +115,12 @@ const DashboardAdmin = () => {
               &nbsp;Clientes
             </div>
           </button>
-          <button onClick={stateLoadTable}>
+          <button
+            onClick={() => {
+              setTitleTable("Pedidos");
+              setViewPedidos(true);
+            }}
+          >
             <div>
               <IoNewspaper size={16} />
               &nbsp;Vendas
@@ -157,31 +161,41 @@ const DashboardAdmin = () => {
         </NavDashboard>
         <ContentDashboard>
           <h1>{titleTable}</h1>
-          <WrapperButtonAdd>
-            <button onClick={() => handleOpenModal()}>
-              <IoAddCircle size={32} /> &nbsp;{titleTable}
-            </button>
-            <ModalAddProduct
-              isOpen={isOpenProduct}
-              setIsOpen={setIsOpenProduct}
-              handleOpenModal={handleOpenModal}
-              handleCloseModal={handleCloseModal}
-              loadData={loadData}
-            />
-            <ModalAddClient
-              isOpen={isOpenClient}
-              setIsOpen={setIsOpenClient}
-              handleOpenModal={handleOpenModal}
-              handleCloseModal={handleCloseModal}
-              loadData={loadData}
-            />
-          </WrapperButtonAdd>
-          <Table
-            data={data}
-            head={head}
-            loadData={loadData}
-            title={titleTable}
-          />
+          {!viewPedidos && (
+            <>
+              <WrapperButtonAdd>
+                <button onClick={() => handleOpenModal()}>
+                  <IoAddCircle size={32} /> &nbsp;{titleTable}
+                </button>
+
+                <ModalAddProduct
+                  isOpen={isOpenProduct}
+                  setIsOpen={setIsOpenProduct}
+                  handleOpenModal={handleOpenModal}
+                  handleCloseModal={handleCloseModal}
+                  loadData={loadData}
+                />
+                <ModalAddClient
+                  isOpen={isOpenClient}
+                  setIsOpen={setIsOpenClient}
+                  handleOpenModal={handleOpenModal}
+                  handleCloseModal={handleCloseModal}
+                  loadData={loadData}
+                />
+              </WrapperButtonAdd>
+              {loading && <Loader type="TailSpin" color="#00389e" />}
+              {!loading && (
+                <Table
+                  data={data}
+                  head={head}
+                  loadData={loadData}
+                  title={titleTable}
+                />
+              )}
+            </>
+          )}
+          {loading && <Loader type="TailSpin" color="#00389e" />}
+          {viewPedidos && !loading && <ListPedidos />}
         </ContentDashboard>
       </WrapperDashboard>
     </Container>

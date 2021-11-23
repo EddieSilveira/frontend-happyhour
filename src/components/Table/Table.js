@@ -1,28 +1,31 @@
-import React, { useState, useContext } from 'react';
-import { IoCreate, IoTrashBin } from 'react-icons/io5';
-import { BACKEND } from '../../constants';
-import ModalEditProduct from '../ModalEditProduct/ModalEditProduct';
-import ModalEditClient from '../ModalEditClient/ModalEditClient';
-import { AuthContext } from '../../contexts/auth';
-import { Loader } from '../Loader/Loader';
-import { StyledTable } from './styles';
+import React, { useState, useContext } from "react";
+import { IoCreate, IoTrashBin } from "react-icons/io5";
+import { BACKEND } from "../../constants";
+import ModalEditProduct from "../ModalEditProduct/ModalEditProduct";
+import ModalEditClient from "../ModalEditClient/ModalEditClient";
+import { AuthContext } from "../../contexts/auth";
+import Loader from "react-loader-spinner";
+import { StyledTable } from "./styles";
 
 const Head = ({ keys, head }) => {
   const tableHead = head || {};
   function filterColumnsHead(value) {
     return (
-      value !== '_id' &&
-      value !== 'createdAt' &&
-      value !== 'updatedAt' &&
-      value !== 'senha' &&
-      value !== 'rua' &&
-      value !== 'bairro' &&
-      value !== 'numero' &&
-      value !== '__v'
+      value !== "_id" &&
+      value !== "createdAt" &&
+      value !== "updatedAt" &&
+      value !== "senha" &&
+      value !== "rua" &&
+      value !== "bairro" &&
+      value !== "numero" &&
+      value !== "__v" &&
+      value !== "dataNascimento" &&
+      value !== "cidade" &&
+      value !== "nivelAcesso"
     );
   }
   const filtered = keys.filter(filterColumnsHead);
-  filtered.push('Ações');
+  filtered.push("Ações");
 
   return (
     <thead>
@@ -44,51 +47,54 @@ const Row = ({ record, loadData, title }) => {
 
   function filterColumnsBody(value) {
     return (
-      value !== '_id' &&
-      value !== 'createdAt' &&
-      value !== 'updatedAt' &&
-      value !== 'senha' &&
-      value !== 'rua' &&
-      value !== 'bairro' &&
-      value !== 'numero' &&
-      value !== '__v'
+      value !== "_id" &&
+      value !== "createdAt" &&
+      value !== "updatedAt" &&
+      value !== "senha" &&
+      value !== "rua" &&
+      value !== "bairro" &&
+      value !== "numero" &&
+      value !== "__v" &&
+      value !== "cep" &&
+      value !== "cidade" &&
+      value !== "dataNascimento" &&
+      value !== "nivelAcesso"
     );
   }
-  console.log(values[keys.indexOf('teor')])
 
   function isValue(element, index, array) {
     if (index === 5) {
-      let formated = element.toLocaleString('pt-br', {
-        style: 'currency',
-        currency: 'BRL',
+      let formated = element.toLocaleString("pt-br", {
+        style: "currency",
+        currency: "BRL",
       });
       return formated;
     }
   }
-  
+
   //TERMINAR
   const filtered = keys.filter(filterColumnsBody);
   //console.log(values.findIndex(isValue));
 
   function handleOpenModal() {
-    if (title === 'Produtos') setIsOpenEditProduct(true);
-    if (title === 'Clientes') setIsOpenEditClient(true);
+    if (title === "Produtos") setIsOpenEditProduct(true);
+    if (title === "Clientes") setIsOpenEditClient(true);
   }
 
   function handleCloseModal() {
-    if (title === 'Produtos') setIsOpenEditProduct(false);
-    if (title === 'Clientes') setIsOpenEditClient(false);
+    if (title === "Produtos") setIsOpenEditProduct(false);
+    if (title === "Clientes") setIsOpenEditClient(false);
   }
 
   async function excluirCategoria() {
     setLoading(true);
     let url = `${BACKEND}/produtos/${record._id}`;
     await fetch(url, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'x-access-token': token,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "x-access-token": token,
       },
     })
       .then((response) => response.json())
@@ -98,7 +104,7 @@ const Row = ({ record, loadData, title }) => {
       })
       .catch(function (error) {
         console.error(
-          'Houve um problema ao excluir a categoria: ' + error.message,
+          "Houve um problema ao excluir a categoria: " + error.message
         );
       });
   }
@@ -110,17 +116,17 @@ const Row = ({ record, loadData, title }) => {
       ))}
       <div
         style={{
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-evenly',
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-evenly",
         }}
       >
         <button onClick={() => handleOpenModal()}>
           <IoCreate size={32} />
         </button>
         <button onClick={excluirCategoria}>
-          <IoTrashBin size={32} style={{ marginTop: '4px' }} />
+          <IoTrashBin size={32} style={{ marginTop: "4px" }} />
         </button>
       </div>
       <ModalEditProduct
@@ -147,13 +153,13 @@ const Table = ({ data, head, loadData, title }) => {
   let keys = [];
   const { loading } = useContext(AuthContext);
   const dataTable = data.map((item) => {
-    delete item['foto'];
+    delete item["foto"];
     // delete item['teor'];
     // delete item['descricao'];
     // delete item['volume'];
     return item;
   });
-  
+
   function isEmpty(obj) {
     for (var prop in obj) {
       if (obj.hasOwnProperty(prop)) return false;
@@ -182,6 +188,6 @@ const Table = ({ data, head, loadData, title }) => {
         </tbody>
       )}
     </StyledTable>
-  )
-}
+  );
+};
 export default Table;
