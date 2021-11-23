@@ -55,17 +55,18 @@ const SignIn = () => {
   }
 
   useEffect(() => {
-    let token = document.cookie.substring(6);
+    let token = localStorage.getItem("token");
     if (token) {
       history.push("/");
       setAuthenticated(true);
-      let stringUser = getCookie("user");
+      let stringUser = localStorage.getItem("userAtivo");
       setObjUsuarioAtivo(JSON.parse(stringUser));
     }
   }, []);
 
   async function handleClick(e) {
     setLoading(true);
+    console.log(dataForm);
     e.preventDefault();
     dataForm.isRemember = isRemember;
     signIn(dataForm);

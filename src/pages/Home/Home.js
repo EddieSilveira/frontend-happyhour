@@ -32,6 +32,7 @@ import Footer from "../../components/Footer/Footer";
 
 const Home = () => {
   const { authenticated, objUsuarioAtivo } = useContext(AuthContext);
+
   const history = useHistory();
   useEffect(() => {
     document.title = "HappyHour - Início";
@@ -77,7 +78,7 @@ const Home = () => {
       <Container>
         <ContainerPresentation>
           <DescriptionPresentation>
-            <h1>FAÇA SEU PEDIDO PELO APP!</h1>
+            <h1>FAÇA SEU PEDIDO ONLINE!</h1>
             <h4>Confira as ofertas disponíveis!</h4>
             <a href="#ofertas">
               <IoArrowDownCircle size={32} color={"#00389e"} />

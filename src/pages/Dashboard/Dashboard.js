@@ -11,63 +11,28 @@ import {
   WrapperDashboard,
   NavDashboard,
   ContentDashboard,
-  Profile,
-  WrapperDadosPessoais,
-  WrapperEndereco,
-  WrapperButtonSave,
 } from "./styles.js";
 import {
-  IoPeople,
   IoNewspaper,
-  IoSettingsSharp,
-  IoCart,
+  IoPersonSharp,
   IoLogOut,
   IoHomeSharp,
   IoBeerSharp,
 } from "react-icons/io5";
+import Profile from "../../components/Profile/Profile";
+import ListPedidos from "../../components/ListPedidos/ListPedidos";
 
 const Dashboard = () => {
   const { token, objUsuarioAtivo, signOut } = useContext(AuthContext);
   const history = useHistory();
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState(objUsuarioAtivo);
+
+  const [viewPerfil, setViewPerfil] = useState(true);
+  const [viewPedidos, setViewPedidos] = useState(false);
 
   useEffect(() => {
-    document.title = "HappyHour";
-    if (objUsuarioAtivo) {
-      const dataLocal = objUsuarioAtivo.dataNascimento.slice(0, 10);
-
-      setFormData((prevState) => ({
-        ...prevState,
-        _id: objUsuarioAtivo.id,
-        dataNascimento: dataLocal,
-      }));
-    }
+    document.title = "HappyHour - Dashboard";
   }, []);
-
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  }
-
-  async function handleSubmit() {
-    const url = `${BACKEND}/usuarios`;
-    const response = await fetch(url, {
-      mode: "cors",
-      method: "PUT",
-      headers: {
-        Accepts: "application/json",
-        "Content-Type": "application/json",
-        "x-access-token": token,
-      },
-      body: JSON.stringify(formData),
-    });
-    const data = await response.json();
-    console.log(data);
-  }
 
   if (loading) return <h1>Loading...</h1>;
   return (
@@ -79,16 +44,26 @@ const Dashboard = () => {
           </a>
         </WrapperAvatar>
         <WrapperButtonSideBar>
-          <button>
+          <button
+            onClick={() => {
+              setViewPerfil(true);
+              setViewPedidos(false);
+            }}
+          >
+            <div>
+              <IoPersonSharp size={16} />
+              &nbsp;Perfil
+            </div>
+          </button>
+          <button
+            onClick={() => {
+              setViewPerfil(false);
+              setViewPedidos(true);
+            }}
+          >
             <div>
               <IoNewspaper size={16} />
               &nbsp;Pedidos
-            </div>
-          </button>
-          <button>
-            <div>
-              <IoSettingsSharp size={16} />
-              &nbsp;Configurações
             </div>
           </button>
         </WrapperButtonSideBar>
@@ -119,95 +94,8 @@ const Dashboard = () => {
           </div>
         </NavDashboard>
         <ContentDashboard>
-          <Profile>
-            <h1>Detalhes do cliente</h1>
-            <WrapperDadosPessoais>
-              <h4>Dados Pessoais</h4>
-              <label htmlFor="nome">Nome:</label>
-              <input
-                value={formData.nome}
-                id="nome"
-                name="nome"
-                onChange={handleChange}
-              />
-              <label htmlFor="cpf">CPF:</label>
-              <input
-                value={formData.cpf}
-                id="cpf"
-                name="cpf"
-                onChange={handleChange}
-              />
-              <label htmlFor="email">Email:</label>
-              <input
-                value={formData.email}
-                id="email"
-                name="email"
-                onChange={handleChange}
-              />
-              <label htmlFor="dataNascimento">Data de Nascimento:</label>
-              <input
-                value={formData.dataNascimento}
-                id="dataNascimento"
-                name="dataNascimento"
-                onChange={handleChange}
-              />
-              <label htmlFor="telefone">Telefone:</label>
-              <input
-                value={formData.telefone}
-                id="telefone"
-                name="telefone"
-                onChange={handleChange}
-              />
-              <label htmlFor="senha">Senha:</label>
-              <input
-                value={formData.senha ? formData.senha : "********"}
-                id="senha"
-                name="senha"
-                onChange={handleChange}
-              />
-            </WrapperDadosPessoais>
-            <WrapperEndereco>
-              <h4>Endereço</h4>
-              <label htmlFor="rua">Rua:</label>
-              <input
-                value={formData.rua}
-                id="rua"
-                name="rua"
-                onChange={handleChange}
-              />
-              <label htmlFor="numero">Número:</label>
-              <input
-                value={formData.numero}
-                id="numero"
-                name="numero"
-                onChange={handleChange}
-              />
-              <label htmlFor="bairro">Bairro:</label>
-              <input
-                value={formData.bairro}
-                id="bairro"
-                name="bairro"
-                onChange={handleChange}
-              />
-              <label htmlFor="cidade">Cidade:</label>
-              <input
-                value={formData.cidade}
-                id="cidade"
-                name="cidade"
-                onChange={handleChange}
-              />
-              <label htmlFor="cep">CEP:</label>
-              <input
-                value={formData.cep}
-                id="cep"
-                name="cep"
-                onChange={handleChange}
-              />
-            </WrapperEndereco>
-            <WrapperButtonSave>
-              <button onClick={handleSubmit}>Salvar Alterações</button>
-            </WrapperButtonSave>
-          </Profile>
+          {viewPerfil && <Profile />}
+          {viewPedidos && <ListPedidos />}
         </ContentDashboard>
       </WrapperDashboard>
     </Container>

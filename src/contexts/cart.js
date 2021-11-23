@@ -37,22 +37,6 @@ const CartProvider = ({ children }) => {
       });
       return newCart;
     });
-    // const { produto, quantidade } = product;
-    // setCart((old) => {
-    //   let quantity = 0;
-    //   if (old[produto._id]) {
-    //     quantity = old[produto._id].quantity;
-    //   }
-    //   const newCart = {
-    //     ...old,
-    //     [produto._id]: {
-    //       quantity: quantity + quantidade,
-    //       produto,
-    //     },
-    //   };
-    //   localStorage.setItem("cart", JSON.stringify(newCart));
-    //   return newCart;
-    // });
   };
 
   return (
