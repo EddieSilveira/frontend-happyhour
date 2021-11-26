@@ -1,10 +1,11 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const ContainerCard = styled.div`
   width: 100%;
   height: 120px;
   border: 2px solid #ffeec8;
   background-color: #fff;
+  background-image: #fff;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
   border-radius: 12px;
   padding: 20px;
@@ -13,13 +14,14 @@ export const ContainerCard = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  .btnRemoverProduto{
+  .btnRemoverProduto {
     height: 60%;
     border: none;
     padding: 4px;
     background-color: transparent;
+    background-image: transparent;
     color: #00389e;
-    &:hover{
+    &:hover {
       color: #eba200;
       cursor: pointer;
     }
@@ -29,8 +31,8 @@ export const ContainerCard = styled.div`
 export const ImageCard = styled.img`
   display: flex;
   background-color: #000;
+  background-image: #000;
   justify-content: center;
-  background-color: #000;
   height: 100%;
   max-height: 100%;
 `;
@@ -48,10 +50,10 @@ export const ContainerDescriptionCard = styled.div`
   }
   .descricaoProduto {
     margin-right: 16px;
-    color: #3E4033;
-  }  
-  .valorProduto{
-    color:  #00389e;
+    color: #3e4033;
+  }
+  .valorProduto {
+    color: #00389e;
   }
 `;
 
@@ -69,6 +71,7 @@ export const ButtonCard = styled.button`
   padding: 10px;
   margin-top: 5px;
   background-color: transparent;
+  background-image: transparent;
   color: #eba200;
   font-weight: bold;
   display: flex;
@@ -80,7 +83,8 @@ export const ButtonCard = styled.button`
   cursor: pointer;
   font-size: 18px;
   &:hover {
-    color: #00389e; 
-    background-color: #eba200;   
+    color: #00389e;
+    background-color: #eba200;
+    background-image: #eba200;
   }
 `;

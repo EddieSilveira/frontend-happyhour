@@ -159,7 +159,7 @@ const Row = ({ record, loadData, title }) => {
           <IoCreate size={32} />
         </button>
         <button onClick={excluirCategoria}>
-          <IoTrashBin size={32} style={{ marginTop: "4px" }} />
+          <IoTrashBin size={30} style={{ marginTop: "4px" }} />
         </button>
       </div>
       <ModalEditProduct

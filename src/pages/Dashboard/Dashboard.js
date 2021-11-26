@@ -26,6 +26,14 @@ const Dashboard = () => {
   const { token, objUsuarioAtivo, signOut } = useContext(AuthContext);
   const history = useHistory();
   const [loading, setLoading] = useState(false);
+  const [clientSelected, setClientSelected] = useState({
+    backgroundColor: "#00389e",
+    color: "#eba200",
+  });
+  const [pedidosSelected, setPedidosSelected] = useState({
+    backgroundColor: "transparent",
+    color: "#00389e",
+  });
 
   const [viewPerfil, setViewPerfil] = useState(true);
   const [viewPedidos, setViewPedidos] = useState(false);
@@ -45,9 +53,18 @@ const Dashboard = () => {
         </WrapperAvatar>
         <WrapperButtonSideBar>
           <button
+            style={clientSelected}
             onClick={() => {
               setViewPerfil(true);
               setViewPedidos(false);
+              setClientSelected({
+                backgroundColor: "#00389e",
+                color: "#eba200",
+              });
+              setPedidosSelected({
+                backgroundColor: "transparent",
+                color: "#00389e",
+              });
             }}
           >
             <div>
@@ -56,9 +73,18 @@ const Dashboard = () => {
             </div>
           </button>
           <button
+            style={pedidosSelected}
             onClick={() => {
               setViewPerfil(false);
               setViewPedidos(true);
+              setPedidosSelected({
+                backgroundColor: "#00389e",
+                color: "#eba200",
+              });
+              setClientSelected({
+                backgroundColor: "transparent",
+                color: "#00389e",
+              });
             }}
           >
             <div>

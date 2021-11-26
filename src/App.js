@@ -1,8 +1,8 @@
-import React from 'react';
-import Routes from './routes/Routes';
-import { AuthProvider } from './contexts/auth';
-import { CartProvider } from './contexts/cart';
-import { createGlobalStyle } from 'styled-components';
+import React from "react";
+import Routes from "./routes/Routes";
+import { AuthProvider } from "./contexts/auth";
+import { CartProvider } from "./contexts/cart";
+import { createGlobalStyle } from "styled-components";
 
 function App() {
   const GlobalStyle = createGlobalStyle`
@@ -14,15 +14,17 @@ function App() {
     font-family: 'Urbanist', sans-serif;
     font-size: 14px;
     text-decoration: none;
-  };
+    
+  }
+;
   `;
 
   return (
     <AuthProvider>
       <CartProvider>
         <GlobalStyle />
-          <Routes />
-        </CartProvider>
+        <Routes />
+      </CartProvider>
     </AuthProvider>
   );
 }

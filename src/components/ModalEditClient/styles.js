@@ -11,6 +11,7 @@ export const WrapperHeadModal = styled.div`
   button {
     border: none;
     background-color: transparent;
+    background-image: transparent;
     color: inherit;
     &:hover {
       cursor: pointer;
@@ -70,6 +71,7 @@ export const WrapperButton = styled.div`
     margin-top: 16px;
     color: #00389e;
     background-color: #eba200;
+    background-image: #eba200;
     font-weight: bold;
     transition: linear 0.4s;
     &:hover {

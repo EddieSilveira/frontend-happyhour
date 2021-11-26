@@ -11,6 +11,7 @@ export const WrapperHeadModal = styled.div`
   button {
     border: none;
     background-color: transparent;
+    background-image: transparent;
     color: inherit;
     &:hover {
       color: #eba200;
@@ -89,6 +90,7 @@ export const WrapperDescricaoDetalhes = styled.div`
     color: #00389e;
     border: none;
     background-color: transparent;
+    background-image: transparent;
     margin: 16px 8px auto 8px;
     &:hover {
       color: #eba200;
@@ -112,12 +114,14 @@ export const WrapperButtonDetalhes = styled.div`
     align-items: center;
     border: 3px solid #00389e;
     background-color: transparent;
+    background-image: transparent;
     border-radius: 12px;
     padding: 8px;
     color: #00389e;
     font-weight: bold;
     &:hover {
       background-color: #eba200;
+      background-image: #eba200;
       cursor: pointer;
     }
   }

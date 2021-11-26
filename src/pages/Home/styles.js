@@ -18,10 +18,20 @@ export const Nav = styled.nav`
 
 export const Logo = styled.a`
   img {
+    @keyframes logoAnimation {
+      from {
+        width: 100%;
+        height: 100px;
+      }
+      to {
+        width: 130px;
+        height: 130px;
+      }
+    }
     &:hover {
       color: #eba200;
-      width: 130px;
-      height: 130px;
+      animation-name: logoAnimation;
+      animation-duration: 2s;
     }
   }
 `;
@@ -35,6 +45,7 @@ export const ItemList = styled.li`
   button {
     border: none;
     background-color: transparent;
+    background-image: transparent;
     font-weight: bold;
     color: #00389e;
     &:hover {
@@ -80,6 +91,7 @@ export const Title = styled.div`
   justify-content: center;
   color: ${(props) => props.color};
   background-color: ${(props) => props.bgcolor};
+  background-image: ${(props) => props.bgcolor};
   font-size: 28px;
   h2 {
     font-size: inherit;
@@ -102,6 +114,7 @@ export const ContainerSectionPedidos = styled.section`
   display: flex;
   flex-wrap: wrap;
   background-color: #ffeec8;
+  background-image: #ffeec8;
   border-radius: 12px;
   justify-content: center;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
@@ -117,6 +130,7 @@ export const ContainerSectionPedidos = styled.section`
     border: 3px solid #00389e;
     border-radius: 12px;
     background-color: transparent;
+    background-image: transparent;
     color: #00389e;
     font-weight: bold;
     margin-top: 16px;
@@ -125,6 +139,7 @@ export const ContainerSectionPedidos = styled.section`
     &:hover {
       color: #eba200;
       background-color: #00389e;
+      background-image: #00389e;
       border-color: #00389e;
     }
   }
@@ -147,11 +162,13 @@ export const ContainerItemsPedidos = styled.div`
 
 export const ContainerQuemSomos = styled.section`
   display: flex;
-  height: 400px;
   flex-wrap: wrap;
   padding: 24px 16px;
+  align-items: flex-start;
+  height: 300px;
   margin: 64px auto;
   background-color: #ffeec8;
+  background-image: #ffeec8;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
   border-radius: 12px;
   p {

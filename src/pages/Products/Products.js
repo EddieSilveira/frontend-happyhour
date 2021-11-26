@@ -18,6 +18,7 @@ import {
   IoBeerOutline,
   IoBasketSharp,
   IoLogOut,
+  IoHomeSharp,
 } from "react-icons/io5";
 import { MdDashboard } from "react-icons/md";
 import { BiDrink } from "react-icons/bi";
@@ -51,6 +52,10 @@ const Products = () => {
           <img src={imgLogo} type="image/png" href="/" alt="logo-happyhour" />
 
           <WrapperLinksNav>
+            <button onClick={() => history.push("/")}>
+              <IoHomeSharp size={24} />
+            </button>
+            &nbsp;
             {objUsuarioAtivo && (
               <button onClick={() => setIsOpenCarrinho(true)}>
                 <IoCartSharp size={24} />
@@ -185,7 +190,7 @@ const Products = () => {
           {viewCategoriaCerveja && <WrapperProdutos categoria="Cerveja" />}
           {viewCategoriaDestilados && <WrapperProdutos categoria="Destilado" />}
           {viewCategoriaVinhos && <WrapperProdutos categoria="Vinho" />}
-          {viewCategoriaNoAlcool && <WrapperProdutos categoria="No-alcool" />}
+          {viewCategoriaNoAlcool && <WrapperProdutos categoria="Sem Alcool" />}
           {viewCategoriaDiversos && <WrapperProdutos categoria="Diversos" />}
         </SectionProdutos>
         <Footer />

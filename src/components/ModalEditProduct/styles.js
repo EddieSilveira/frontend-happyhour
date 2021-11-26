@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const WrapperHeadModal = styled.div`
   display: flex;
@@ -11,6 +11,7 @@ export const WrapperHeadModal = styled.div`
   button {
     border: none;
     background-color: transparent;
+    background-image: transparent;
     color: inherit;
     cursor: pointer;
     &:hover {
@@ -31,13 +32,14 @@ export const Form = styled.form`
   label {
     margin-top: 16px;
   }
-  input {
+  input,
+  textarea {
     margin-top: 8px;
     width: 100%;
     height: 32px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    padding: 4px;
+    padding: 8px;
     &:focus {
       outline: none;
       box-shadow: 0px 0px 6px #eba200;
@@ -50,7 +52,7 @@ export const Form = styled.form`
   }
 
   /* Firefox */
-  input[type=number] {
+  input[type="number"] {
     -moz-appearance: textfield;
   }
 `;
@@ -67,6 +69,7 @@ export const WrapperButton = styled.div`
     margin-top: 16px;
     color: #00389e;
     background-color: #eba200;
+    background-image: #eba200;
     font-weight: bold;
     transition: linear 0.4s;
     &:hover {
@@ -78,19 +81,20 @@ export const WrapperButton = styled.div`
 `;
 
 export const WrapperDescription = styled.div`
-    display: flex;
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  input,
+  textarea {
     width: 100%;
-    flex-wrap: wrap;
-    input, textarea {
-      width: 100%;
-    }
-    textarea {
-      max-height: 80px;
-      min-width: 800px;
-      max-width: 800px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
+  }
+  textarea {
+    max-height: 80px;
+    min-width: 800px;
+    max-width: 800px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
 `;
 
 export const Column = styled.div`
@@ -100,8 +104,9 @@ export const Column = styled.div`
     width: 100%;
   }
 
-  input[type=checkbox]{
+  input[type="checkbox"] {
     background-color: #000;
+    background-image: #000;
     height: 16px;
     width: 16px;
     margin-top: 16px;

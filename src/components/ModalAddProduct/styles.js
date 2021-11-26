@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const WrapperHeadModal = styled.div`
   display: flex;
@@ -11,6 +11,7 @@ export const WrapperHeadModal = styled.div`
   button {
     border: none;
     background-color: transparent;
+    background-image: transparent;
     color: inherit;
     &:hover {
       color: #eba200;
@@ -31,7 +32,8 @@ export const Form = styled.form`
   label {
     margin-top: 16px;
   }
-  input, textarea {
+  input,
+  textarea {
     margin-top: 8px;
     width: 100%;
     min-width: 100%;
@@ -46,15 +48,15 @@ export const Form = styled.form`
     }
   }
   input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
+  /* Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
 `;
 
 export const WrapperButton = styled.div`
@@ -69,6 +71,7 @@ export const WrapperButton = styled.div`
     margin-top: 16px;
     color: #00389e;
     background-color: #eba200;
+    background-image: #eba200;
     font-weight: bold;
     transition: linear 0.4s;
     &:hover {
@@ -86,8 +89,9 @@ export const Column = styled.div`
     width: 100%;
   }
 
-  input[type=checkbox]{
+  input[type="checkbox"] {
     background-color: #000;
+    background-image: #000;
     height: 16px;
     width: 16px;
     margin-top: 16px;

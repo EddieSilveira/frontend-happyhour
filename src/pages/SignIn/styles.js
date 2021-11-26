@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   height: 100vh;
@@ -19,6 +19,7 @@ export const ContainerForm = styled.div`
   padding: 8px 24px;
   align-items: center;
   background-color: #ffeec8;
+  background-image: #ffeec8;
   border-radius: 12px;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 `;
@@ -29,8 +30,8 @@ export const FormLogin = styled.form`
   width: 80%;
   flex-direction: column;
   align-items: center;
-  input[type='text'],
-  [type='password'] {
+  input[type="text"],
+  [type="password"] {
     width: 70%;
     height: 40px;
     margin: 5px auto;
@@ -47,6 +48,7 @@ export const FormLogin = styled.form`
     margin-top: 20px;
     color: #00389e;
     background-color: transparent;
+    background-image: transparent;
     border: 3px solid #00389e;
     font-weight: bold;
     border-radius: 12px;
@@ -55,6 +57,7 @@ export const FormLogin = styled.form`
     &:hover {
       color: #00389e;
       background-color: #eba200;
+      background-image: #eba200;
     }
   }
 `;

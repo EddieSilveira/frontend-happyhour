@@ -43,6 +43,22 @@ const DashboardAdmin = () => {
   const [isOpenClient, setIsOpenClient] = useState(false);
   const [viewPedidos, setViewPedidos] = useState(false);
   const [titleTable, setTitleTable] = useState("Produtos");
+  const [clientSelected, setClientSelected] = useState({
+    backgroundColor: "transparent",
+    color: "#00389e",
+  });
+  const [productSelected, setProductSelected] = useState({
+    backgroundColor: "#00389e",
+    color: "#eba200",
+  });
+  const [pedidosSelected, setPedidosSelected] = useState({
+    backgroundColor: "transparent",
+    color: "#00389e",
+  });
+  const [configSelected, setConfigSelected] = useState({
+    backgroundColor: "transparent",
+    color: "#00389e",
+  });
   const [data, setData] = useState([]);
 
   const head = {
@@ -61,12 +77,82 @@ const DashboardAdmin = () => {
     if (textReplaced === "Clientes") {
       setTitleTable("Clientes");
       setViewPedidos(false);
+      setClientSelected({
+        backgroundColor: "#00389e",
+        color: "#eba200",
+      });
+      setProductSelected({
+        backgroundColor: "transparent",
+        color: "#00389e",
+      });
+      setPedidosSelected({
+        backgroundColor: "transparent",
+        color: "#00389e",
+      });
+      setConfigSelected({
+        backgroundColor: "transparent",
+        color: "#00389e",
+      });
       loadData(`${BACKEND}/usuarios`);
     }
     if (textReplaced === "Produtos") {
       setTitleTable("Produtos");
       setViewPedidos(false);
+      setClientSelected({
+        backgroundColor: "transparent",
+        color: "#00389e",
+      });
+      setProductSelected({
+        backgroundColor: "#00389e",
+        color: "#eba200",
+      });
+      setPedidosSelected({
+        backgroundColor: "transparent",
+        color: "#00389e",
+      });
+      setConfigSelected({
+        backgroundColor: "transparent",
+        color: "#00389e",
+      });
       loadData(`${BACKEND}/produtos`);
+    }
+    if (textReplaced === "Pedidos") {
+      setTitleTable("Pedidos");
+      setViewPedidos(true);
+      setClientSelected({
+        backgroundColor: "transparent",
+        color: "#00389e",
+      });
+      setProductSelected({
+        backgroundColor: "transparent",
+        color: "#00389e",
+      });
+      setPedidosSelected({
+        backgroundColor: "#00389e",
+        color: "#eba200",
+      });
+      setConfigSelected({
+        backgroundColor: "transparent",
+        color: "#00389e",
+      });
+    }
+    if (textReplaced === "Configurações") {
+      setClientSelected({
+        backgroundColor: "transparent",
+        color: "#00389e",
+      });
+      setProductSelected({
+        backgroundColor: "transparent",
+        color: "#00389e",
+      });
+      setPedidosSelected({
+        backgroundColor: "transparent",
+        color: "#00389e",
+      });
+      setConfigSelected({
+        backgroundColor: "#00389e",
+        color: "#eba200",
+      });
     }
   }
 
@@ -103,30 +189,25 @@ const DashboardAdmin = () => {
           <img src={imgLogo} type="image/png" alt="logo-site" />
         </WrapperAvatar>
         <WrapperButtonSideBar>
-          <button onClick={stateLoadTable}>
+          <button style={productSelected} onClick={stateLoadTable}>
             <div>
               <IoCart size={16} />
               &nbsp;Produtos
             </div>
           </button>
-          <button onClick={stateLoadTable}>
+          <button style={clientSelected} onClick={stateLoadTable}>
             <div>
               <IoPeople size={16} />
               &nbsp;Clientes
             </div>
           </button>
-          <button
-            onClick={() => {
-              setTitleTable("Pedidos");
-              setViewPedidos(true);
-            }}
-          >
+          <button style={pedidosSelected} onClick={stateLoadTable}>
             <div>
               <IoNewspaper size={16} />
               &nbsp;Pedidos
             </div>
           </button>
-          <button onClick={stateLoadTable}>
+          <button style={configSelected} onClick={stateLoadTable}>
             <div>
               <IoSettingsSharp size={16} />
               &nbsp;Configurações

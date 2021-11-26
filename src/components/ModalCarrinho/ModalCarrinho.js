@@ -5,7 +5,6 @@ import { CartContext } from "../../contexts/cart";
 import Modal from "react-modal";
 import {
   IoClose,
-  IoAddSharp,
   IoCardSharp,
   IoCashSharp,
   IoCheckmarkSharp,
@@ -42,6 +41,7 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
     style: "currency",
     currency: "BRL",
   };
+
   let taxaEntrega = 4.99;
   const customStyles = {
     content: {
@@ -145,13 +145,6 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
                 }}
               >
                 <h2>Produtos</h2>
-                <button
-                  className="btnAddProduto"
-                  onClick={() => setIsOpenCarrinho(false)}
-                >
-                  <IoAddSharp size={32} color="eba200" />
-                  &nbsp;Adicionar Produtos
-                </button>
               </div>
               {arrayCart.length > 0 ? (
                 arrayCart.map((item, index) => {

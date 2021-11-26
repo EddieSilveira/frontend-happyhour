@@ -12,6 +12,7 @@ export const SideBarDashboard = styled.aside`
   min-height: 100vh;
   width: 20%;
   background-color: #ffeec8;
+  background-image: #ffeec8;
   box-shadow: inset -2px 0 3px #eba200;
 `;
 export const WrapperAvatar = styled.div`
@@ -37,6 +38,7 @@ export const WrapperButtonSideBar = styled.div`
     margin: 10px auto;
     padding: 10px auto;
     background-color: transparent;
+    background-image: transparent;
     color: #00389e;
     font-weight: bold;
     border: none;
@@ -47,6 +49,7 @@ export const WrapperButtonSideBar = styled.div`
     }
     &:hover {
       background-color: #00389e;
+      background-image: #00389e;
       opacity: 1;
       color: #eba200;
     }
@@ -61,6 +64,7 @@ export const NavDashboard = styled.div`
   width: 100%;
   height: 10%;
   background-color: #00389e;
+  background-image: #00389e;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -76,6 +80,7 @@ export const NavDashboard = styled.div`
     align-items: center;
     border: none;
     background-color: transparent;
+    background-image: transparent;
     color: #ccc;
     margin: 0 8px 0 16px;
     &:hover {
@@ -89,6 +94,7 @@ export const NavDashboard = styled.div`
 export const ContentDashboard = styled.div`
   height: 90%;
   background-color: #fff;
+  background-image: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -101,6 +107,7 @@ export const ContentDashboard = styled.div`
       width: 100%;
       height: 15%;
       background-color: #eba200;
+      background-image: #eba200;
       display: block;
     }
   }
@@ -112,6 +119,7 @@ export const WrapperButtonAdd = styled.div`
   justify-content: flex-end;
   button {
     background-color: transparent;
+    background-image: transparent;
     border: 3px solid #eba200;
     padding: 8px;
     margin: 16px 0;

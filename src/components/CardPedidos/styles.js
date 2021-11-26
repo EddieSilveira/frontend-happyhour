@@ -11,6 +11,7 @@ export const ContainerCardPedidos = styled.div`
   justify-content: space-evenly;
   h2 {
     width: 100%;
+    font-size: 16px;
   }
 `;
 

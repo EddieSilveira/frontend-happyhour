@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import imgLogo from "../../assets/image-logo-happyhour.png";
 import { AuthContext } from "../../contexts/auth";
 import imgPresentation300 from "../../assets/presentation-image-300.png";
@@ -29,9 +29,11 @@ import { MdDeliveryDining, MdLocalBar } from "react-icons/md";
 
 import Card from "../../components/Card/Card";
 import Footer from "../../components/Footer/Footer";
+import ModalCarrinho from "../../components/ModalCarrinho/ModalCarrinho";
 
 const Home = () => {
   const { authenticated, objUsuarioAtivo } = useContext(AuthContext);
+  const [isOpenCarrinho, setIsOpenCarrinho] = useState(false);
 
   const history = useHistory();
   useEffect(() => {
@@ -48,7 +50,9 @@ const Home = () => {
         </Logo>
         <LinksList>
           <ItemList>
-            <button onClick={() => history.push("/")}>&nbsp;INICIO</button>
+            <button onClick={() => setIsOpenCarrinho(true)}>
+              &nbsp;CARRINHO
+            </button>
           </ItemList>
           <ItemList>
             <button onClick={() => history.push("/products")}>
@@ -108,18 +112,18 @@ const Home = () => {
           </h5>
           <ContainerItemsPedidos>
             <span>
-              <IoDownload
-                size={30}
-                style={{ margin: "15px auto", color: "#00389e" }}
-              />
-              Baixe já nosso aplicativo na PlayStore!
-            </span>
-            <span>
               <IoPersonCircle
                 size={30}
                 style={{ margin: "15px auto", color: "#00389e" }}
               />
               Cadastre sua conta para fazer seus pedidos.
+            </span>
+            <span>
+              <IoDownload
+                size={30}
+                style={{ margin: "15px auto", color: "#00389e" }}
+              />
+              Faça seu login para realizar pedidos.
             </span>
             <span>
               <IoCheckbox
@@ -157,28 +161,28 @@ const Home = () => {
           <p>
             Somos uma adega tradicional há mais de 10 anos no mercado oferecendo
             bebidas alcoólicas e sem alcool, alimentos, aperitivos, porções e
-            muito mais.
+            muito mais. Com
+          </p>
+          <p>
+            Com o momento em que estamos vivendo decidimos investir em
+            tecnologia, e aderir ao e-commerce, visando a maior segurança e
+            comodidade dos nossos clientes, parceiros e funcionários.
           </p>
           <p>
             Além do sistema delivery onde pode fazer o pedido em sua casa, você
             também pode vir até ao nosso estabelecimento comprar seus produtos
-            presencialmente, assim como também contamos com uma área para
-            consumo, onde servimos de bebidas alcoólicas e não alcoólicas a
-            porções.
-          </p>
-          <p>
-            Contamos também com shows ao vivo de cantores e bandas locais para
-            animar suas noites de fim de semana!
-          </p>
-          <p>
-            Com a pandemia atualmente, o ambiente para consumo está restrito a
-            uma pequena quantidade de pessoas(atualmente), podendo mudar de
-            acordo com as recomendações das instituições governamentais,
-            presando pela vida e pela saúde de nossos funcionários e clientes.
+            presencialmente, seguindo as recomendações de segurança e limitação
+            do número de pessoas no estabelecimento. Podendo mudar de acordo com
+            as recomendações das instituições governamentais, prezando pela vida
+            e pela saúde de nossos funcionários e clientes.
           </p>
         </ContainerQuemSomos>
         <Footer />
       </Container>
+      <ModalCarrinho
+        isOpenCarrinho={isOpenCarrinho}
+        setIsOpenCarrinho={setIsOpenCarrinho}
+      />
     </div>
   );
 };

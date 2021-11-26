@@ -62,6 +62,7 @@ export const WrapperButtonSave = styled.div`
     color: #00389e;
     margin-top: 20px;
     background-color: transparent;
+    background-image: transparent;
     border: 3px solid #00389e;
     font-weight: bold;
     cursor: pointer;
@@ -70,6 +71,7 @@ export const WrapperButtonSave = styled.div`
     &:hover {
       color: #00389e;
       background-color: #eba200;
+      background-image: #eba200;
     }
   }
 `;

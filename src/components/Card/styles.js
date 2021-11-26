@@ -1,10 +1,11 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const ContainerCard = styled.div`
   width: 250px;
   height: 380px;
   border: 2px solid #ffeec8;
   background-color: #fff;
+  background-image: #fff;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
   border-radius: 12px;
   padding: 20px;
@@ -18,10 +19,10 @@ export const ContainerCard = styled.div`
 export const ImageCard = styled.img`
   display: flex;
   background-color: #000;
+  background-image: #000;
   justify-content: center;
   max-width: 70%;
   max-height: 70%;
-
 `;
 
 export const ContainerDescriptionCard = styled.div`
@@ -33,11 +34,11 @@ export const ContainerDescriptionCard = styled.div`
   margin: 8px 0;
   flex-wrap: wrap;
   span {
-    color: #3E4033;
+    color: #3e4033;
     font-weight: bold;
   }
   .valorProduto {
-    color:  #00389e;
+    color: #00389e;
     font-size: 15px;
   }
 `;
@@ -54,6 +55,7 @@ export const ButtonCard = styled.button`
   padding: 10px;
   margin-top: 5px;
   background-color: transparent;
+  background-image: transparent;
   color: #eba200;
   font-weight: bold;
   display: flex;
@@ -63,7 +65,8 @@ export const ButtonCard = styled.button`
   border-radius: 12px;
   cursor: pointer;
   &:hover {
-    color: #00389e; 
-    background-color: #eba200;   
+    color: #00389e;
+    background-color: #eba200;
+    background-image: #eba200;
   }
 `;

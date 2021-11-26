@@ -11,6 +11,7 @@ export const WrapperHeadModal = styled.div`
   button {
     border: none;
     background-color: transparent;
+    background-image: transparent;
     color: inherit;
     &:hover {
       color: #eba200;
@@ -58,6 +59,7 @@ export const ContainerProdutos = styled.div`
     height: 100%;
     font-size: 16px;
     background-color: transparent;
+    background-image: transparent;
     display: flex;
     align-items: center;
     font-weight: bold;
@@ -97,6 +99,7 @@ export const ContainerInfoPagamento = styled.div`
     height: 100%;
     font-size: 16px;
     background-color: transparent;
+    background-image: transparent;
     display: flex;
     align-items: center;
     font-weight: bold;
@@ -135,6 +138,7 @@ export const ContainerInfoEndereco = styled.div`
     height: 100%;
     font-size: 16px;
     background-color: transparent;
+    background-image: transparent;
     display: flex;
     align-items: center;
     font-weight: bold;
@@ -163,7 +167,7 @@ export const WrapperFormEndereco = styled.div`
   display: flex;
   flex-direction: column;
   padding: 4px;
-  width: 45%;
+
   /* Chrome, Safari, Edge, Opera */
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
@@ -199,6 +203,7 @@ export const WrapperButtonPagamento = styled.div`
     border-radius: 12px;
     border: none;
     background-color: #eba200;
+    background-image: #eba200;
     color: #00389e;
     font-weight: bold;
     line-height: 1.4;
@@ -237,10 +242,12 @@ export const WrapperFormaPagamento = styled.div`
     display: flex;
     align-items: center;
     background-color: transparent;
+    background-image: transparent;
     border: none;
     &:hover {
       cursor: pointer;
       background-color: #ccc;
+      background-image: #ccc;
     }
   }
 `;

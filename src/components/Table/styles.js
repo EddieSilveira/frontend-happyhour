@@ -12,6 +12,7 @@ export const StyledTable = styled.table`
     height: 60px;
     text-transform: uppercase;
     background-color: #00389e;
+    background-image: #00389e;
     color: #ccc;
     padding: 8px;
   }
@@ -21,11 +22,13 @@ export const StyledTable = styled.table`
 
       &:hover {
         background-color: #ccc;
+        background-image: #ccc;
       }
       button {
         padding: 8px;
         border: none;
         background-color: transparent;
+        background-image: transparent;
         color: #00389e;
         transition: linear 0.3s;
         &:hover {
