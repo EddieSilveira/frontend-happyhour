@@ -29,6 +29,7 @@ import ModalCarrinho from "../../components/ModalCarrinho/ModalCarrinho";
 import { useOutsideModal } from "../../hooks/outsideModal";
 import { AuthContext } from "../../contexts/auth";
 import { useHistory } from "react-router-dom";
+import { BACKEND } from "../../constants";
 
 const Products = () => {
   const [viewCategoriaCerveja, setViewCategoriaCerveja] = useState(true);
@@ -36,13 +37,31 @@ const Products = () => {
   const [viewCategoriaVinhos, setViewCategoriaVinhos] = useState(false);
   const [viewCategoriaNoAlcool, setViewCategoriaNoAlcool] = useState(false);
   const [viewCategoriaDiversos, setViewCategoriaDiversos] = useState(false);
+  const [listaOfertas, setListaOfertas] = useState();
   const { visible, setVisible, ref } = useOutsideModal;
   const [isOpenCarrinho, setIsOpenCarrinho] = useState(false);
   const history = useHistory();
-  const { signOut, authenticated, objUsuarioAtivo } = useContext(AuthContext);
+  const { signOut, authenticated, objUsuarioAtivo, token } =
+    useContext(AuthContext);
 
   useEffect(() => {
     document.title = "HappyHour - Produtos";
+
+    const loadData = async (url) => {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Accepts: "application/json",
+          "x-access-token": token,
+        },
+        mode: "cors",
+      });
+      const data = await response.json();
+      const listaOfertas = data.filter((produto) => produto.isOferta);
+      setListaOfertas(listaOfertas);
+    };
+
+    loadData(`${BACKEND}/produtos`);
   }, []);
 
   return (
@@ -94,9 +113,9 @@ const Products = () => {
         <SectionOfertas>
           <h2>Ofertas</h2>
           <WrapperItensOferta>
-            <Card />
-            <Card />
-            <Card />
+            {listaOfertas?.map((produto, index) => (
+              <Card key={index} produto={produto} />
+            ))}
           </WrapperItensOferta>
         </SectionOfertas>
         <SectionProdutos>

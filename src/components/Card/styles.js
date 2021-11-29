@@ -27,15 +27,16 @@ export const ImageCard = styled.img`
 
 export const ContainerDescriptionCard = styled.div`
   display: flex;
-  height: 40%;
+  height: 100%;
   justify-content: space-evenly;
   align-items: flex-end;
-
   margin: 8px 0;
   flex-wrap: wrap;
   span {
+    width: 100%;
     color: #3e4033;
     font-weight: bold;
+    text-align: center;
   }
   .valorProduto {
     color: #00389e;

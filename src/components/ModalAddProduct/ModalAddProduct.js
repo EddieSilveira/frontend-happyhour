@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { BACKEND } from '../../constants';
-import { AuthContext } from '../../contexts/auth';
-import Modal from 'react-modal';
-import { IoClose, IoSave } from 'react-icons/io5';
-import { WrapperHeadModal, Form, WrapperButton, Column } from './styles.js';
-Modal.setAppElement('#root');
+import React, { useState, useEffect, useContext } from "react";
+import { BACKEND } from "../../constants";
+import { AuthContext } from "../../contexts/auth";
+import Modal from "react-modal";
+import { IoClose, IoSave } from "react-icons/io5";
+import { WrapperHeadModal, Form, WrapperButton, Column } from "./styles.js";
+Modal.setAppElement("#root");
 
 const ModalAddProduct = ({
   isOpen,
@@ -16,45 +16,46 @@ const ModalAddProduct = ({
 }) => {
   const { token, loading, setLoading } = useContext(AuthContext);
   const [dataForm, setDataForm] = useState({
-    nome: '',
-    descricao: '',
-    volume: '',
-    teor: '',
-    categoria: '',
-    quantidade: '',
-    valor: '',
-    status: '',
+    nome: "",
+    descricao: "",
+    volume: "",
+    teor: "",
+    categoria: "",
+    quantidade: "",
+    valor: "",
+    status: "",
+    isOferta: false,
     foto: {
-      originalName: '',
-      path: '',
-      size: '',
-      mimetype: '',
+      originalName: "",
+      path: "",
+      size: "",
+      mimetype: "",
     },
   });
   useEffect(() => {
-    document.title = 'HappyHour - Admin';
+    document.title = "HappyHour - Admin";
   }, []);
 
   const customStyles = {
     content: {
-      minWidth: '40%',
-      minHeight: '40%',
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
+      minWidth: "40%",
+      minHeight: "40%",
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
     },
   };
 
   async function imageUpload(file) {
     let url = `${BACKEND}/upload`;
     const data = new FormData();
-    data.append('file', file, file.name);
+    data.append("file", file, file.name);
 
     const imageResponse = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       body: data,
     }).then((response) => response.json());
     const picture = {
@@ -65,7 +66,7 @@ const ModalAddProduct = ({
     };
     return picture;
   }
-  
+
   async function handleChange(e) {
     const { name, value } = e.target;
     if (e.target.files) {
@@ -82,15 +83,15 @@ const ModalAddProduct = ({
   }
 
   async function addProduct() {
-    console.log(dataForm)
+    console.log(dataForm);
     setLoading(true);
     let url = `${BACKEND}/produtos`;
     await fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'x-access-token': token,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "x-access-token": token,
       },
       body: JSON.stringify(dataForm),
     })
@@ -99,26 +100,26 @@ const ModalAddProduct = ({
         loadData(`${BACKEND}/produtos`);
         handleCloseModal();
         setLoading(false);
-        console.log(data)
+        console.log(data);
       })
       .catch(function (error) {
         console.error(
-          'Houve um problema ao excluir a categoria: ' + error.message,
+          "Houve um problema ao excluir a categoria: " + error.message
         );
       });
     setLoading(false);
   }
 
-  function toggleisActive(){
-    if(dataForm.status === '' || dataForm.status === "inativo"){
+  function toggleisActive() {
+    if (dataForm.status === "" || dataForm.status === "inativo") {
       setDataForm({
         ...dataForm,
-        status: 'ativo'
+        status: "ativo",
       });
-    }else{
+    } else {
       setDataForm({
         ...dataForm,
-        status: 'inativo'
+        status: "inativo",
       });
     }
   }
@@ -146,14 +147,13 @@ const ModalAddProduct = ({
             value={dataForm.nome}
             onChange={handleChange}
           />
-             <label htmlFor="inputAddDescricao">Descrição: </label>
+          <label htmlFor="inputAddDescricao">Descrição: </label>
           <textarea
             type="text"
             id="inputAddDescricao"
             name="descricao"
             value={dataForm.descricao}
             onChange={handleChange}
-            
           />
           <label htmlFor="inputAddCategoria">Categoria:</label>
           <input
@@ -163,64 +163,96 @@ const ModalAddProduct = ({
             value={dataForm.categoria}
             onChange={handleChange}
           />
-          <div style={{display: 'flex', width: '100%', justifyContent: 'space-between'}}>
-          <Column>
-            <label htmlFor="inputAddVolume">Volume:</label>
-            <input
-              type="text"
-              id="inputAddVolume"
-              name="volume"
-              value={dataForm.volume}
-              onChange={handleChange}
-            />
-            <label htmlFor="inputAddTeor">Teor Alcoólico: </label>
-            <input
-              type="number"
-              id="inputAddTeor"
-              name="teor"
-              value={dataForm.teor}
-              onChange={handleChange}
-            />
-             </Column>
-             <Column>
-            <label htmlFor="inputAddQuantidade">Quantidade: </label>
-            <input
-              type="number"
-              id="inputAddQuantidade"
-              name="quantidade"
-              value={dataForm.quantidade}
-              onChange={handleChange}
-            />
-            <label htmlFor="inputAddValor">Valor: </label>
-            <input
-              type="number"
-              id="inputAddValor"
-              value={dataForm.valor}
-              name="valor"
-              onChange={handleChange}
-            />
-             </Column>
-             </div>
-             <Column>
-              <label htmlFor="file">Foto do Produto (com fundo branco ou transparente)</label>
-                <input
-                  type="file"
-                  id="file"
-                  name="file"
-                  accept="image/*, .pdf"
-                  onChange={handleChange}
-                />
-                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                  <label htmlFor="inputAddStatus">Status (Marque se estiver ativo): </label>
-                  <input
-                    type="checkbox"
-                    id="inputAddStatus"
-                    name="status"
-                    value={dataForm.status}
-                    onChange={toggleisActive}
-                  />
-                  </div>
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "space-between",
+            }}
+          >
+            <Column>
+              <label htmlFor="inputAddVolume">Volume:</label>
+              <input
+                type="text"
+                id="inputAddVolume"
+                name="volume"
+                value={dataForm.volume}
+                onChange={handleChange}
+              />
+              <label htmlFor="inputAddTeor">Teor Alcoólico: </label>
+              <input
+                type="number"
+                id="inputAddTeor"
+                name="teor"
+                value={dataForm.teor}
+                onChange={handleChange}
+              />
             </Column>
+            <Column>
+              <label htmlFor="inputAddQuantidade">Quantidade: </label>
+              <input
+                type="number"
+                id="inputAddQuantidade"
+                name="quantidade"
+                value={dataForm.quantidade}
+                onChange={handleChange}
+              />
+              <label htmlFor="inputAddValor">Valor: </label>
+              <input
+                type="number"
+                id="inputAddValor"
+                value={dataForm.valor}
+                name="valor"
+                onChange={handleChange}
+              />
+            </Column>
+          </div>
+
+          <Column>
+            <label htmlFor="file">
+              Foto do Produto (com fundo branco ou transparente)
+            </label>
+            <input
+              type="file"
+              id="file"
+              name="file"
+              accept="image/*, .pdf"
+              onChange={handleChange}
+            />
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <label htmlFor="inputAddOferta">Oferta:</label>
+              <input
+                type="checkbox"
+                id="inputAddOferta"
+                name="oferta"
+                value={dataForm.isOferta}
+                checked={dataForm.isOferta}
+                onChange={() =>
+                  setDataForm({
+                    ...dataForm,
+                    isOferta: !dataForm.isOferta,
+                  })
+                }
+              />
+              <label htmlFor="inputAddStatus">
+                Status (Marque se estiver ativo):{" "}
+              </label>
+              <input
+                type="checkbox"
+                id="inputAddStatus"
+                name="status"
+                value={dataForm.status}
+                onChange={toggleisActive}
+              />
+            </div>
+          </Column>
           <WrapperButton>
             <button type="submit">
               <IoSave />

@@ -78,7 +78,7 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
 
   async function requestPedido(objPedido) {
     const url = `${BACKEND}/pedidos`;
-    console.log(objPedido);
+
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -90,6 +90,7 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
     });
     const data = await response.json();
     console.log(data);
+    setIsOpenCarrinho(false);
   }
 
   async function handleSubmit() {
@@ -97,7 +98,6 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
 
     setFormPedido((prevState) => ({
       ...prevState,
-      valorPedido: (valorProdutos + taxaEntrega).toFixed(2),
       formaPagamento: formaPagamento,
       stateTroco: stateTroco,
       valueTroco: valueTroco,
@@ -106,6 +106,7 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
     let objPedido = {
       produtos: arrayCart,
       infoPedido: formPedido,
+      valorPedido: valorProdutos + taxaEntrega,
     };
 
     requestPedido(objPedido);

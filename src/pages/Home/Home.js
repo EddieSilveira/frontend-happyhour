@@ -3,6 +3,7 @@ import imgLogo from "../../assets/image-logo-happyhour.png";
 import { AuthContext } from "../../contexts/auth";
 import imgPresentation300 from "../../assets/presentation-image-300.png";
 import { useHistory } from "react-router-dom";
+import { BACKEND } from "../../constants";
 import {
   Nav,
   Logo,
@@ -32,12 +33,30 @@ import Footer from "../../components/Footer/Footer";
 import ModalCarrinho from "../../components/ModalCarrinho/ModalCarrinho";
 
 const Home = () => {
-  const { authenticated, objUsuarioAtivo } = useContext(AuthContext);
+  const { authenticated, objUsuarioAtivo, token } = useContext(AuthContext);
   const [isOpenCarrinho, setIsOpenCarrinho] = useState(false);
+  const [listaOfertas, setListaOfertas] = useState();
 
   const history = useHistory();
+
   useEffect(() => {
     document.title = "HappyHour - Início";
+
+    const loadData = async (url) => {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Accepts: "application/json",
+          "x-access-token": token,
+        },
+        mode: "cors",
+      });
+      const data = await response.json();
+      const listaOfertas = data.filter((produto) => produto.isOferta);
+      setListaOfertas(listaOfertas);
+    };
+
+    loadData(`${BACKEND}/produtos`);
   }, []);
 
   return (
@@ -97,9 +116,9 @@ const Home = () => {
           <Title color="#00389e">
             <h2>PROMOÇÕES</h2>
           </Title>
-          <Card />
-          <Card />
-          <Card />
+          {listaOfertas?.map((produto, index) => (
+            <Card key={index} produto={produto} />
+          ))}
         </ContainerSectionOfertas>
 
         <ContainerSectionPedidos>
@@ -148,7 +167,13 @@ const Home = () => {
             </span>
           </ContainerItemsPedidos>
 
-          <button>
+          <button
+            onClick={() =>
+              authenticated
+                ? history.push("/products")
+                : history.push("/signin")
+            }
+          >
             SAIBA MAIS&nbsp;
             <IoArrowForwardCircleSharp size={24} />
           </button>

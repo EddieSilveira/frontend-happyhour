@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import ptBR from "date-fns/locale/pt-BR";
+import * as yup from "yup";
 import {
   Container,
   ContainerForm,
@@ -41,26 +42,54 @@ const SignUp = () => {
 
   const { authenticated, signIn } = useContext(AuthContext);
   const [dataNascimento, setDataNascimento] = useState(new Date());
+  const [erro, setErro] = useState("");
   registerLocale("ptBR", ptBR);
   let dataLocalizada = dataNascimento.toLocaleDateString("pt-BR");
-  console.log(dataLocalizada);
+
+  let signUpSchema = yup.object().shape({
+    nome: yup.string().required(),
+    email: yup.string().email().required(),
+    senha: yup.string().required(),
+    cpf: yup
+      .string()
+      .required()
+      .matches(/^[0-9]+$/, "Apenas dígitos")
+      .min(11, "O cpf deve ter 11 caracteres")
+      .max(11, "O cpf deve ter 11 caracteres"),
+
+    rua: yup.string().required(),
+    numero: yup.number().required(),
+    bairro: yup.string().required(),
+    cidade: yup.string().required(),
+    telefone: yup.number().required(),
+    cep: yup.string().required(),
+    dataNascimento: yup.string().required(),
+    nivelAcesso: yup.number().required(),
+  });
 
   async function handleSubmit(e) {
     e.preventDefault();
     dataForm.dataNascimento = dataLocalizada;
+    const validate = await signUpSchema
+      .isValid(dataForm)
+      .then((valid) => valid);
+    console.log(validate);
+    if (validate) {
+      let url = `${BACKEND}/cadastro`;
 
-    let url = `${BACKEND}/cadastro`;
-
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(dataForm),
-    });
-    const data = await response.json();
-    console.log(data);
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(dataForm),
+      });
+      const data = await response.json();
+      console.log(data);
+    } else {
+      setErro("Preencha os campos corretamente!");
+    }
   }
 
   async function imageUpload(file) {
@@ -104,6 +133,20 @@ const SignUp = () => {
             <img src={imgLogo} type="image/png" alt="logo-happyhour" />
           </a>
         </WrapperLogo>
+        {erro && (
+          <div
+            style={{
+              width: "70%",
+              marginBottom: "8px",
+              display: "flex",
+              justifyContent: "flex-end",
+              color: "#eba200",
+              fontWeight: "bold",
+            }}
+          >
+            <span>{erro}</span>
+          </div>
+        )}
         <Form onSubmit={handleSubmit}>
           <input
             type="text"

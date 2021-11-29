@@ -65,11 +65,20 @@ const CardCarrinho = ({ produto }) => {
               >
                 -
               </ButtonCard>
-              <span>{contadorQuantidade}</span>
+              <div style={{ display: "flex" }}>
+                <span>{contadorQuantidade}</span>
+              </div>
               <ButtonCard
                 onClick={() => {
-                  produto[1].quantity += 1;
-                  setContadorQuantidade(contadorQuantidade + 1);
+                  console.log(produto[1].produto.quantidade);
+                  if (contadorQuantidade >= produto[1].produto.quantidade) {
+                    alert(
+                      `Quantidade disponível desse produto: ${produto[1].produto.quantidade}`
+                    );
+                  } else {
+                    produto[1].quantity += 1;
+                    setContadorQuantidade(contadorQuantidade + 1);
+                  }
                 }}
               >
                 +

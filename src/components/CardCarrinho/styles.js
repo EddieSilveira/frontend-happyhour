@@ -39,12 +39,14 @@ export const ImageCard = styled.img`
 
 export const ContainerDescriptionCard = styled.div`
   display: flex;
+  width: 100%;
   height: 100%;
   justify-content: space-evenly;
   align-items: center;
   margin: 8px 0;
   flex-wrap: wrap;
   span {
+    width: 30%;
     font-weight: bold;
     margin: 8px;
   }
@@ -59,7 +61,9 @@ export const ContainerDescriptionCard = styled.div`
 
 export const ContainerButtonCard = styled.div`
   display: flex;
-  justify-content: center;
+  height: 100%;
+  flex: 1;
+  justify-content: space-around;
   align-items: center;
   margin-bottom: 10px;
 `;

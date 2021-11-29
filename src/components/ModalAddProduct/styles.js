@@ -74,6 +74,7 @@ export const WrapperButton = styled.div`
     background-image: #eba200;
     font-weight: bold;
     transition: linear 0.4s;
+    border-radius: 5px;
     &:hover {
       height: 35px;
       width: 85px;

@@ -4,6 +4,8 @@ import imgLogo from "../../assets/image-logo-happyhour.png";
 import Loader from "react-loader-spinner";
 import { IoLogIn } from "react-icons/io5";
 import { useHistory } from "react-router-dom";
+import * as yup from "yup";
+
 import {
   Container,
   ContainerForm,
@@ -21,6 +23,7 @@ const SignIn = () => {
     password: "",
     isRemember: "",
   });
+  const [erro, setErro] = useState("");
   const {
     authenticated,
     setAuthenticated,
@@ -33,6 +36,11 @@ const SignIn = () => {
   const inputemail = useRef(null);
   const inputpassword = useRef(null);
   const [isRemember, setIsRemember] = useState(false);
+
+  let loginSchema = yup.object().shape({
+    email: yup.string().email().required(),
+    password: yup.string().required(),
+  });
 
   function getCookie(cookie) {
     let cookieName = " " + cookie + "=";
@@ -66,10 +74,14 @@ const SignIn = () => {
 
   async function handleClick(e) {
     setLoading(true);
-    console.log(dataForm);
     e.preventDefault();
     dataForm.isRemember = isRemember;
-    signIn(dataForm);
+    const validate = await loginSchema.isValid(dataForm).then((valid) => valid);
+    if (validate) {
+      signIn(dataForm);
+    } else {
+      setErro("Digite valores válidos!");
+    }
     setLoading(false);
   }
 
@@ -114,6 +126,20 @@ const SignIn = () => {
             name="password"
             ref={inputpassword}
           />
+          {erro && (
+            <div
+              style={{
+                width: "70%",
+                marginTop: "8px",
+                display: "flex",
+                justifyContent: "flex-end",
+                color: "#eba200",
+                fontWeight: "bold",
+              }}
+            >
+              <span>{erro}</span>
+            </div>
+          )}
           <ContainerNavigation>
             <Row>
               <WrapperCheckbox>

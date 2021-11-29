@@ -17,6 +17,11 @@ import {
 } from "./styles.js";
 import { BACKEND } from "../../constants";
 Modal.setAppElement("#root");
+let formatoMoeda = {
+  minimumFractionDigits: 2,
+  style: "currency",
+  currency: "BRL",
+};
 
 const ModalDetalhesProduto = ({
   isOpenDetalhes,
@@ -27,7 +32,7 @@ const ModalDetalhesProduto = ({
   loadData,
   produto,
 }) => {
-  const [contadorQuantidade, setContadorQuantidade] = useState(0);
+  const [contadorQuantidade, setContadorQuantidade] = useState(1);
   const { cart, addToCart } = useContext(CartContext);
   const { authenticated } = useContext(AuthContext);
   const history = useHistory();
@@ -56,98 +61,105 @@ const ModalDetalhesProduto = ({
     setIsOpenDetalhes(false);
     setContadorQuantidade(0);
   }
+  if (produto) {
+    return (
+      <>
+        {produto && (
+          <Modal
+            isOpen={isOpenDetalhes}
+            onRequestClose={handleCloseModal}
+            style={customStyles}
+          >
+            <WrapperHeadModal>
+              <h2>Detalhes</h2>
+              <button onClick={() => setIsOpenDetalhes(false)}>
+                <IoClose size={18} />
+              </button>
+            </WrapperHeadModal>
+            {produto && (
+              <ContainerPrincipal>
+                <WrapperCoreDetalhes>
+                  <h1>{produto.nome}</h1>
+                  {produto && <h2>{produto.valor}</h2>}
+                  <WrapperDetalhes>
+                    <Column>
+                      <h2>Categoria</h2>
+                      <span>{produto && produto.categoria}</span>
+                    </Column>
+                    <Column>
+                      <h2>Volume</h2>
+                      <span>{produto && produto.volume}</span>
+                    </Column>
+                    <Column>
+                      <h2>Teor Alcoólico</h2>
+                      <span>{produto && produto.teor}%</span>
+                    </Column>
+                    <WrapperDescricaoDetalhes>
+                      <h2>Descrição</h2>
+                      <p>{produto && produto.descricao}</p>
+                      {authenticated && (
+                        <WrapperQuantidade>
+                          <h2>Quantidade</h2>
+                          <button
+                            onClick={() => {
+                              if (contadorQuantidade >= 0)
+                                setContadorQuantidade(contadorQuantidade - 1);
+                            }}
+                          >
+                            -
+                          </button>
+                          <span>{contadorQuantidade}</span>
+                          <button
+                            onClick={() => {
+                              if (contadorQuantidade >= produto.quantidade) {
+                                alert(
+                                  `Quantidade disponível desse produto: ${produto.quantidade}`
+                                );
+                              } else {
+                                setContadorQuantidade(contadorQuantidade + 1);
+                              }
+                            }}
+                          >
+                            +
+                          </button>
+                        </WrapperQuantidade>
+                      )}
+                    </WrapperDescricaoDetalhes>
 
-  return (
-    <>
-      {produto && (
-        <Modal
-          isOpen={isOpenDetalhes}
-          onRequestClose={handleCloseModal}
-          style={customStyles}
-        >
-          <WrapperHeadModal>
-            <h2>Detalhes</h2>
-            <button onClick={() => setIsOpenDetalhes(false)}>
-              <IoClose size={18} />
-            </button>
-          </WrapperHeadModal>
-          {produto && (
-            <ContainerPrincipal>
-              <WrapperCoreDetalhes>
-                <h1>{produto.nome}</h1>
-                <h2>R$ {produto.valor}</h2>
-                <WrapperDetalhes>
-                  <Column>
-                    <h2>Categoria</h2>
-                    <span>{produto && produto.categoria}</span>
-                  </Column>
-                  <Column>
-                    <h2>Volume</h2>
-                    <span>{produto && produto.volume}</span>
-                  </Column>
-                  <Column>
-                    <h2>Teor Alcoólico</h2>
-                    <span>{produto && produto.teor}%</span>
-                  </Column>
-                  <WrapperDescricaoDetalhes>
-                    <h2>Descrição</h2>
-                    <p>{produto && produto.descricao}</p>
-                    {authenticated && (
-                      <WrapperQuantidade>
-                        <h2>Quantidade</h2>
-                        <button
-                          onClick={() => {
-                            if (contadorQuantidade >= 0)
-                              setContadorQuantidade(contadorQuantidade - 1);
-                          }}
-                        >
-                          -
+                    <WrapperButtonDetalhes>
+                      {authenticated ? (
+                        <button onClick={addProduct}>
+                          Adicionar ao carrinho
                         </button>
-                        <span>{contadorQuantidade}</span>
-                        <button
-                          onClick={() =>
-                            setContadorQuantidade(contadorQuantidade + 1)
-                          }
-                        >
-                          +
-                        </button>
-                      </WrapperQuantidade>
-                    )}
-                  </WrapperDescricaoDetalhes>
-
-                  <WrapperButtonDetalhes>
-                    {authenticated ? (
-                      <button onClick={addProduct}>
-                        Adicionar ao carrinho
-                      </button>
-                    ) : (
-                      <div>
-                        <button onClick={() => history.push("/signin")}>
-                          Login
-                        </button>
-                      </div>
-                    )}
-                  </WrapperButtonDetalhes>
-                </WrapperDetalhes>
-              </WrapperCoreDetalhes>
-              {produto.foto && (
-                <img
-                  src={
-                    produto
-                      ? `${BACKEND}/${produto.foto.path}`
-                          .replace("public\\", "files/")
-                          .replace("uploads\\", "")
-                      : beerDefault
-                  }
-                  alt="imagem-detalhes-produtos"
-                />
-              )}
-            </ContainerPrincipal>
-          )}
-        </Modal>
-      )}
-    </>
-  );
+                      ) : (
+                        <div>
+                          <button onClick={() => history.push("/signin")}>
+                            Login
+                          </button>
+                        </div>
+                      )}
+                    </WrapperButtonDetalhes>
+                  </WrapperDetalhes>
+                </WrapperCoreDetalhes>
+                {produto.foto && (
+                  <img
+                    src={
+                      produto
+                        ? `${BACKEND}/${produto.foto.path}`
+                            .replace("public\\", "files/")
+                            .replace("uploads\\", "")
+                        : beerDefault
+                    }
+                    alt="imagem-detalhes-produtos"
+                  />
+                )}
+              </ContainerPrincipal>
+            )}
+          </Modal>
+        )}
+      </>
+    );
+  }
 };
 
 export default ModalDetalhesProduto;

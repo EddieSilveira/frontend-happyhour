@@ -38,7 +38,7 @@ const Footer = () => {
         </Row>
         <Row>
           <span>Endereço:</span>
-          <span>Rua Exemplo, 123. Bairro Teste</span>
+          <span>Rua Exemplo, 123. Bairro Ficticio</span>
         </Row>
         <Row>
           <span>E-mail:</span>

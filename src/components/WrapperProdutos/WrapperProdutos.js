@@ -10,7 +10,6 @@ const WrapperProdutos = ({ categoria }) => {
 
   function filtrarCategoria() {
     listaProdutos.forEach((item) => {
-      console.log(item);
       if (item.categoria === categoria) {
         listaFiltradaCategoria.push(item);
         return listaFiltradaCategoria;

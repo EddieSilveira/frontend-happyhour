@@ -1,13 +1,14 @@
 import styled from "styled-components";
 
-
 export const WrapperProdutosCategoria = styled.div`
   margin-top: 60px;
   display: flex;
-  justify-content: space-evenly;  
-    h2 { 
+  justify-content: space-evenly;
+  padding: 24px;
+  h2 {
     font-size: 24px;
     color: #00389e;
+
     &:before {
       border-right: solid 5px #eba200;
       border-left: solid 5px #eba200;
