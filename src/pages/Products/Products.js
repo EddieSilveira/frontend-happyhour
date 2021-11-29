@@ -41,8 +41,10 @@ const Products = () => {
   const { visible, setVisible, ref } = useOutsideModal;
   const [isOpenCarrinho, setIsOpenCarrinho] = useState(false);
   const history = useHistory();
-  const { signOut, authenticated, objUsuarioAtivo, token } =
-    useContext(AuthContext);
+  const { signOut, getCookie } = useContext(AuthContext);
+  const token = getCookie("token");
+  const stringUser = getCookie("user");
+  const user = JSON.parse(stringUser);
 
   useEffect(() => {
     document.title = "HappyHour - Produtos";
@@ -75,21 +77,17 @@ const Products = () => {
               <IoHomeSharp size={24} />
             </button>
             &nbsp;
-            {objUsuarioAtivo && (
+            {user && (
               <button onClick={() => setIsOpenCarrinho(true)}>
                 <IoCartSharp size={24} />
               </button>
             )}
             &nbsp;
-            {objUsuarioAtivo && (
+            {user && (
               <button
                 onClick={() =>
                   history.push(
-                    `${
-                      objUsuarioAtivo.nivelAcesso > 1
-                        ? "/dashboardadm"
-                        : "/dashboard"
-                    }`
+                    `${user.nivelAcesso > 1 ? "/dashboardadm" : "/dashboard"}`
                   )
                 }
               >
@@ -97,7 +95,7 @@ const Products = () => {
               </button>
             )}
             &nbsp;
-            {!objUsuarioAtivo ? (
+            {!user ? (
               <a href="/signin">
                 <button>
                   <IoLogIn size={24} />

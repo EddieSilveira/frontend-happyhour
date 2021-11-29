@@ -23,9 +23,12 @@ import Profile from "../../components/Profile/Profile";
 import ListPedidos from "../../components/ListPedidos/ListPedidos";
 
 const Dashboard = () => {
-  const { token, objUsuarioAtivo, signOut } = useContext(AuthContext);
+  const { getCookie, signOut } = useContext(AuthContext);
   const history = useHistory();
   const [loading, setLoading] = useState(false);
+  const token = getCookie("token");
+  const stringUser = getCookie("user");
+  const user = JSON.parse(stringUser);
   const [clientSelected, setClientSelected] = useState({
     backgroundColor: "#00389e",
     color: "#eba200",
@@ -97,12 +100,12 @@ const Dashboard = () => {
       <WrapperDashboard>
         <NavDashboard>
           <img
-            src={`${BACKEND}/${objUsuarioAtivo.foto.path}`
+            src={`${BACKEND}/${user.foto.path}`
               .replace("public\\", "files/")
               .replace("uploads\\", "")}
             alt="imagem-avatar-user"
           />
-          <h4>Olá, seja bem vindo(a)! &nbsp;{objUsuarioAtivo.nome}</h4>
+          <h4>Olá, seja bem vindo(a)! &nbsp;{user.nome}</h4>
           <div style={{ display: "flex" }}>
             <button onClick={() => history.push("/")}>
               <IoHomeSharp size={24} />

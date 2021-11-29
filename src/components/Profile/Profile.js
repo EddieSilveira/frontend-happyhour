@@ -10,18 +10,21 @@ import {
 import Loader from "react-loader-spinner";
 
 const Profile = () => {
-  const { token, objUsuarioAtivo, signOut } = useContext(AuthContext);
-  const [formData, setFormData] = useState(objUsuarioAtivo);
+  const { getCookie, signOut } = useContext(AuthContext);
+  const token = getCookie("token");
+  const stringUser = getCookie("user");
+  const user = JSON.parse(stringUser);
+  const [formData, setFormData] = useState(user);
   const [loadingAlteracoes, setLoadingAlteracoes] = useState(false);
 
   useEffect(() => {
     document.title = "HappyHour";
-    if (objUsuarioAtivo) {
-      const dataLocal = objUsuarioAtivo.dataNascimento.slice(0, 10);
+    if (user) {
+      const dataLocal = user.dataNascimento.slice(0, 10);
 
       setFormData((prevState) => ({
         ...prevState,
-        _id: objUsuarioAtivo.id,
+        _id: user.id,
         dataNascimento: dataLocal,
       }));
     }

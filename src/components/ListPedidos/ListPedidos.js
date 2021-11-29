@@ -7,15 +7,17 @@ import { AuthContext } from "../../contexts/auth";
 const ListPedidos = () => {
   const [listaPedidos, setListaPedidos] = useState([]);
   const [titleList, setTitleList] = useState(true);
-  const { objUsuarioAtivo } = useContext(AuthContext);
+  const { getCookie } = useContext(AuthContext);
+  const stringUser = getCookie("user");
+  const user = JSON.parse(stringUser);
 
   async function loadPedidos() {
     const url = `${BACKEND}/pedidos`;
     const response = await fetch(url);
     const data = await response.json();
-    if (objUsuarioAtivo.nivelAcesso < 999) {
+    if (user.nivelAcesso < 999) {
       const pedidosFiltrados = data.filter(
-        (item, index) => item.infoPedido.id === objUsuarioAtivo.id && item
+        (item, index) => item.infoPedido.id === user.id && item
       );
       setListaPedidos(pedidosFiltrados);
     } else {

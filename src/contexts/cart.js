@@ -22,7 +22,12 @@ const CartProvider = ({ children }) => {
           produto,
         },
       };
-      localStorage.setItem("cart", JSON.stringify(newCart));
+
+      let futureDate = new Date();
+      futureDate.setDate(futureDate.getDate() + 1);
+      document.cookie = `cart=${JSON.stringify(
+        newCart
+      )}; expires=${futureDate}`;
       return newCart;
     });
   };
@@ -40,7 +45,7 @@ const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+    <CartContext.Provider value={{ cart, setCart, addToCart, removeFromCart }}>
       {children}
     </CartContext.Provider>
   );

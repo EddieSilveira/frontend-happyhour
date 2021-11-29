@@ -33,11 +33,13 @@ import Footer from "../../components/Footer/Footer";
 import ModalCarrinho from "../../components/ModalCarrinho/ModalCarrinho";
 
 const Home = () => {
-  const { authenticated, objUsuarioAtivo, token } = useContext(AuthContext);
+  const { getCookie } = useContext(AuthContext);
   const [isOpenCarrinho, setIsOpenCarrinho] = useState(false);
   const [listaOfertas, setListaOfertas] = useState();
-
   const history = useHistory();
+  const token = getCookie("token");
+  const stringUser = getCookie("user");
+  const user = JSON.parse(stringUser);
 
   useEffect(() => {
     document.title = "HappyHour - Início";
@@ -79,13 +81,13 @@ const Home = () => {
             </button>
           </ItemList>
           <ItemList>
-            {!authenticated && (
+            {!token && (
               <button onClick={() => history.push("/signin")}>LOGIN</button>
             )}
           </ItemList>
-          {authenticated && (
+          {token && (
             <ItemList>
-              {objUsuarioAtivo.nivelAcesso > 1 ? (
+              {user.nivelAcesso > 1 ? (
                 <button onClick={() => history.push("/dashboardadm")}>
                   DASHBOARD
                 </button>
@@ -169,9 +171,7 @@ const Home = () => {
 
           <button
             onClick={() =>
-              authenticated
-                ? history.push("/products")
-                : history.push("/signin")
+              token ? history.push("/products") : history.push("/signin")
             }
           >
             SAIBA MAIS&nbsp;

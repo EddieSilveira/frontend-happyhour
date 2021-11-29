@@ -7,8 +7,6 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [authenticated, setAuthenticated] = useState(false);
-  const [token, setToken] = useState(null);
-  const [objUsuarioAtivo, setObjUsuarioAtivo] = useState({});
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
@@ -20,11 +18,20 @@ const AuthProvider = ({ children }) => {
     return token;
   };
 
-  function isEmpty(obj) {
-    for (var prop in obj) {
-      if (obj.hasOwnProperty(prop)) return false;
+  function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(";");
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == " ") {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
     }
-    return true;
+    return "";
   }
 
   async function signIn(dataForm) {
@@ -41,18 +48,23 @@ const AuthProvider = ({ children }) => {
       .then((response) => response.json())
       .then((data) => {
         if (data.auth) {
-          localStorage.setItem("token", JSON.stringify(data.token));
           setAuthenticated(true);
-          setToken(data.token);
           let user = jwtDecode(data.token);
-          localStorage.setItem("userAtivo", JSON.stringify(user));
+          let futureDate = new Date();
+          futureDate.setDate(futureDate.getDate() + 1);
+          document.cookie = `token=${data.token}; expires=${futureDate}`;
+          document.cookie = `user=${JSON.stringify(
+            user
+          )}; expires=${futureDate}`;
           if (dataForm.isRemember) {
-            let futureDate = new Date();
-            futureDate.setDate(futureDate.getDate() + 30);
-            document.cookie = `token=${data.token}; expires=${data}`;
-            document.cookie = `user=${JSON.stringify(user)}; expires=${data}`;
+            console.log(futureDate);
+            futureDate.setDate(futureDate.getDate() + 29);
+            document.cookie = `token=${data.token}; expires=${futureDate}`;
+            document.cookie = `user=${JSON.stringify(
+              user
+            )}; expires=${futureDate}`;
           }
-          setObjUsuarioAtivo(user);
+
           setLoading(false);
           if (user.nivelAcesso === 1) {
             history.push("/dashboard");
@@ -78,24 +90,22 @@ const AuthProvider = ({ children }) => {
       },
     });
     setAuthenticated(false);
-    localStorage.removeItem("token");
-    localStorage.removeItem("userAtivo");
-    setToken(null);
+
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+    document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+    document.cookie = "cart=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
     history.push("/signin");
   }
 
   return (
     <AuthContext.Provider
       value={{
-        objUsuarioAtivo,
-        setObjUsuarioAtivo,
-        authenticated,
         setAuthenticated,
         signIn,
         signOut,
-        token,
         loading,
         setLoading,
+        getCookie,
       }}
     >
       {children}

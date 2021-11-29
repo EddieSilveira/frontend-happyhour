@@ -30,15 +30,11 @@ import {
 import ListPedidos from "../../components/ListPedidos/ListPedidos";
 
 const DashboardAdmin = () => {
-  const {
-    token,
-    objUsuarioAtivo,
-    signOut,
-    loading,
-    setLoading,
-    authenticated,
-  } = useContext(AuthContext);
+  const { getCookie, signOut, loading, setLoading } = useContext(AuthContext);
   const history = useHistory();
+  const token = getCookie("token");
+  const stringUser = getCookie("user");
+  const user = JSON.parse(stringUser);
   const [isOpenProduct, setIsOpenProduct] = useState(false);
   const [isOpenClient, setIsOpenClient] = useState(false);
   const [viewPedidos, setViewPedidos] = useState(false);
@@ -136,24 +132,6 @@ const DashboardAdmin = () => {
         color: "#00389e",
       });
     }
-    if (textReplaced === "Configurações") {
-      setClientSelected({
-        backgroundColor: "transparent",
-        color: "#00389e",
-      });
-      setProductSelected({
-        backgroundColor: "transparent",
-        color: "#00389e",
-      });
-      setPedidosSelected({
-        backgroundColor: "transparent",
-        color: "#00389e",
-      });
-      setConfigSelected({
-        backgroundColor: "#00389e",
-        color: "#eba200",
-      });
-    }
   }
 
   const loadData = async (url) => {
@@ -207,23 +185,17 @@ const DashboardAdmin = () => {
               &nbsp;Pedidos
             </div>
           </button>
-          <button style={configSelected} onClick={stateLoadTable}>
-            <div>
-              <IoSettingsSharp size={16} />
-              &nbsp;Configurações
-            </div>
-          </button>
         </WrapperButtonSideBar>
       </SideBarDashboard>
       <WrapperDashboard>
         <NavDashboard>
           <img
-            src={`${BACKEND}/${objUsuarioAtivo.foto.path
+            src={`${BACKEND}/${user.foto.path
               .replace("public/", "files/")
               .replace("uploads/", "")}`}
             alt="avatar-user"
           />
-          <h4>Olá, seja bem vindo(a)! &nbsp;{objUsuarioAtivo.nome}</h4>
+          <h4>Olá, seja bem vindo(a)! &nbsp;{user.nome}</h4>
           <div style={{ display: "flex" }}>
             <button onClick={() => history.push("/")}>
               <IoHomeSharp size={24} />

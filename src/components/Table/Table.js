@@ -21,7 +21,8 @@ const Head = ({ keys, head }) => {
       value !== "__v" &&
       value !== "dataNascimento" &&
       value !== "cidade" &&
-      value !== "nivelAcesso"
+      value !== "nivelAcesso" &&
+      value !== "isOferta"
     );
   }
   const filtered = keys.filter(filterColumnsHead);
@@ -63,7 +64,8 @@ const Row = ({ record, loadData, title }) => {
       value !== "cep" &&
       value !== "cidade" &&
       value !== "dataNascimento" &&
-      value !== "nivelAcesso"
+      value !== "nivelAcesso" &&
+      value !== "isOferta"
     );
   }
 

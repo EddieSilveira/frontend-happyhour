@@ -34,8 +34,9 @@ const ModalDetalhesProduto = ({
 }) => {
   const [contadorQuantidade, setContadorQuantidade] = useState(1);
   const { cart, addToCart } = useContext(CartContext);
-  const { authenticated } = useContext(AuthContext);
+  const { getCookie } = useContext(AuthContext);
   const history = useHistory();
+  const token = getCookie("token");
 
   const customStyles = {
     content: {
@@ -97,7 +98,7 @@ const ModalDetalhesProduto = ({
                     <WrapperDescricaoDetalhes>
                       <h2>Descrição</h2>
                       <p>{produto && produto.descricao}</p>
-                      {authenticated && (
+                      {token && (
                         <WrapperQuantidade>
                           <h2>Quantidade</h2>
                           <button
@@ -127,7 +128,7 @@ const ModalDetalhesProduto = ({
                     </WrapperDescricaoDetalhes>
 
                     <WrapperButtonDetalhes>
-                      {authenticated ? (
+                      {token ? (
                         <button onClick={addProduct}>
                           Adicionar ao carrinho
                         </button>

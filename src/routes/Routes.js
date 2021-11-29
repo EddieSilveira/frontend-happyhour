@@ -1,17 +1,18 @@
-import React, { useContext } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import { AuthContext } from '../contexts/auth';
-import Home from '../pages/Home/Home';
-import SignIn from '../pages/SignIn/SignIn.js';
-import SignUp from '../pages/SignUp/SignUp.js';
-import Products from '../pages/Products/Products';
-import Dashboard from '../pages/Dashboard/Dashboard.js';
-import DashboardAdmin from '../pages/DashboardAdmin/DashboardAdmin';
+import React, { useContext } from "react";
+import { Switch, Route, Redirect } from "react-router-dom";
+import { AuthContext } from "../contexts/auth";
+import Home from "../pages/Home/Home";
+import SignIn from "../pages/SignIn/SignIn.js";
+import SignUp from "../pages/SignUp/SignUp.js";
+import Products from "../pages/Products/Products";
+import Dashboard from "../pages/Dashboard/Dashboard.js";
+import DashboardAdmin from "../pages/DashboardAdmin/DashboardAdmin";
 
 function CustomRoute({ isPrivate, ...rest }) {
-  const { authenticated } = useContext(AuthContext);
+  const { getCookie } = useContext(AuthContext);
+  const token = getCookie("token");
 
-  if (isPrivate && !authenticated) {
+  if (isPrivate && !token) {
     return <Redirect to="/signin" />;
   }
 

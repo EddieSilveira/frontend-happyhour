@@ -28,10 +28,14 @@ import Loader from "react-loader-spinner";
 Modal.setAppElement("#root");
 
 const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
-  const { cart } = useContext(CartContext);
-  const { token, objUsuarioAtivo } = useContext(AuthContext);
-  const [formPedido, setFormPedido] = useState(objUsuarioAtivo);
+  const { cart, setCart } = useContext(CartContext);
+  const { getCookie } = useContext(AuthContext);
+  const stringUser = getCookie("user");
+  const token = getCookie("token");
+  const user = JSON.parse(stringUser);
+  const [formPedido, setFormPedido] = useState(user);
   const [formaPagamento, setFormaPagamento] = useState("");
+  const [carrinhoProdutos, setCarrinhoProdutos] = useState();
   const [stateTroco, setStateTroco] = useState(false);
   const [valueTroco, setValueTroco] = useState(0);
   const [loadingPedido, setLoadingPedido] = useState(false);
@@ -58,19 +62,21 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
     },
   };
 
-  function objectToArray(object) {
-    let result = [];
-    let lengthObject = Object.keys(object).length;
-    let keysObject = Object.keys(object);
-    let valuesObject = Object.values(object);
+  useEffect(() => {
+    function objectToArray(object) {
+      let result = [];
+      let lengthObject = Object.keys(object).length;
+      let keysObject = Object.keys(object);
+      let valuesObject = Object.values(object);
 
-    for (let i = 0; i < lengthObject; i++) {
-      result.push([keysObject[i], valuesObject[i]]);
+      for (let i = 0; i < lengthObject; i++) {
+        result.push([keysObject[i], valuesObject[i]]);
+      }
+      return result;
     }
-    return result;
-  }
-
-  const arrayCart = objectToArray(cart);
+    let arrayCart = objectToArray(cart);
+    setCarrinhoProdutos(arrayCart);
+  }, [cart]);
 
   function handleCloseModal() {
     setIsOpenCarrinho(false);
@@ -90,6 +96,10 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
     });
     const data = await response.json();
     console.log(data);
+    if (data)
+      document.cookie = "cart=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+    setCarrinhoProdutos("");
+    setCart("");
     setIsOpenCarrinho(false);
   }
 
@@ -104,7 +114,7 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
     }));
 
     let objPedido = {
-      produtos: arrayCart,
+      produtos: carrinhoProdutos,
       infoPedido: formPedido,
       valorPedido: valorProdutos + taxaEntrega,
     };
@@ -121,6 +131,7 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
     }));
   }
 
+  console.log(carrinhoProdutos);
   return (
     <>
       {isOpenCarrinho && (
@@ -147,8 +158,8 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
               >
                 <h2>Produtos</h2>
               </div>
-              {arrayCart.length > 0 ? (
-                arrayCart.map((item, index) => {
+              {carrinhoProdutos.length > 0 ? (
+                carrinhoProdutos.map((item, index) => {
                   valorProdutos += item[1].produto.valor * item[1].quantity;
                   return <CardCarrinho key={index} produto={item} />;
                 })

@@ -24,15 +24,7 @@ const SignIn = () => {
     isRemember: "",
   });
   const [erro, setErro] = useState("");
-  const {
-    authenticated,
-    setAuthenticated,
-    signIn,
-    loading,
-    setLoading,
-    objUsuarioAtivo,
-    setObjUsuarioAtivo,
-  } = useContext(AuthContext);
+  const { getCookie, signIn, loading, setLoading } = useContext(AuthContext);
   const inputemail = useRef(null);
   const inputpassword = useRef(null);
   const [isRemember, setIsRemember] = useState(false);
@@ -42,33 +34,11 @@ const SignIn = () => {
     password: yup.string().required(),
   });
 
-  function getCookie(cookie) {
-    let cookieName = " " + cookie + "=";
-
-    let cookies = document.cookie;
-
-    if (cookies.indexOf(cookieName) === -1) {
-      return false;
-    }
-
-    cookies = cookies.substr(cookies.indexOf(cookieName), cookies.length);
-
-    if (cookies.indexOf(";") !== -1) {
-      cookies = cookies.substr(0, cookies.indexOf(";"));
-    }
-
-    cookies = cookies.split("=")[1];
-
-    return decodeURI(cookies);
-  }
-
   useEffect(() => {
-    let token = localStorage.getItem("token");
+    const token = getCookie("token");
+
     if (token) {
       history.push("/");
-      setAuthenticated(true);
-      let stringUser = localStorage.getItem("userAtivo");
-      setObjUsuarioAtivo(JSON.parse(stringUser));
     }
   }, []);
 
