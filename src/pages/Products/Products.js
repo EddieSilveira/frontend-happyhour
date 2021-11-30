@@ -9,6 +9,7 @@ import {
   WrapperItensOferta,
   SectionProdutos,
   WrapperNavCategorias,
+  WrapperBarraPesquisa,
 } from "./styles";
 import {
   IoLogIn,
@@ -19,6 +20,7 @@ import {
   IoBasketSharp,
   IoLogOut,
   IoHomeSharp,
+  IoSearchSharp,
 } from "react-icons/io5";
 import { MdDashboard } from "react-icons/md";
 import { BiDrink } from "react-icons/bi";
@@ -38,6 +40,7 @@ const Products = () => {
   const [viewCategoriaNoAlcool, setViewCategoriaNoAlcool] = useState(false);
   const [viewCategoriaDiversos, setViewCategoriaDiversos] = useState(false);
   const [listaOfertas, setListaOfertas] = useState();
+  const [filtroPesquisa, setFiltroPesquisa] = useState();
   const { visible, setVisible, ref } = useOutsideModal;
   const [isOpenCarrinho, setIsOpenCarrinho] = useState(false);
   const history = useHistory();
@@ -60,11 +63,20 @@ const Products = () => {
       });
       const data = await response.json();
       const listaOfertas = data.filter((produto) => produto.isOferta);
-      setListaOfertas(listaOfertas);
+      const ofertasFiltradas = listaOfertas?.filter((produto) => {
+        if (
+          produto.nome.toLowerCase().includes(filtroPesquisa) ||
+          produto.categoria.toLowerCase().includes(filtroPesquisa)
+        ) {
+          return produto;
+        }
+      });
+      if (filtroPesquisa) setListaOfertas(ofertasFiltradas);
+      if (!filtroPesquisa) setListaOfertas(listaOfertas);
     };
 
     loadData(`${BACKEND}/produtos`);
-  }, []);
+  }, [filtroPesquisa]);
 
   return (
     <ContainerApp>
@@ -108,6 +120,16 @@ const Products = () => {
             )}
           </WrapperLinksNav>
         </WrapperNavbar>
+        <WrapperBarraPesquisa>
+          <span>
+            <IoSearchSharp size={30} color="eba200" />
+          </span>
+          <input
+            type="text"
+            value={filtroPesquisa}
+            onChange={(e) => setFiltroPesquisa(e.target.value)}
+          />
+        </WrapperBarraPesquisa>
         <SectionOfertas>
           <h2>Ofertas</h2>
           <WrapperItensOferta>
@@ -204,11 +226,36 @@ const Products = () => {
               &nbsp;Diversos
             </button>
           </WrapperNavCategorias>
-          {viewCategoriaCerveja && <WrapperProdutos categoria="Cerveja" />}
-          {viewCategoriaDestilados && <WrapperProdutos categoria="Destilado" />}
-          {viewCategoriaVinhos && <WrapperProdutos categoria="Vinho" />}
-          {viewCategoriaNoAlcool && <WrapperProdutos categoria="Sem Alcool" />}
-          {viewCategoriaDiversos && <WrapperProdutos categoria="Diversos" />}
+          {viewCategoriaCerveja && (
+            <WrapperProdutos
+              filtroPesquisa={filtroPesquisa}
+              categoria="Cerveja"
+            />
+          )}
+          {viewCategoriaDestilados && (
+            <WrapperProdutos
+              filtroPesquisa={filtroPesquisa}
+              categoria="Destilado"
+            />
+          )}
+          {viewCategoriaVinhos && (
+            <WrapperProdutos
+              filtroPesquisa={filtroPesquisa}
+              categoria="Vinho"
+            />
+          )}
+          {viewCategoriaNoAlcool && (
+            <WrapperProdutos
+              filtroPesquisa={filtroPesquisa}
+              categoria="No-alcool"
+            />
+          )}
+          {viewCategoriaDiversos && (
+            <WrapperProdutos
+              filtroPesquisa={filtroPesquisa}
+              categoria="Diversos"
+            />
+          )}
         </SectionProdutos>
         <Footer />
       </ContainerPage>

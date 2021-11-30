@@ -131,7 +131,6 @@ const ModalCarrinho = ({ isOpenCarrinho, setIsOpenCarrinho }) => {
     }));
   }
 
-  console.log(carrinhoProdutos);
   return (
     <>
       {isOpenCarrinho && (

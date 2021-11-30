@@ -105,6 +105,7 @@ export const ContainerSectionOfertas = styled.section`
   margin-top: 64px;
   padding: 24px 16px;
   height: 600px;
+  overflow: auto;
 `;
 
 export const ContainerSectionPedidos = styled.section`

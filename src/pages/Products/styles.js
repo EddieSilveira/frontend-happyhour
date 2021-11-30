@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ContainerApp = styled.div`
   height: 100%;
-  max-width: 960px;
+  max-width: 1280px;
   margin: 0 auto;
   background-color: white;
   background-image: none;
@@ -57,7 +57,7 @@ export const WrapperLinksNav = styled.div`
 
 export const SectionOfertas = styled.section`
   width: 100%;
-  margin-top: 60px;
+  margin-top: 24px;
   padding: 8px;
   h2 {
     font-size: 24px;
@@ -111,5 +111,27 @@ export const WrapperNavCategorias = styled.div`
       border-color: #eba200;
       cursor: pointer;
     }
+  }
+`;
+
+export const WrapperBarraPesquisa = styled.div`
+  width: 100%;
+  height: 35px;
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  input {
+    margin-right: 16px;
+    border-radius: 5px;
+    padding: 8px;
+    border: 3px solid #00389e;
+    &:focus {
+      outline: none;
+      border: 3px solid #eba200;
+    }
+  }
+  span {
+    margin-right: 8px;
   }
 `;

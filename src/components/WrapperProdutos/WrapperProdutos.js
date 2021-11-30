@@ -1,22 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { WrapperProdutosCategoria } from "./styles";
+import { ContainerProdutos, WrapperProdutosCategoria } from "./styles";
 import Card from "../Card/Card";
 import { BACKEND } from "../../constants";
 
-const WrapperProdutos = ({ categoria }) => {
+const WrapperProdutos = ({ filtroPesquisa, categoria }) => {
   const [listaProdutos, setListaProdutos] = useState([]);
   let listaFiltradaCategoria = [];
   const url = `${BACKEND}/produtos`;
-
-  function filtrarCategoria() {
-    listaProdutos.forEach((item) => {
-      if (item.categoria === categoria) {
-        listaFiltradaCategoria.push(item);
-        return listaFiltradaCategoria;
+  console.log(categoria);
+  function filtrarProdutos() {
+    listaProdutos.forEach((produto) => {
+      console.log(produto.categoria);
+      if (produto.categoria.includes(categoria)) {
+        if (filtroPesquisa) {
+          if (
+            produto.nome.toLowerCase().includes(filtroPesquisa) ||
+            produto.categoria.toLowerCase().includes(filtroPesquisa)
+          ) {
+            listaFiltradaCategoria.push(produto);
+            return listaFiltradaCategoria;
+          }
+        } else {
+          listaFiltradaCategoria.push(produto);
+          return listaFiltradaCategoria;
+        }
       }
     });
   }
-  filtrarCategoria();
+  filtrarProdutos();
 
   async function carregarProdutos() {
     const response = await fetch(url);
@@ -26,15 +37,17 @@ const WrapperProdutos = ({ categoria }) => {
 
   useEffect(() => {
     carregarProdutos();
-    filtrarCategoria();
+    filtrarProdutos();
   }, []);
 
   return (
     <WrapperProdutosCategoria>
       <h2>{categoria}</h2>
-      {listaFiltradaCategoria.map((item) => (
-        <Card key={item._id} produto={item} />
-      ))}
+      <ContainerProdutos>
+        {listaFiltradaCategoria.map((item) => (
+          <Card key={item._id} produto={item} />
+        ))}
+      </ContainerProdutos>
     </WrapperProdutosCategoria>
   );
 };

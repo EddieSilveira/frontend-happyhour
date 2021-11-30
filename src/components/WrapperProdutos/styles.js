@@ -3,8 +3,8 @@ import styled from "styled-components";
 export const WrapperProdutosCategoria = styled.div`
   margin-top: 60px;
   display: flex;
-  justify-content: space-evenly;
-  padding: 24px;
+  flex-direction: column;
+  padding: 16px;
   h2 {
     font-size: 24px;
     color: #00389e;
@@ -22,4 +22,10 @@ export const WrapperProdutosCategoria = styled.div`
       width: 0;
     }
   }
+`;
+
+export const ContainerProdutos = styled.div`
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
 `;
