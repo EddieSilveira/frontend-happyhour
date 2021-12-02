@@ -38,6 +38,7 @@ const Home = () => {
   const [listaOfertas, setListaOfertas] = useState();
   const history = useHistory();
   const token = getCookie("token");
+
   const stringUser = getCookie("user");
   const user = JSON.parse(stringUser);
 

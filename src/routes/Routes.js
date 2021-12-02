@@ -12,6 +12,7 @@ function CustomRoute({ isPrivate, ...rest }) {
   const { getCookie } = useContext(AuthContext);
   const token = getCookie("token");
 
+  if (!token) return <Redirect to="/signin" />;
   if (isPrivate && !token) {
     return <Redirect to="/signin" />;
   }

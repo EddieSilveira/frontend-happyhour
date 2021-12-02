@@ -42,8 +42,33 @@ const ModalProduct = ({
     },
   };
 
-  function handleChange(e) {
+  async function imageUpload(file) {
+    let url = `${BACKEND}/upload`;
+    const data = new FormData();
+    data.append("file", file, file.name);
+
+    const imageResponse = await fetch(url, {
+      method: "POST",
+      body: data,
+    }).then((response) => response.json());
+    const picture = {
+      path: imageResponse.file.path,
+      originalName: imageResponse.file.originalname,
+      size: imageResponse.file.size,
+      mimetype: imageResponse.file.mimetype,
+    };
+    return picture;
+  }
+
+  async function handleChange(e) {
     const { name, value } = e.target;
+    if (e.target.files) {
+      const picture = await imageUpload(e.target.files[0]);
+      await setInitialValues((prevState) => ({
+        ...prevState,
+        foto: picture,
+      }));
+    }
     setInitialValues((prevState) => ({
       ...prevState,
       [name]: value,
@@ -53,6 +78,7 @@ const ModalProduct = ({
   const editProduct = async (e) => {
     setLoading(true);
     e.preventDefault();
+    console.log(initialValues);
     const url = `${BACKEND}/produtos`;
     const response = await fetch(url, {
       mode: "cors",
@@ -76,7 +102,7 @@ const ModalProduct = ({
       status: initialValues.status === "ativo" ? "inativo" : "ativo",
     }));
   }
-  console.log(initialValues);
+
   return (
     <>
       <Modal

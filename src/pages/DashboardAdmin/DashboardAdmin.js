@@ -190,9 +190,9 @@ const DashboardAdmin = () => {
       <WrapperDashboard>
         <NavDashboard>
           <img
-            src={`${BACKEND}/${user.foto.path
-              .replace("public/", "files/")
-              .replace("uploads/", "")}`}
+            src={`${BACKEND}/${user.foto.path}`
+              .replace("public\\", "files/")
+              .replace("uploads\\", "")}
             alt="avatar-user"
           />
           <h4>Olá, seja bem vindo(a)! &nbsp;{user.nome}</h4>

@@ -23,11 +23,11 @@ export const WrapperHeadModal = styled.div`
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 500px;
   justify-content: center;
-  align-items: flex-start;
   color: #00389e;
   font-weight: bold;
+  flex-wrap: wrap;
   label {
     margin-top: 16px;
   }
@@ -48,13 +48,13 @@ export const WrapperInput = styled.div`
   margin-top: 16px;
   display: flex;
   width: 100%;
-  align-items: center;
-  justify-content: space-evenly;
+  flex-wrap: wrap;
   label {
-    margin-right: 4px;
+    margin-left: 4px;
+    width: 15%;
   }
   input {
-    margin-right: 4px;
+    width: 30%;
   }
 `;
 export const WrapperButton = styled.div`

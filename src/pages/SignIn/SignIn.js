@@ -35,6 +35,7 @@ const SignIn = () => {
   });
 
   useEffect(() => {
+    document.title = "HappyHour - Entrar";
     const token = getCookie("token");
 
     if (token) {

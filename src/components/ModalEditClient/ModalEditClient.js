@@ -19,8 +19,9 @@ const ModalEditClient = ({
   record,
   loadData,
 }) => {
-  const { token, loading, setLoading } = useContext(AuthContext);
+  const { getCookie, loading, setLoading } = useContext(AuthContext);
   const [initialValues, setInitialValues] = useState(record);
+  const token = getCookie("token");
   useEffect(() => {
     document.title = "HappyHour - Admin";
   }, []);
@@ -38,18 +39,44 @@ const ModalEditClient = ({
     },
   };
 
-  function handleChange(e) {
+  async function imageUpload(file) {
+    let url = `${BACKEND}/upload`;
+    const data = new FormData();
+    data.append("file", file, file.name);
+
+    const imageResponse = await fetch(url, {
+      method: "POST",
+      body: data,
+    }).then((response) => response.json());
+    const picture = {
+      path: imageResponse.file.path,
+      originalName: imageResponse.file.originalname,
+      size: imageResponse.file.size,
+      mimetype: imageResponse.file.mimetype,
+    };
+    return picture;
+  }
+
+  async function handleChange(e) {
     const { name, value } = e.target;
+    if (e.target.files) {
+      const picture = await imageUpload(e.target.files[0]);
+      await setInitialValues((prevState) => ({
+        ...prevState,
+        foto: picture,
+      }));
+    }
     setInitialValues((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   }
 
-  const editProduct = async (e) => {
+  const editClient = async (e) => {
     setLoading(true);
     e.preventDefault();
-    const url = `${BACKEND}/produtos`;
+    console.log(initialValues);
+    const url = `${BACKEND}/usuarios`;
     const response = await fetch(url, {
       mode: "cors",
       method: "PUT",
@@ -61,7 +88,8 @@ const ModalEditClient = ({
       body: JSON.stringify(initialValues),
     });
     const data = await response.json();
-    data && loadData(`${BACKEND}/produtos`);
+
+    data && loadData(`${BACKEND}/usuarios`);
     data && setLoading(false);
   };
   return (
@@ -79,23 +107,7 @@ const ModalEditClient = ({
         </WrapperHeadModal>
 
         {initialValues && (
-          <Form onSubmit={editProduct}>
-            <label htmlFor="inputEditStatus">Status: </label>
-            <input
-              type="text"
-              id="inputAddStatus"
-              name="status"
-              value={initialValues.status}
-              onChange={handleChange}
-            />
-            <label htmlFor="inputAddNome">Nome: </label>
-            <input
-              type="text"
-              id="inputAddNome"
-              name="nome"
-              value={initialValues.nome}
-              onChange={handleChange}
-            />
+          <Form onSubmit={editClient}>
             <label htmlFor="inputAddCpf">Cpf:</label>
             <input
               type="text"
@@ -113,13 +125,28 @@ const ModalEditClient = ({
               onChange={handleChange}
             />
             <WrapperInput>
+              <label htmlFor="inputEditStatus">Status: </label>
+              <input
+                type="text"
+                id="inputAddStatus"
+                name="status"
+                value={initialValues.status}
+                onChange={handleChange}
+              />
+              <label htmlFor="inputAddNome">Nome: </label>
+              <input
+                type="text"
+                id="inputAddNome"
+                name="nome"
+                value={initialValues.nome}
+                onChange={handleChange}
+              />
               <label htmlFor="inputAddRua">Rua: </label>
               <input
                 type="text"
                 id="inputAddRua"
                 value={initialValues.rua}
                 name="rua"
-                style={{ width: "70%" }}
                 onChange={handleChange}
               />
               <label htmlFor="inputAddNumero">Numero: </label>
@@ -128,7 +155,6 @@ const ModalEditClient = ({
                 id="inputAddNumero"
                 value={initialValues.numero}
                 name="numero"
-                style={{ width: "20%" }}
                 onChange={handleChange}
               />
             </WrapperInput>
@@ -138,7 +164,6 @@ const ModalEditClient = ({
                 type="text"
                 id="inputAddBairro"
                 value={initialValues.bairro}
-                style={{ width: "70%" }}
                 name="bairro"
                 onChange={handleChange}
               />
@@ -147,26 +172,40 @@ const ModalEditClient = ({
                 type="text"
                 id="inputAddCidade"
                 value={initialValues.cidade}
-                style={{ width: "70%" }}
                 name="cidade"
+                onChange={handleChange}
+              />
+              <label htmlFor="inputAddCep">Cep: </label>
+              <input
+                type="text"
+                id="inputAddCep"
+                value={initialValues.cep}
+                name="cep"
+                onChange={handleChange}
+              />
+              <label htmlFor="inputAddTelefone">Telefone: </label>
+              <input
+                type="text"
+                id="inputAddTelefone"
+                value={initialValues.telefone}
+                name="telefone"
                 onChange={handleChange}
               />
               <label htmlFor="inputAddNivelAcesso">Nível de Acesso: </label>
               <input
                 type="number"
                 id="inputAddNivelAcesso"
-                style={{ width: "20%" }}
                 value={initialValues.nivelAcesso}
                 name="nivelAcesso"
                 onChange={handleChange}
               />
             </WrapperInput>
-            <label htmlFor="inputAddFile">Imagem de Perfil: </label>
+            <label htmlFor="file">Imagem de Perfil: </label>
             <input
               type="file"
-              id="inputAddFile"
+              id="file"
               name="file"
-              accept="image/*"
+              accept="image/*, .pdf"
               onChange={handleChange}
             />
             <WrapperButton>
